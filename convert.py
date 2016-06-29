@@ -17,12 +17,16 @@ print scan_path
 scans = next(os.walk(scan_path))[1]
 print ''
 print scans
+print ''
 
+print type(subject_id)
 
 for scan in scans:
-    
+  
+  workflow_dir = os.path.join(working_dir + 'wf')
+   
   wflow = Workflow(name='wflow')
-  wflow.base_dir = working_dir
+  wflow.base_dir = os.path.join(workflow_dir, subject_id, scan )
   wflow.config['execution']['crashdump_dir'] = wflow.base_dir + "/crash_files"
 
   file_template = {'test' : subject_id + '/' + scan +'/*dcm'}
