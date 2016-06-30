@@ -2,7 +2,7 @@ from nipype.pipeline.engine import Node, Workflow
 import nipype.interfaces.io as nio
 import nipype.interfaces.freesurfer as fs
 from nipype.interfaces.freesurfer.preprocess import ReconAll
-
+import os
 
 subject_list = ['01']
 
@@ -10,8 +10,14 @@ for subject in subject_list:
 
 
   working_dir = '/scr/ilz2/bayrak/test/' + subject + '/'
+  
+  if not os.path.exists(working_dir):
+    os.mkdir(working_dir)
+  
+  
   data_dir = '/scr/ilz2/bayrak/32_COIL_nifti/' + subject + '/'
-  out_dir = '/scr/ilz2/bayrak/test/out_dir/' 
+  
+  #out_dir = '/scr/ilz2/bayrak/test/out_dir/' 
 
   templates={'stru': 'T*.nii.gz'}
 
@@ -26,7 +32,7 @@ for subject in subject_list:
 		  #iterfield=['T1_files'] )
   
   #recon_all.inputs.subject_id = subject
-  #recon_all.inputs.subjects_dir = data_dir
+  recon_all.inputs.subjects_dir = working_dir
   
   wf = Workflow(name='work_flow')
   wf.base_dir = working_dir
