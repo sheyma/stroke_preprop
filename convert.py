@@ -1,6 +1,4 @@
 import os
-import sys
-import shutil
 from nipype.pipeline.engine import Node, Workflow
 from nipype.interfaces.dcmstack import DcmStack
 from nipype.interfaces.utility import Function
