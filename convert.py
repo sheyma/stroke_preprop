@@ -3,48 +3,51 @@ import sys
 import shutil
 from nipype.pipeline.engine import Node, Workflow
 from nipype.interfaces.dcmstack import DcmStack
-import nipype.interfaces.utility as util
+from nipype.interfaces.utility import Function
 import nipype.interfaces.io as nio
 from nipype.interfaces.io import DataSink, SelectFiles
 
 data_dir = '/scr/ilz2/bayrak/32_COIL_ordered/'
 working_dir = '/scr/ilz2/bayrak/32_COIL_nifti/'
 
-subject_id = sys.argv[1]
+subject_list = ['01', '02']
 
-scan_path = os.path.join(data_dir, subject_id)
-print scan_path
-scans = next(os.walk(scan_path))[1]
-print ''
-print scans
-print ''
 
-print type(subject_id)
+def my_fun(a, b):
+    # a : data directory
+    # b : subject id
+    scan_path = os.path.join(a, b)
+    scans = next(os.walk(scan_path))[1]
+    return scans 
 
-for scan in scans:
   
-  workflow_dir = os.path.join(working_dir + 'wf')
+workflow_dir = os.path.join(working_dir + 'wf')
    
-  wflow = Workflow(name='wflow')
-  wflow.base_dir = os.path.join(workflow_dir, subject_id, scan )
-  wflow.config['execution']['crashdump_dir'] = wflow.base_dir + "/crash_files"
+wflow = Workflow(name='wflow')
+wflow.base_dir = os.path.join(workflow_dir, subject_id, scan )
+wflow.config['execution']['crashdump_dir'] = wflow.base_dir + "/crash_files"
 
-  file_template = {'test' : subject_id + '/' + scan +'/*dcm'}
+# iterate over subjects -> output is a list!!!
+subject_infosource = Node(util.IdentityInterface(fields=['subject']), 
+                  name='subject_infosource')
 
-  selectfiles = Node(SelectFiles(file_template, base_directory=data_dir),
-		    name="selectfiles")
+subject_infosource.iterables=[('subject', subjects_list)]
 
-  stacker = Node(DcmStack(embed_meta=True),
-		name='stacker')
-  stacker.inputs.out_format = scan
+# find scan sub dirs
+findScans = Node(Function(input_names=['a', 'b'],
+                  output_names=['scans'],
+                  function=my_fun), name='fixhdr')
 
-  ds_dir = working_dir
-  ds = Node(DataSink(), name='ds')
-  ds.inputs.base_directory = ds_dir
+# if 'a' is a constant input over all subjects
+findScans.inputs.a = data_dir
 
-  wflow.connect(selectfiles, 'test', stacker, 'dicom_files')
-  wflow.connect(stacker, 'out_file' , ds, subject_id)
+wflow.connect(subject_infosource, 'subject', findScans, 'b')
 
-  wflow.run()
+# iterate over scans -> output is a list!!!
+scans_infosource = Node(util.IdentityInterface(fields=['scan']), 
+                  name='scan_infosource')
+                  
+wflow.connect(findScans, 'scans', scans_infosource, 'scan')
+
 
 
