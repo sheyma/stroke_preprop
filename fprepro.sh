@@ -12,7 +12,7 @@
 ## subject
 subject=$1
 ## full path to the resting scan
-dir=$2
+fun_dir=$2
 ## name of the resting-state scan
 rest=$3
 ## first timepoint (remember timepoint numbering starts from 0)
@@ -40,9 +40,7 @@ echo ---------------------------------------
 echo !!!! PREPROCESSING FUNCTIONAL SCAN !!!!
 echo ---------------------------------------
 
-cwd=$( pwd )
-fun_dir=$dir
-cd $fun_dir
+cd $fun_dir || exit 1
 
 ## 1. Dropping first # TRS
 echo "Dropping first TRs"
@@ -97,4 +95,3 @@ echo "Removing linear and quadratic trends for ${subject}"
 echo "Generating mask of preprocessed data for ${subject}"
 fslmaths ${rest}_pp.nii.gz -Tmin -bin ${rest}_pp_mask.nii.gz -odt char
 
-cd ${cwd}

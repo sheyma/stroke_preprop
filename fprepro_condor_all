@@ -3,435 +3,435 @@ universe = vanilla
 request_memory = 3072
 getenv = True
 notification = Error
-arguments = /home/raid/bayrak/devel/stroke_preprop/fprepro.sh 01 /scr/ilz2/bayrak/32_COIL_func/01/rsd00/ rsd00 5 149 2.3 2>&1
-output = /scr/ilz2/bayrak/32_COIL_func/01/rsd00/rsd00.out 
-error = /scr/ilz2/bayrak/32_COIL_func/01/rsd00/rsd00.error
+arguments = /home/raid/bayrak/devel/stroke_preprop/fprepro.sh 01 /scr/ilz2/bayrak/32_COIL_func/01/rsd00/ rsd00 5 149 2.3
+output = /scr/ilz2/bayrak/32_COIL_func/01/rsd00/rsd00.out
+error = /scr/ilz2/bayrak/32_COIL_func/01/rsd00/rsd00.out
 log = /scr/ilz2/bayrak/32_COIL_func/01/rsd00/rsd00.log
 queue
 
-arguments = /home/raid/bayrak/devel/stroke_preprop/fprepro.sh 01 /scr/ilz2/bayrak/32_COIL_func/01/rsd01/ rsd01 5 149 2.3 2>&1
-output = /scr/ilz2/bayrak/32_COIL_func/01/rsd01/rsd01.out 
-error = /scr/ilz2/bayrak/32_COIL_func/01/rsd01/rsd01.error
+arguments = /home/raid/bayrak/devel/stroke_preprop/fprepro.sh 01 /scr/ilz2/bayrak/32_COIL_func/01/rsd01/ rsd01 5 149 2.3
+output = /scr/ilz2/bayrak/32_COIL_func/01/rsd01/rsd01.out
+error = /scr/ilz2/bayrak/32_COIL_func/01/rsd01/rsd01.out
 log = /scr/ilz2/bayrak/32_COIL_func/01/rsd01/rsd01.log
 queue
 
-arguments = /home/raid/bayrak/devel/stroke_preprop/fprepro.sh 02 /scr/ilz2/bayrak/32_COIL_func/02/rsd00/ rsd00 5 149 2.3 2>&1
-output = /scr/ilz2/bayrak/32_COIL_func/02/rsd00/rsd00.out 
-error = /scr/ilz2/bayrak/32_COIL_func/02/rsd00/rsd00.error
+arguments = /home/raid/bayrak/devel/stroke_preprop/fprepro.sh 02 /scr/ilz2/bayrak/32_COIL_func/02/rsd00/ rsd00 5 149 2.3
+output = /scr/ilz2/bayrak/32_COIL_func/02/rsd00/rsd00.out
+error = /scr/ilz2/bayrak/32_COIL_func/02/rsd00/rsd00.out
 log = /scr/ilz2/bayrak/32_COIL_func/02/rsd00/rsd00.log
 queue
 
-arguments = /home/raid/bayrak/devel/stroke_preprop/fprepro.sh 02 /scr/ilz2/bayrak/32_COIL_func/02/rsd01/ rsd01 5 149 2.3 2>&1
-output = /scr/ilz2/bayrak/32_COIL_func/02/rsd01/rsd01.out 
-error = /scr/ilz2/bayrak/32_COIL_func/02/rsd01/rsd01.error
+arguments = /home/raid/bayrak/devel/stroke_preprop/fprepro.sh 02 /scr/ilz2/bayrak/32_COIL_func/02/rsd01/ rsd01 5 149 2.3
+output = /scr/ilz2/bayrak/32_COIL_func/02/rsd01/rsd01.out
+error = /scr/ilz2/bayrak/32_COIL_func/02/rsd01/rsd01.out
 log = /scr/ilz2/bayrak/32_COIL_func/02/rsd01/rsd01.log
 queue
 
-arguments = /home/raid/bayrak/devel/stroke_preprop/fprepro.sh 02 /scr/ilz2/bayrak/32_COIL_func/02/rsd05/ rsd05 5 149 2.3 2>&1
-output = /scr/ilz2/bayrak/32_COIL_func/02/rsd05/rsd05.out 
-error = /scr/ilz2/bayrak/32_COIL_func/02/rsd05/rsd05.error
+arguments = /home/raid/bayrak/devel/stroke_preprop/fprepro.sh 02 /scr/ilz2/bayrak/32_COIL_func/02/rsd05/ rsd05 5 149 2.3
+output = /scr/ilz2/bayrak/32_COIL_func/02/rsd05/rsd05.out
+error = /scr/ilz2/bayrak/32_COIL_func/02/rsd05/rsd05.out
 log = /scr/ilz2/bayrak/32_COIL_func/02/rsd05/rsd05.log
 queue
 
-arguments = /home/raid/bayrak/devel/stroke_preprop/fprepro.sh 04 /scr/ilz2/bayrak/32_COIL_func/04/rsd00/ rsd00 5 149 2.3 2>&1
-output = /scr/ilz2/bayrak/32_COIL_func/04/rsd00/rsd00.out 
-error = /scr/ilz2/bayrak/32_COIL_func/04/rsd00/rsd00.error
+arguments = /home/raid/bayrak/devel/stroke_preprop/fprepro.sh 04 /scr/ilz2/bayrak/32_COIL_func/04/rsd00/ rsd00 5 149 2.3
+output = /scr/ilz2/bayrak/32_COIL_func/04/rsd00/rsd00.out
+error = /scr/ilz2/bayrak/32_COIL_func/04/rsd00/rsd00.out
 log = /scr/ilz2/bayrak/32_COIL_func/04/rsd00/rsd00.log
 queue
 
-arguments = /home/raid/bayrak/devel/stroke_preprop/fprepro.sh 04 /scr/ilz2/bayrak/32_COIL_func/04/rsd01/ rsd01 5 149 2.3 2>&1
-output = /scr/ilz2/bayrak/32_COIL_func/04/rsd01/rsd01.out 
-error = /scr/ilz2/bayrak/32_COIL_func/04/rsd01/rsd01.error
+arguments = /home/raid/bayrak/devel/stroke_preprop/fprepro.sh 04 /scr/ilz2/bayrak/32_COIL_func/04/rsd01/ rsd01 5 149 2.3
+output = /scr/ilz2/bayrak/32_COIL_func/04/rsd01/rsd01.out
+error = /scr/ilz2/bayrak/32_COIL_func/04/rsd01/rsd01.out
 log = /scr/ilz2/bayrak/32_COIL_func/04/rsd01/rsd01.log
 queue
 
-arguments = /home/raid/bayrak/devel/stroke_preprop/fprepro.sh 04 /scr/ilz2/bayrak/32_COIL_func/04/rsd05/ rsd05 5 149 2.3 2>&1
-output = /scr/ilz2/bayrak/32_COIL_func/04/rsd05/rsd05.out 
-error = /scr/ilz2/bayrak/32_COIL_func/04/rsd05/rsd05.error
+arguments = /home/raid/bayrak/devel/stroke_preprop/fprepro.sh 04 /scr/ilz2/bayrak/32_COIL_func/04/rsd05/ rsd05 5 149 2.3
+output = /scr/ilz2/bayrak/32_COIL_func/04/rsd05/rsd05.out
+error = /scr/ilz2/bayrak/32_COIL_func/04/rsd05/rsd05.out
 log = /scr/ilz2/bayrak/32_COIL_func/04/rsd05/rsd05.log
 queue
 
-arguments = /home/raid/bayrak/devel/stroke_preprop/fprepro.sh 05 /scr/ilz2/bayrak/32_COIL_func/05/rsd00/ rsd00 5 149 2.3 2>&1
-output = /scr/ilz2/bayrak/32_COIL_func/05/rsd00/rsd00.out 
-error = /scr/ilz2/bayrak/32_COIL_func/05/rsd00/rsd00.error
+arguments = /home/raid/bayrak/devel/stroke_preprop/fprepro.sh 05 /scr/ilz2/bayrak/32_COIL_func/05/rsd00/ rsd00 5 149 2.3
+output = /scr/ilz2/bayrak/32_COIL_func/05/rsd00/rsd00.out
+error = /scr/ilz2/bayrak/32_COIL_func/05/rsd00/rsd00.out
 log = /scr/ilz2/bayrak/32_COIL_func/05/rsd00/rsd00.log
 queue
 
-arguments = /home/raid/bayrak/devel/stroke_preprop/fprepro.sh 05 /scr/ilz2/bayrak/32_COIL_func/05/rsd01/ rsd01 5 149 2.3 2>&1
-output = /scr/ilz2/bayrak/32_COIL_func/05/rsd01/rsd01.out 
-error = /scr/ilz2/bayrak/32_COIL_func/05/rsd01/rsd01.error
+arguments = /home/raid/bayrak/devel/stroke_preprop/fprepro.sh 05 /scr/ilz2/bayrak/32_COIL_func/05/rsd01/ rsd01 5 149 2.3
+output = /scr/ilz2/bayrak/32_COIL_func/05/rsd01/rsd01.out
+error = /scr/ilz2/bayrak/32_COIL_func/05/rsd01/rsd01.out
 log = /scr/ilz2/bayrak/32_COIL_func/05/rsd01/rsd01.log
 queue
 
-arguments = /home/raid/bayrak/devel/stroke_preprop/fprepro.sh 05 /scr/ilz2/bayrak/32_COIL_func/05/rsd05/ rsd05 5 149 2.3 2>&1
-output = /scr/ilz2/bayrak/32_COIL_func/05/rsd05/rsd05.out 
-error = /scr/ilz2/bayrak/32_COIL_func/05/rsd05/rsd05.error
+arguments = /home/raid/bayrak/devel/stroke_preprop/fprepro.sh 05 /scr/ilz2/bayrak/32_COIL_func/05/rsd05/ rsd05 5 149 2.3
+output = /scr/ilz2/bayrak/32_COIL_func/05/rsd05/rsd05.out
+error = /scr/ilz2/bayrak/32_COIL_func/05/rsd05/rsd05.out
 log = /scr/ilz2/bayrak/32_COIL_func/05/rsd05/rsd05.log
 queue
 
-arguments = /home/raid/bayrak/devel/stroke_preprop/fprepro.sh 07 /scr/ilz2/bayrak/32_COIL_func/07/rsd01/ rsd01 5 149 2.3 2>&1
-output = /scr/ilz2/bayrak/32_COIL_func/07/rsd01/rsd01.out 
-error = /scr/ilz2/bayrak/32_COIL_func/07/rsd01/rsd01.error
+arguments = /home/raid/bayrak/devel/stroke_preprop/fprepro.sh 07 /scr/ilz2/bayrak/32_COIL_func/07/rsd01/ rsd01 5 149 2.3
+output = /scr/ilz2/bayrak/32_COIL_func/07/rsd01/rsd01.out
+error = /scr/ilz2/bayrak/32_COIL_func/07/rsd01/rsd01.out
 log = /scr/ilz2/bayrak/32_COIL_func/07/rsd01/rsd01.log
 queue
 
-arguments = /home/raid/bayrak/devel/stroke_preprop/fprepro.sh 07 /scr/ilz2/bayrak/32_COIL_func/07/rsd05/ rsd05 5 149 2.3 2>&1
-output = /scr/ilz2/bayrak/32_COIL_func/07/rsd05/rsd05.out 
-error = /scr/ilz2/bayrak/32_COIL_func/07/rsd05/rsd05.error
+arguments = /home/raid/bayrak/devel/stroke_preprop/fprepro.sh 07 /scr/ilz2/bayrak/32_COIL_func/07/rsd05/ rsd05 5 149 2.3
+output = /scr/ilz2/bayrak/32_COIL_func/07/rsd05/rsd05.out
+error = /scr/ilz2/bayrak/32_COIL_func/07/rsd05/rsd05.out
 log = /scr/ilz2/bayrak/32_COIL_func/07/rsd05/rsd05.log
 queue
 
-arguments = /home/raid/bayrak/devel/stroke_preprop/fprepro.sh 08 /scr/ilz2/bayrak/32_COIL_func/08/rsd00/ rsd00 5 149 2.3 2>&1
-output = /scr/ilz2/bayrak/32_COIL_func/08/rsd00/rsd00.out 
-error = /scr/ilz2/bayrak/32_COIL_func/08/rsd00/rsd00.error
+arguments = /home/raid/bayrak/devel/stroke_preprop/fprepro.sh 08 /scr/ilz2/bayrak/32_COIL_func/08/rsd00/ rsd00 5 149 2.3
+output = /scr/ilz2/bayrak/32_COIL_func/08/rsd00/rsd00.out
+error = /scr/ilz2/bayrak/32_COIL_func/08/rsd00/rsd00.out
 log = /scr/ilz2/bayrak/32_COIL_func/08/rsd00/rsd00.log
 queue
 
-arguments = /home/raid/bayrak/devel/stroke_preprop/fprepro.sh 08 /scr/ilz2/bayrak/32_COIL_func/08/rsd01/ rsd01 5 149 2.3 2>&1
-output = /scr/ilz2/bayrak/32_COIL_func/08/rsd01/rsd01.out 
-error = /scr/ilz2/bayrak/32_COIL_func/08/rsd01/rsd01.error
+arguments = /home/raid/bayrak/devel/stroke_preprop/fprepro.sh 08 /scr/ilz2/bayrak/32_COIL_func/08/rsd01/ rsd01 5 149 2.3
+output = /scr/ilz2/bayrak/32_COIL_func/08/rsd01/rsd01.out
+error = /scr/ilz2/bayrak/32_COIL_func/08/rsd01/rsd01.out
 log = /scr/ilz2/bayrak/32_COIL_func/08/rsd01/rsd01.log
 queue
 
-arguments = /home/raid/bayrak/devel/stroke_preprop/fprepro.sh 08 /scr/ilz2/bayrak/32_COIL_func/08/rsd05/ rsd05 5 149 2.3 2>&1
-output = /scr/ilz2/bayrak/32_COIL_func/08/rsd05/rsd05.out 
-error = /scr/ilz2/bayrak/32_COIL_func/08/rsd05/rsd05.error
+arguments = /home/raid/bayrak/devel/stroke_preprop/fprepro.sh 08 /scr/ilz2/bayrak/32_COIL_func/08/rsd05/ rsd05 5 149 2.3
+output = /scr/ilz2/bayrak/32_COIL_func/08/rsd05/rsd05.out
+error = /scr/ilz2/bayrak/32_COIL_func/08/rsd05/rsd05.out
 log = /scr/ilz2/bayrak/32_COIL_func/08/rsd05/rsd05.log
 queue
 
-arguments = /home/raid/bayrak/devel/stroke_preprop/fprepro.sh 10 /scr/ilz2/bayrak/32_COIL_func/10/rsd00/ rsd00 5 149 2.3 2>&1
-output = /scr/ilz2/bayrak/32_COIL_func/10/rsd00/rsd00.out 
-error = /scr/ilz2/bayrak/32_COIL_func/10/rsd00/rsd00.error
+arguments = /home/raid/bayrak/devel/stroke_preprop/fprepro.sh 10 /scr/ilz2/bayrak/32_COIL_func/10/rsd00/ rsd00 5 149 2.3
+output = /scr/ilz2/bayrak/32_COIL_func/10/rsd00/rsd00.out
+error = /scr/ilz2/bayrak/32_COIL_func/10/rsd00/rsd00.out
 log = /scr/ilz2/bayrak/32_COIL_func/10/rsd00/rsd00.log
 queue
 
-arguments = /home/raid/bayrak/devel/stroke_preprop/fprepro.sh 10 /scr/ilz2/bayrak/32_COIL_func/10/rsd01/ rsd01 5 149 2.3 2>&1
-output = /scr/ilz2/bayrak/32_COIL_func/10/rsd01/rsd01.out 
-error = /scr/ilz2/bayrak/32_COIL_func/10/rsd01/rsd01.error
+arguments = /home/raid/bayrak/devel/stroke_preprop/fprepro.sh 10 /scr/ilz2/bayrak/32_COIL_func/10/rsd01/ rsd01 5 149 2.3
+output = /scr/ilz2/bayrak/32_COIL_func/10/rsd01/rsd01.out
+error = /scr/ilz2/bayrak/32_COIL_func/10/rsd01/rsd01.out
 log = /scr/ilz2/bayrak/32_COIL_func/10/rsd01/rsd01.log
 queue
 
-arguments = /home/raid/bayrak/devel/stroke_preprop/fprepro.sh 10 /scr/ilz2/bayrak/32_COIL_func/10/rsd05/ rsd05 5 149 2.3 2>&1
-output = /scr/ilz2/bayrak/32_COIL_func/10/rsd05/rsd05.out 
-error = /scr/ilz2/bayrak/32_COIL_func/10/rsd05/rsd05.error
+arguments = /home/raid/bayrak/devel/stroke_preprop/fprepro.sh 10 /scr/ilz2/bayrak/32_COIL_func/10/rsd05/ rsd05 5 149 2.3
+output = /scr/ilz2/bayrak/32_COIL_func/10/rsd05/rsd05.out
+error = /scr/ilz2/bayrak/32_COIL_func/10/rsd05/rsd05.out
 log = /scr/ilz2/bayrak/32_COIL_func/10/rsd05/rsd05.log
 queue
 
-arguments = /home/raid/bayrak/devel/stroke_preprop/fprepro.sh 11 /scr/ilz2/bayrak/32_COIL_func/11/rsd00/ rsd00 5 149 2.3 2>&1
-output = /scr/ilz2/bayrak/32_COIL_func/11/rsd00/rsd00.out 
-error = /scr/ilz2/bayrak/32_COIL_func/11/rsd00/rsd00.error
+arguments = /home/raid/bayrak/devel/stroke_preprop/fprepro.sh 11 /scr/ilz2/bayrak/32_COIL_func/11/rsd00/ rsd00 5 149 2.3
+output = /scr/ilz2/bayrak/32_COIL_func/11/rsd00/rsd00.out
+error = /scr/ilz2/bayrak/32_COIL_func/11/rsd00/rsd00.out
 log = /scr/ilz2/bayrak/32_COIL_func/11/rsd00/rsd00.log
 queue
 
-arguments = /home/raid/bayrak/devel/stroke_preprop/fprepro.sh 11 /scr/ilz2/bayrak/32_COIL_func/11/rsd01/ rsd01 5 149 2.3 2>&1
-output = /scr/ilz2/bayrak/32_COIL_func/11/rsd01/rsd01.out 
-error = /scr/ilz2/bayrak/32_COIL_func/11/rsd01/rsd01.error
+arguments = /home/raid/bayrak/devel/stroke_preprop/fprepro.sh 11 /scr/ilz2/bayrak/32_COIL_func/11/rsd01/ rsd01 5 149 2.3
+output = /scr/ilz2/bayrak/32_COIL_func/11/rsd01/rsd01.out
+error = /scr/ilz2/bayrak/32_COIL_func/11/rsd01/rsd01.out
 log = /scr/ilz2/bayrak/32_COIL_func/11/rsd01/rsd01.log
 queue
 
-arguments = /home/raid/bayrak/devel/stroke_preprop/fprepro.sh 11 /scr/ilz2/bayrak/32_COIL_func/11/rsd05/ rsd05 5 149 2.3 2>&1
-output = /scr/ilz2/bayrak/32_COIL_func/11/rsd05/rsd05.out 
-error = /scr/ilz2/bayrak/32_COIL_func/11/rsd05/rsd05.error
+arguments = /home/raid/bayrak/devel/stroke_preprop/fprepro.sh 11 /scr/ilz2/bayrak/32_COIL_func/11/rsd05/ rsd05 5 149 2.3
+output = /scr/ilz2/bayrak/32_COIL_func/11/rsd05/rsd05.out
+error = /scr/ilz2/bayrak/32_COIL_func/11/rsd05/rsd05.out
 log = /scr/ilz2/bayrak/32_COIL_func/11/rsd05/rsd05.log
 queue
 
-arguments = /home/raid/bayrak/devel/stroke_preprop/fprepro.sh 12 /scr/ilz2/bayrak/32_COIL_func/12/rsd00/ rsd00 5 149 2.3 2>&1
-output = /scr/ilz2/bayrak/32_COIL_func/12/rsd00/rsd00.out 
-error = /scr/ilz2/bayrak/32_COIL_func/12/rsd00/rsd00.error
+arguments = /home/raid/bayrak/devel/stroke_preprop/fprepro.sh 12 /scr/ilz2/bayrak/32_COIL_func/12/rsd00/ rsd00 5 149 2.3
+output = /scr/ilz2/bayrak/32_COIL_func/12/rsd00/rsd00.out
+error = /scr/ilz2/bayrak/32_COIL_func/12/rsd00/rsd00.out
 log = /scr/ilz2/bayrak/32_COIL_func/12/rsd00/rsd00.log
 queue
 
-arguments = /home/raid/bayrak/devel/stroke_preprop/fprepro.sh 12 /scr/ilz2/bayrak/32_COIL_func/12/rsd01/ rsd01 5 149 2.3 2>&1
-output = /scr/ilz2/bayrak/32_COIL_func/12/rsd01/rsd01.out 
-error = /scr/ilz2/bayrak/32_COIL_func/12/rsd01/rsd01.error
+arguments = /home/raid/bayrak/devel/stroke_preprop/fprepro.sh 12 /scr/ilz2/bayrak/32_COIL_func/12/rsd01/ rsd01 5 149 2.3
+output = /scr/ilz2/bayrak/32_COIL_func/12/rsd01/rsd01.out
+error = /scr/ilz2/bayrak/32_COIL_func/12/rsd01/rsd01.out
 log = /scr/ilz2/bayrak/32_COIL_func/12/rsd01/rsd01.log
 queue
 
-arguments = /home/raid/bayrak/devel/stroke_preprop/fprepro.sh 12 /scr/ilz2/bayrak/32_COIL_func/12/rsd05/ rsd05 5 149 2.3 2>&1
-output = /scr/ilz2/bayrak/32_COIL_func/12/rsd05/rsd05.out 
-error = /scr/ilz2/bayrak/32_COIL_func/12/rsd05/rsd05.error
+arguments = /home/raid/bayrak/devel/stroke_preprop/fprepro.sh 12 /scr/ilz2/bayrak/32_COIL_func/12/rsd05/ rsd05 5 149 2.3
+output = /scr/ilz2/bayrak/32_COIL_func/12/rsd05/rsd05.out
+error = /scr/ilz2/bayrak/32_COIL_func/12/rsd05/rsd05.out
 log = /scr/ilz2/bayrak/32_COIL_func/12/rsd05/rsd05.log
 queue
 
-arguments = /home/raid/bayrak/devel/stroke_preprop/fprepro.sh 13 /scr/ilz2/bayrak/32_COIL_func/13/rsd00/ rsd00 5 149 2.3 2>&1
-output = /scr/ilz2/bayrak/32_COIL_func/13/rsd00/rsd00.out 
-error = /scr/ilz2/bayrak/32_COIL_func/13/rsd00/rsd00.error
+arguments = /home/raid/bayrak/devel/stroke_preprop/fprepro.sh 13 /scr/ilz2/bayrak/32_COIL_func/13/rsd00/ rsd00 5 149 2.3
+output = /scr/ilz2/bayrak/32_COIL_func/13/rsd00/rsd00.out
+error = /scr/ilz2/bayrak/32_COIL_func/13/rsd00/rsd00.out
 log = /scr/ilz2/bayrak/32_COIL_func/13/rsd00/rsd00.log
 queue
 
-arguments = /home/raid/bayrak/devel/stroke_preprop/fprepro.sh 13 /scr/ilz2/bayrak/32_COIL_func/13/rsd01/ rsd01 5 149 2.3 2>&1
-output = /scr/ilz2/bayrak/32_COIL_func/13/rsd01/rsd01.out 
-error = /scr/ilz2/bayrak/32_COIL_func/13/rsd01/rsd01.error
+arguments = /home/raid/bayrak/devel/stroke_preprop/fprepro.sh 13 /scr/ilz2/bayrak/32_COIL_func/13/rsd01/ rsd01 5 149 2.3
+output = /scr/ilz2/bayrak/32_COIL_func/13/rsd01/rsd01.out
+error = /scr/ilz2/bayrak/32_COIL_func/13/rsd01/rsd01.out
 log = /scr/ilz2/bayrak/32_COIL_func/13/rsd01/rsd01.log
 queue
 
-arguments = /home/raid/bayrak/devel/stroke_preprop/fprepro.sh 13 /scr/ilz2/bayrak/32_COIL_func/13/rsd05/ rsd05 5 149 2.3 2>&1
-output = /scr/ilz2/bayrak/32_COIL_func/13/rsd05/rsd05.out 
-error = /scr/ilz2/bayrak/32_COIL_func/13/rsd05/rsd05.error
+arguments = /home/raid/bayrak/devel/stroke_preprop/fprepro.sh 13 /scr/ilz2/bayrak/32_COIL_func/13/rsd05/ rsd05 5 149 2.3
+output = /scr/ilz2/bayrak/32_COIL_func/13/rsd05/rsd05.out
+error = /scr/ilz2/bayrak/32_COIL_func/13/rsd05/rsd05.out
 log = /scr/ilz2/bayrak/32_COIL_func/13/rsd05/rsd05.log
 queue
 
-arguments = /home/raid/bayrak/devel/stroke_preprop/fprepro.sh 15 /scr/ilz2/bayrak/32_COIL_func/15/rsd01/ rsd01 5 149 2.3 2>&1
-output = /scr/ilz2/bayrak/32_COIL_func/15/rsd01/rsd01.out 
-error = /scr/ilz2/bayrak/32_COIL_func/15/rsd01/rsd01.error
+arguments = /home/raid/bayrak/devel/stroke_preprop/fprepro.sh 15 /scr/ilz2/bayrak/32_COIL_func/15/rsd01/ rsd01 5 149 2.3
+output = /scr/ilz2/bayrak/32_COIL_func/15/rsd01/rsd01.out
+error = /scr/ilz2/bayrak/32_COIL_func/15/rsd01/rsd01.out
 log = /scr/ilz2/bayrak/32_COIL_func/15/rsd01/rsd01.log
 queue
 
-arguments = /home/raid/bayrak/devel/stroke_preprop/fprepro.sh 15 /scr/ilz2/bayrak/32_COIL_func/15/rsd05/ rsd05 5 149 2.3 2>&1
-output = /scr/ilz2/bayrak/32_COIL_func/15/rsd05/rsd05.out 
-error = /scr/ilz2/bayrak/32_COIL_func/15/rsd05/rsd05.error
+arguments = /home/raid/bayrak/devel/stroke_preprop/fprepro.sh 15 /scr/ilz2/bayrak/32_COIL_func/15/rsd05/ rsd05 5 149 2.3
+output = /scr/ilz2/bayrak/32_COIL_func/15/rsd05/rsd05.out
+error = /scr/ilz2/bayrak/32_COIL_func/15/rsd05/rsd05.out
 log = /scr/ilz2/bayrak/32_COIL_func/15/rsd05/rsd05.log
 queue
 
-arguments = /home/raid/bayrak/devel/stroke_preprop/fprepro.sh 16 /scr/ilz2/bayrak/32_COIL_func/16/rsd00/ rsd00 5 149 2.3 2>&1
-output = /scr/ilz2/bayrak/32_COIL_func/16/rsd00/rsd00.out 
-error = /scr/ilz2/bayrak/32_COIL_func/16/rsd00/rsd00.error
+arguments = /home/raid/bayrak/devel/stroke_preprop/fprepro.sh 16 /scr/ilz2/bayrak/32_COIL_func/16/rsd00/ rsd00 5 149 2.3
+output = /scr/ilz2/bayrak/32_COIL_func/16/rsd00/rsd00.out
+error = /scr/ilz2/bayrak/32_COIL_func/16/rsd00/rsd00.out
 log = /scr/ilz2/bayrak/32_COIL_func/16/rsd00/rsd00.log
 queue
 
-arguments = /home/raid/bayrak/devel/stroke_preprop/fprepro.sh 16 /scr/ilz2/bayrak/32_COIL_func/16/rsd01/ rsd01 5 149 2.3 2>&1
-output = /scr/ilz2/bayrak/32_COIL_func/16/rsd01/rsd01.out 
-error = /scr/ilz2/bayrak/32_COIL_func/16/rsd01/rsd01.error
+arguments = /home/raid/bayrak/devel/stroke_preprop/fprepro.sh 16 /scr/ilz2/bayrak/32_COIL_func/16/rsd01/ rsd01 5 149 2.3
+output = /scr/ilz2/bayrak/32_COIL_func/16/rsd01/rsd01.out
+error = /scr/ilz2/bayrak/32_COIL_func/16/rsd01/rsd01.out
 log = /scr/ilz2/bayrak/32_COIL_func/16/rsd01/rsd01.log
 queue
 
-arguments = /home/raid/bayrak/devel/stroke_preprop/fprepro.sh 16 /scr/ilz2/bayrak/32_COIL_func/16/rsd05/ rsd05 5 149 2.3 2>&1
-output = /scr/ilz2/bayrak/32_COIL_func/16/rsd05/rsd05.out 
-error = /scr/ilz2/bayrak/32_COIL_func/16/rsd05/rsd05.error
+arguments = /home/raid/bayrak/devel/stroke_preprop/fprepro.sh 16 /scr/ilz2/bayrak/32_COIL_func/16/rsd05/ rsd05 5 149 2.3
+output = /scr/ilz2/bayrak/32_COIL_func/16/rsd05/rsd05.out
+error = /scr/ilz2/bayrak/32_COIL_func/16/rsd05/rsd05.out
 log = /scr/ilz2/bayrak/32_COIL_func/16/rsd05/rsd05.log
 queue
 
-arguments = /home/raid/bayrak/devel/stroke_preprop/fprepro.sh 17 /scr/ilz2/bayrak/32_COIL_func/17/rsd00/ rsd00 5 149 2.3 2>&1
-output = /scr/ilz2/bayrak/32_COIL_func/17/rsd00/rsd00.out 
-error = /scr/ilz2/bayrak/32_COIL_func/17/rsd00/rsd00.error
+arguments = /home/raid/bayrak/devel/stroke_preprop/fprepro.sh 17 /scr/ilz2/bayrak/32_COIL_func/17/rsd00/ rsd00 5 149 2.3
+output = /scr/ilz2/bayrak/32_COIL_func/17/rsd00/rsd00.out
+error = /scr/ilz2/bayrak/32_COIL_func/17/rsd00/rsd00.out
 log = /scr/ilz2/bayrak/32_COIL_func/17/rsd00/rsd00.log
 queue
 
-arguments = /home/raid/bayrak/devel/stroke_preprop/fprepro.sh 17 /scr/ilz2/bayrak/32_COIL_func/17/rsd01/ rsd01 5 149 2.3 2>&1
-output = /scr/ilz2/bayrak/32_COIL_func/17/rsd01/rsd01.out 
-error = /scr/ilz2/bayrak/32_COIL_func/17/rsd01/rsd01.error
+arguments = /home/raid/bayrak/devel/stroke_preprop/fprepro.sh 17 /scr/ilz2/bayrak/32_COIL_func/17/rsd01/ rsd01 5 149 2.3
+output = /scr/ilz2/bayrak/32_COIL_func/17/rsd01/rsd01.out
+error = /scr/ilz2/bayrak/32_COIL_func/17/rsd01/rsd01.out
 log = /scr/ilz2/bayrak/32_COIL_func/17/rsd01/rsd01.log
 queue
 
-arguments = /home/raid/bayrak/devel/stroke_preprop/fprepro.sh 17 /scr/ilz2/bayrak/32_COIL_func/17/rsd05/ rsd05 5 149 2.3 2>&1
-output = /scr/ilz2/bayrak/32_COIL_func/17/rsd05/rsd05.out 
-error = /scr/ilz2/bayrak/32_COIL_func/17/rsd05/rsd05.error
+arguments = /home/raid/bayrak/devel/stroke_preprop/fprepro.sh 17 /scr/ilz2/bayrak/32_COIL_func/17/rsd05/ rsd05 5 149 2.3
+output = /scr/ilz2/bayrak/32_COIL_func/17/rsd05/rsd05.out
+error = /scr/ilz2/bayrak/32_COIL_func/17/rsd05/rsd05.out
 log = /scr/ilz2/bayrak/32_COIL_func/17/rsd05/rsd05.log
 queue
 
-arguments = /home/raid/bayrak/devel/stroke_preprop/fprepro.sh 18 /scr/ilz2/bayrak/32_COIL_func/18/rsd00/ rsd00 5 149 2.3 2>&1
-output = /scr/ilz2/bayrak/32_COIL_func/18/rsd00/rsd00.out 
-error = /scr/ilz2/bayrak/32_COIL_func/18/rsd00/rsd00.error
+arguments = /home/raid/bayrak/devel/stroke_preprop/fprepro.sh 18 /scr/ilz2/bayrak/32_COIL_func/18/rsd00/ rsd00 5 149 2.3
+output = /scr/ilz2/bayrak/32_COIL_func/18/rsd00/rsd00.out
+error = /scr/ilz2/bayrak/32_COIL_func/18/rsd00/rsd00.out
 log = /scr/ilz2/bayrak/32_COIL_func/18/rsd00/rsd00.log
 queue
 
-arguments = /home/raid/bayrak/devel/stroke_preprop/fprepro.sh 18 /scr/ilz2/bayrak/32_COIL_func/18/rsd01/ rsd01 5 149 2.3 2>&1
-output = /scr/ilz2/bayrak/32_COIL_func/18/rsd01/rsd01.out 
-error = /scr/ilz2/bayrak/32_COIL_func/18/rsd01/rsd01.error
+arguments = /home/raid/bayrak/devel/stroke_preprop/fprepro.sh 18 /scr/ilz2/bayrak/32_COIL_func/18/rsd01/ rsd01 5 149 2.3
+output = /scr/ilz2/bayrak/32_COIL_func/18/rsd01/rsd01.out
+error = /scr/ilz2/bayrak/32_COIL_func/18/rsd01/rsd01.out
 log = /scr/ilz2/bayrak/32_COIL_func/18/rsd01/rsd01.log
 queue
 
-arguments = /home/raid/bayrak/devel/stroke_preprop/fprepro.sh 19 /scr/ilz2/bayrak/32_COIL_func/19/rsd00/ rsd00 5 149 2.3 2>&1
-output = /scr/ilz2/bayrak/32_COIL_func/19/rsd00/rsd00.out 
-error = /scr/ilz2/bayrak/32_COIL_func/19/rsd00/rsd00.error
+arguments = /home/raid/bayrak/devel/stroke_preprop/fprepro.sh 19 /scr/ilz2/bayrak/32_COIL_func/19/rsd00/ rsd00 5 149 2.3
+output = /scr/ilz2/bayrak/32_COIL_func/19/rsd00/rsd00.out
+error = /scr/ilz2/bayrak/32_COIL_func/19/rsd00/rsd00.out
 log = /scr/ilz2/bayrak/32_COIL_func/19/rsd00/rsd00.log
 queue
 
-arguments = /home/raid/bayrak/devel/stroke_preprop/fprepro.sh 19 /scr/ilz2/bayrak/32_COIL_func/19/rsd01/ rsd01 5 149 2.3 2>&1
-output = /scr/ilz2/bayrak/32_COIL_func/19/rsd01/rsd01.out 
-error = /scr/ilz2/bayrak/32_COIL_func/19/rsd01/rsd01.error
+arguments = /home/raid/bayrak/devel/stroke_preprop/fprepro.sh 19 /scr/ilz2/bayrak/32_COIL_func/19/rsd01/ rsd01 5 149 2.3
+output = /scr/ilz2/bayrak/32_COIL_func/19/rsd01/rsd01.out
+error = /scr/ilz2/bayrak/32_COIL_func/19/rsd01/rsd01.out
 log = /scr/ilz2/bayrak/32_COIL_func/19/rsd01/rsd01.log
 queue
 
-arguments = /home/raid/bayrak/devel/stroke_preprop/fprepro.sh 19 /scr/ilz2/bayrak/32_COIL_func/19/rsd05/ rsd05 5 149 2.3 2>&1
-output = /scr/ilz2/bayrak/32_COIL_func/19/rsd05/rsd05.out 
-error = /scr/ilz2/bayrak/32_COIL_func/19/rsd05/rsd05.error
+arguments = /home/raid/bayrak/devel/stroke_preprop/fprepro.sh 19 /scr/ilz2/bayrak/32_COIL_func/19/rsd05/ rsd05 5 149 2.3
+output = /scr/ilz2/bayrak/32_COIL_func/19/rsd05/rsd05.out
+error = /scr/ilz2/bayrak/32_COIL_func/19/rsd05/rsd05.out
 log = /scr/ilz2/bayrak/32_COIL_func/19/rsd05/rsd05.log
 queue
 
-arguments = /home/raid/bayrak/devel/stroke_preprop/fprepro.sh 20 /scr/ilz2/bayrak/32_COIL_func/20/rsd01/ rsd01 5 149 2.3 2>&1
-output = /scr/ilz2/bayrak/32_COIL_func/20/rsd01/rsd01.out 
-error = /scr/ilz2/bayrak/32_COIL_func/20/rsd01/rsd01.error
+arguments = /home/raid/bayrak/devel/stroke_preprop/fprepro.sh 20 /scr/ilz2/bayrak/32_COIL_func/20/rsd01/ rsd01 5 149 2.3
+output = /scr/ilz2/bayrak/32_COIL_func/20/rsd01/rsd01.out
+error = /scr/ilz2/bayrak/32_COIL_func/20/rsd01/rsd01.out
 log = /scr/ilz2/bayrak/32_COIL_func/20/rsd01/rsd01.log
 queue
 
-arguments = /home/raid/bayrak/devel/stroke_preprop/fprepro.sh 21 /scr/ilz2/bayrak/32_COIL_func/21/rsd00/ rsd00 5 149 2.3 2>&1
-output = /scr/ilz2/bayrak/32_COIL_func/21/rsd00/rsd00.out 
-error = /scr/ilz2/bayrak/32_COIL_func/21/rsd00/rsd00.error
+arguments = /home/raid/bayrak/devel/stroke_preprop/fprepro.sh 21 /scr/ilz2/bayrak/32_COIL_func/21/rsd00/ rsd00 5 149 2.3
+output = /scr/ilz2/bayrak/32_COIL_func/21/rsd00/rsd00.out
+error = /scr/ilz2/bayrak/32_COIL_func/21/rsd00/rsd00.out
 log = /scr/ilz2/bayrak/32_COIL_func/21/rsd00/rsd00.log
 queue
 
-arguments = /home/raid/bayrak/devel/stroke_preprop/fprepro.sh 21 /scr/ilz2/bayrak/32_COIL_func/21/rsd01/ rsd01 5 149 2.3 2>&1
-output = /scr/ilz2/bayrak/32_COIL_func/21/rsd01/rsd01.out 
-error = /scr/ilz2/bayrak/32_COIL_func/21/rsd01/rsd01.error
+arguments = /home/raid/bayrak/devel/stroke_preprop/fprepro.sh 21 /scr/ilz2/bayrak/32_COIL_func/21/rsd01/ rsd01 5 149 2.3
+output = /scr/ilz2/bayrak/32_COIL_func/21/rsd01/rsd01.out
+error = /scr/ilz2/bayrak/32_COIL_func/21/rsd01/rsd01.out
 log = /scr/ilz2/bayrak/32_COIL_func/21/rsd01/rsd01.log
 queue
 
-arguments = /home/raid/bayrak/devel/stroke_preprop/fprepro.sh 21 /scr/ilz2/bayrak/32_COIL_func/21/rsd05/ rsd05 5 149 2.3 2>&1
-output = /scr/ilz2/bayrak/32_COIL_func/21/rsd05/rsd05.out 
-error = /scr/ilz2/bayrak/32_COIL_func/21/rsd05/rsd05.error
+arguments = /home/raid/bayrak/devel/stroke_preprop/fprepro.sh 21 /scr/ilz2/bayrak/32_COIL_func/21/rsd05/ rsd05 5 149 2.3
+output = /scr/ilz2/bayrak/32_COIL_func/21/rsd05/rsd05.out
+error = /scr/ilz2/bayrak/32_COIL_func/21/rsd05/rsd05.out
 log = /scr/ilz2/bayrak/32_COIL_func/21/rsd05/rsd05.log
 queue
 
-arguments = /home/raid/bayrak/devel/stroke_preprop/fprepro.sh 22 /scr/ilz2/bayrak/32_COIL_func/22/rsd00/ rsd00 5 149 2.3 2>&1
-output = /scr/ilz2/bayrak/32_COIL_func/22/rsd00/rsd00.out 
-error = /scr/ilz2/bayrak/32_COIL_func/22/rsd00/rsd00.error
+arguments = /home/raid/bayrak/devel/stroke_preprop/fprepro.sh 22 /scr/ilz2/bayrak/32_COIL_func/22/rsd00/ rsd00 5 149 2.3
+output = /scr/ilz2/bayrak/32_COIL_func/22/rsd00/rsd00.out
+error = /scr/ilz2/bayrak/32_COIL_func/22/rsd00/rsd00.out
 log = /scr/ilz2/bayrak/32_COIL_func/22/rsd00/rsd00.log
 queue
 
-arguments = /home/raid/bayrak/devel/stroke_preprop/fprepro.sh 22 /scr/ilz2/bayrak/32_COIL_func/22/rsd01/ rsd01 5 149 2.3 2>&1
-output = /scr/ilz2/bayrak/32_COIL_func/22/rsd01/rsd01.out 
-error = /scr/ilz2/bayrak/32_COIL_func/22/rsd01/rsd01.error
+arguments = /home/raid/bayrak/devel/stroke_preprop/fprepro.sh 22 /scr/ilz2/bayrak/32_COIL_func/22/rsd01/ rsd01 5 149 2.3
+output = /scr/ilz2/bayrak/32_COIL_func/22/rsd01/rsd01.out
+error = /scr/ilz2/bayrak/32_COIL_func/22/rsd01/rsd01.out
 log = /scr/ilz2/bayrak/32_COIL_func/22/rsd01/rsd01.log
 queue
 
-arguments = /home/raid/bayrak/devel/stroke_preprop/fprepro.sh 23 /scr/ilz2/bayrak/32_COIL_func/23/rsd00/ rsd00 5 149 2.3 2>&1
-output = /scr/ilz2/bayrak/32_COIL_func/23/rsd00/rsd00.out 
-error = /scr/ilz2/bayrak/32_COIL_func/23/rsd00/rsd00.error
+arguments = /home/raid/bayrak/devel/stroke_preprop/fprepro.sh 23 /scr/ilz2/bayrak/32_COIL_func/23/rsd00/ rsd00 5 149 2.3
+output = /scr/ilz2/bayrak/32_COIL_func/23/rsd00/rsd00.out
+error = /scr/ilz2/bayrak/32_COIL_func/23/rsd00/rsd00.out
 log = /scr/ilz2/bayrak/32_COIL_func/23/rsd00/rsd00.log
 queue
 
-arguments = /home/raid/bayrak/devel/stroke_preprop/fprepro.sh 23 /scr/ilz2/bayrak/32_COIL_func/23/rsd01/ rsd01 5 149 2.3 2>&1
-output = /scr/ilz2/bayrak/32_COIL_func/23/rsd01/rsd01.out 
-error = /scr/ilz2/bayrak/32_COIL_func/23/rsd01/rsd01.error
+arguments = /home/raid/bayrak/devel/stroke_preprop/fprepro.sh 23 /scr/ilz2/bayrak/32_COIL_func/23/rsd01/ rsd01 5 149 2.3
+output = /scr/ilz2/bayrak/32_COIL_func/23/rsd01/rsd01.out
+error = /scr/ilz2/bayrak/32_COIL_func/23/rsd01/rsd01.out
 log = /scr/ilz2/bayrak/32_COIL_func/23/rsd01/rsd01.log
 queue
 
-arguments = /home/raid/bayrak/devel/stroke_preprop/fprepro.sh 23 /scr/ilz2/bayrak/32_COIL_func/23/rsd05/ rsd05 5 149 2.3 2>&1
-output = /scr/ilz2/bayrak/32_COIL_func/23/rsd05/rsd05.out 
-error = /scr/ilz2/bayrak/32_COIL_func/23/rsd05/rsd05.error
+arguments = /home/raid/bayrak/devel/stroke_preprop/fprepro.sh 23 /scr/ilz2/bayrak/32_COIL_func/23/rsd05/ rsd05 5 149 2.3
+output = /scr/ilz2/bayrak/32_COIL_func/23/rsd05/rsd05.out
+error = /scr/ilz2/bayrak/32_COIL_func/23/rsd05/rsd05.out
 log = /scr/ilz2/bayrak/32_COIL_func/23/rsd05/rsd05.log
 queue
 
-arguments = /home/raid/bayrak/devel/stroke_preprop/fprepro.sh 24 /scr/ilz2/bayrak/32_COIL_func/24/rsd00/ rsd00 5 149 2.3 2>&1
-output = /scr/ilz2/bayrak/32_COIL_func/24/rsd00/rsd00.out 
-error = /scr/ilz2/bayrak/32_COIL_func/24/rsd00/rsd00.error
+arguments = /home/raid/bayrak/devel/stroke_preprop/fprepro.sh 24 /scr/ilz2/bayrak/32_COIL_func/24/rsd00/ rsd00 5 149 2.3
+output = /scr/ilz2/bayrak/32_COIL_func/24/rsd00/rsd00.out
+error = /scr/ilz2/bayrak/32_COIL_func/24/rsd00/rsd00.out
 log = /scr/ilz2/bayrak/32_COIL_func/24/rsd00/rsd00.log
 queue
 
-arguments = /home/raid/bayrak/devel/stroke_preprop/fprepro.sh 24 /scr/ilz2/bayrak/32_COIL_func/24/rsd01/ rsd01 5 149 2.3 2>&1
-output = /scr/ilz2/bayrak/32_COIL_func/24/rsd01/rsd01.out 
-error = /scr/ilz2/bayrak/32_COIL_func/24/rsd01/rsd01.error
+arguments = /home/raid/bayrak/devel/stroke_preprop/fprepro.sh 24 /scr/ilz2/bayrak/32_COIL_func/24/rsd01/ rsd01 5 149 2.3
+output = /scr/ilz2/bayrak/32_COIL_func/24/rsd01/rsd01.out
+error = /scr/ilz2/bayrak/32_COIL_func/24/rsd01/rsd01.out
 log = /scr/ilz2/bayrak/32_COIL_func/24/rsd01/rsd01.log
 queue
 
-arguments = /home/raid/bayrak/devel/stroke_preprop/fprepro.sh 24 /scr/ilz2/bayrak/32_COIL_func/24/rsd05/ rsd05 5 149 2.3 2>&1
-output = /scr/ilz2/bayrak/32_COIL_func/24/rsd05/rsd05.out 
-error = /scr/ilz2/bayrak/32_COIL_func/24/rsd05/rsd05.error
+arguments = /home/raid/bayrak/devel/stroke_preprop/fprepro.sh 24 /scr/ilz2/bayrak/32_COIL_func/24/rsd05/ rsd05 5 149 2.3
+output = /scr/ilz2/bayrak/32_COIL_func/24/rsd05/rsd05.out
+error = /scr/ilz2/bayrak/32_COIL_func/24/rsd05/rsd05.out
 log = /scr/ilz2/bayrak/32_COIL_func/24/rsd05/rsd05.log
 queue
 
-arguments = /home/raid/bayrak/devel/stroke_preprop/fprepro.sh 25 /scr/ilz2/bayrak/32_COIL_func/25/rsd00/ rsd00 5 149 2.3 2>&1
-output = /scr/ilz2/bayrak/32_COIL_func/25/rsd00/rsd00.out 
-error = /scr/ilz2/bayrak/32_COIL_func/25/rsd00/rsd00.error
+arguments = /home/raid/bayrak/devel/stroke_preprop/fprepro.sh 25 /scr/ilz2/bayrak/32_COIL_func/25/rsd00/ rsd00 5 149 2.3
+output = /scr/ilz2/bayrak/32_COIL_func/25/rsd00/rsd00.out
+error = /scr/ilz2/bayrak/32_COIL_func/25/rsd00/rsd00.out
 log = /scr/ilz2/bayrak/32_COIL_func/25/rsd00/rsd00.log
 queue
 
-arguments = /home/raid/bayrak/devel/stroke_preprop/fprepro.sh 25 /scr/ilz2/bayrak/32_COIL_func/25/rsd01/ rsd01 5 149 2.3 2>&1
-output = /scr/ilz2/bayrak/32_COIL_func/25/rsd01/rsd01.out 
-error = /scr/ilz2/bayrak/32_COIL_func/25/rsd01/rsd01.error
+arguments = /home/raid/bayrak/devel/stroke_preprop/fprepro.sh 25 /scr/ilz2/bayrak/32_COIL_func/25/rsd01/ rsd01 5 149 2.3
+output = /scr/ilz2/bayrak/32_COIL_func/25/rsd01/rsd01.out
+error = /scr/ilz2/bayrak/32_COIL_func/25/rsd01/rsd01.out
 log = /scr/ilz2/bayrak/32_COIL_func/25/rsd01/rsd01.log
 queue
 
-arguments = /home/raid/bayrak/devel/stroke_preprop/fprepro.sh 25 /scr/ilz2/bayrak/32_COIL_func/25/rsd05/ rsd05 5 149 2.3 2>&1
-output = /scr/ilz2/bayrak/32_COIL_func/25/rsd05/rsd05.out 
-error = /scr/ilz2/bayrak/32_COIL_func/25/rsd05/rsd05.error
+arguments = /home/raid/bayrak/devel/stroke_preprop/fprepro.sh 25 /scr/ilz2/bayrak/32_COIL_func/25/rsd05/ rsd05 5 149 2.3
+output = /scr/ilz2/bayrak/32_COIL_func/25/rsd05/rsd05.out
+error = /scr/ilz2/bayrak/32_COIL_func/25/rsd05/rsd05.out
 log = /scr/ilz2/bayrak/32_COIL_func/25/rsd05/rsd05.log
 queue
 
-arguments = /home/raid/bayrak/devel/stroke_preprop/fprepro.sh 26 /scr/ilz2/bayrak/32_COIL_func/26/rsd00/ rsd00 5 149 2.3 2>&1
-output = /scr/ilz2/bayrak/32_COIL_func/26/rsd00/rsd00.out 
-error = /scr/ilz2/bayrak/32_COIL_func/26/rsd00/rsd00.error
+arguments = /home/raid/bayrak/devel/stroke_preprop/fprepro.sh 26 /scr/ilz2/bayrak/32_COIL_func/26/rsd00/ rsd00 5 149 2.3
+output = /scr/ilz2/bayrak/32_COIL_func/26/rsd00/rsd00.out
+error = /scr/ilz2/bayrak/32_COIL_func/26/rsd00/rsd00.out
 log = /scr/ilz2/bayrak/32_COIL_func/26/rsd00/rsd00.log
 queue
 
-arguments = /home/raid/bayrak/devel/stroke_preprop/fprepro.sh 26 /scr/ilz2/bayrak/32_COIL_func/26/rsd01/ rsd01 5 149 2.3 2>&1
-output = /scr/ilz2/bayrak/32_COIL_func/26/rsd01/rsd01.out 
-error = /scr/ilz2/bayrak/32_COIL_func/26/rsd01/rsd01.error
+arguments = /home/raid/bayrak/devel/stroke_preprop/fprepro.sh 26 /scr/ilz2/bayrak/32_COIL_func/26/rsd01/ rsd01 5 149 2.3
+output = /scr/ilz2/bayrak/32_COIL_func/26/rsd01/rsd01.out
+error = /scr/ilz2/bayrak/32_COIL_func/26/rsd01/rsd01.out
 log = /scr/ilz2/bayrak/32_COIL_func/26/rsd01/rsd01.log
 queue
 
-arguments = /home/raid/bayrak/devel/stroke_preprop/fprepro.sh 26 /scr/ilz2/bayrak/32_COIL_func/26/rsd05/ rsd05 5 149 2.3 2>&1
-output = /scr/ilz2/bayrak/32_COIL_func/26/rsd05/rsd05.out 
-error = /scr/ilz2/bayrak/32_COIL_func/26/rsd05/rsd05.error
+arguments = /home/raid/bayrak/devel/stroke_preprop/fprepro.sh 26 /scr/ilz2/bayrak/32_COIL_func/26/rsd05/ rsd05 5 149 2.3
+output = /scr/ilz2/bayrak/32_COIL_func/26/rsd05/rsd05.out
+error = /scr/ilz2/bayrak/32_COIL_func/26/rsd05/rsd05.out
 log = /scr/ilz2/bayrak/32_COIL_func/26/rsd05/rsd05.log
 queue
 
-arguments = /home/raid/bayrak/devel/stroke_preprop/fprepro.sh 27 /scr/ilz2/bayrak/32_COIL_func/27/rsd00/ rsd00 5 149 2.3 2>&1
-output = /scr/ilz2/bayrak/32_COIL_func/27/rsd00/rsd00.out 
-error = /scr/ilz2/bayrak/32_COIL_func/27/rsd00/rsd00.error
+arguments = /home/raid/bayrak/devel/stroke_preprop/fprepro.sh 27 /scr/ilz2/bayrak/32_COIL_func/27/rsd00/ rsd00 5 149 2.3
+output = /scr/ilz2/bayrak/32_COIL_func/27/rsd00/rsd00.out
+error = /scr/ilz2/bayrak/32_COIL_func/27/rsd00/rsd00.out
 log = /scr/ilz2/bayrak/32_COIL_func/27/rsd00/rsd00.log
 queue
 
-arguments = /home/raid/bayrak/devel/stroke_preprop/fprepro.sh 27 /scr/ilz2/bayrak/32_COIL_func/27/rsd01/ rsd01 5 149 2.3 2>&1
-output = /scr/ilz2/bayrak/32_COIL_func/27/rsd01/rsd01.out 
-error = /scr/ilz2/bayrak/32_COIL_func/27/rsd01/rsd01.error
+arguments = /home/raid/bayrak/devel/stroke_preprop/fprepro.sh 27 /scr/ilz2/bayrak/32_COIL_func/27/rsd01/ rsd01 5 149 2.3
+output = /scr/ilz2/bayrak/32_COIL_func/27/rsd01/rsd01.out
+error = /scr/ilz2/bayrak/32_COIL_func/27/rsd01/rsd01.out
 log = /scr/ilz2/bayrak/32_COIL_func/27/rsd01/rsd01.log
 queue
 
-arguments = /home/raid/bayrak/devel/stroke_preprop/fprepro.sh 28 /scr/ilz2/bayrak/32_COIL_func/28/rsd00/ rsd00 5 149 2.3 2>&1
-output = /scr/ilz2/bayrak/32_COIL_func/28/rsd00/rsd00.out 
-error = /scr/ilz2/bayrak/32_COIL_func/28/rsd00/rsd00.error
+arguments = /home/raid/bayrak/devel/stroke_preprop/fprepro.sh 28 /scr/ilz2/bayrak/32_COIL_func/28/rsd00/ rsd00 5 149 2.3
+output = /scr/ilz2/bayrak/32_COIL_func/28/rsd00/rsd00.out
+error = /scr/ilz2/bayrak/32_COIL_func/28/rsd00/rsd00.out
 log = /scr/ilz2/bayrak/32_COIL_func/28/rsd00/rsd00.log
 queue
 
-arguments = /home/raid/bayrak/devel/stroke_preprop/fprepro.sh 28 /scr/ilz2/bayrak/32_COIL_func/28/rsd01/ rsd01 5 149 2.3 2>&1
-output = /scr/ilz2/bayrak/32_COIL_func/28/rsd01/rsd01.out 
-error = /scr/ilz2/bayrak/32_COIL_func/28/rsd01/rsd01.error
+arguments = /home/raid/bayrak/devel/stroke_preprop/fprepro.sh 28 /scr/ilz2/bayrak/32_COIL_func/28/rsd01/ rsd01 5 149 2.3
+output = /scr/ilz2/bayrak/32_COIL_func/28/rsd01/rsd01.out
+error = /scr/ilz2/bayrak/32_COIL_func/28/rsd01/rsd01.out
 log = /scr/ilz2/bayrak/32_COIL_func/28/rsd01/rsd01.log
 queue
 
-arguments = /home/raid/bayrak/devel/stroke_preprop/fprepro.sh 28 /scr/ilz2/bayrak/32_COIL_func/28/rsd05/ rsd05 5 149 2.3 2>&1
-output = /scr/ilz2/bayrak/32_COIL_func/28/rsd05/rsd05.out 
-error = /scr/ilz2/bayrak/32_COIL_func/28/rsd05/rsd05.error
+arguments = /home/raid/bayrak/devel/stroke_preprop/fprepro.sh 28 /scr/ilz2/bayrak/32_COIL_func/28/rsd05/ rsd05 5 149 2.3
+output = /scr/ilz2/bayrak/32_COIL_func/28/rsd05/rsd05.out
+error = /scr/ilz2/bayrak/32_COIL_func/28/rsd05/rsd05.out
 log = /scr/ilz2/bayrak/32_COIL_func/28/rsd05/rsd05.log
 queue
 
-arguments = /home/raid/bayrak/devel/stroke_preprop/fprepro.sh 29 /scr/ilz2/bayrak/32_COIL_func/29/rsd00/ rsd00 5 149 2.3 2>&1
-output = /scr/ilz2/bayrak/32_COIL_func/29/rsd00/rsd00.out 
-error = /scr/ilz2/bayrak/32_COIL_func/29/rsd00/rsd00.error
+arguments = /home/raid/bayrak/devel/stroke_preprop/fprepro.sh 29 /scr/ilz2/bayrak/32_COIL_func/29/rsd00/ rsd00 5 149 2.3
+output = /scr/ilz2/bayrak/32_COIL_func/29/rsd00/rsd00.out
+error = /scr/ilz2/bayrak/32_COIL_func/29/rsd00/rsd00.out
 log = /scr/ilz2/bayrak/32_COIL_func/29/rsd00/rsd00.log
 queue
 
-arguments = /home/raid/bayrak/devel/stroke_preprop/fprepro.sh 29 /scr/ilz2/bayrak/32_COIL_func/29/rsd01/ rsd01 5 149 2.3 2>&1
-output = /scr/ilz2/bayrak/32_COIL_func/29/rsd01/rsd01.out 
-error = /scr/ilz2/bayrak/32_COIL_func/29/rsd01/rsd01.error
+arguments = /home/raid/bayrak/devel/stroke_preprop/fprepro.sh 29 /scr/ilz2/bayrak/32_COIL_func/29/rsd01/ rsd01 5 149 2.3
+output = /scr/ilz2/bayrak/32_COIL_func/29/rsd01/rsd01.out
+error = /scr/ilz2/bayrak/32_COIL_func/29/rsd01/rsd01.out
 log = /scr/ilz2/bayrak/32_COIL_func/29/rsd01/rsd01.log
 queue
 
-arguments = /home/raid/bayrak/devel/stroke_preprop/fprepro.sh 30 /scr/ilz2/bayrak/32_COIL_func/30/rsd00/ rsd00 5 149 2.3 2>&1
-output = /scr/ilz2/bayrak/32_COIL_func/30/rsd00/rsd00.out 
-error = /scr/ilz2/bayrak/32_COIL_func/30/rsd00/rsd00.error
+arguments = /home/raid/bayrak/devel/stroke_preprop/fprepro.sh 30 /scr/ilz2/bayrak/32_COIL_func/30/rsd00/ rsd00 5 149 2.3
+output = /scr/ilz2/bayrak/32_COIL_func/30/rsd00/rsd00.out
+error = /scr/ilz2/bayrak/32_COIL_func/30/rsd00/rsd00.out
 log = /scr/ilz2/bayrak/32_COIL_func/30/rsd00/rsd00.log
 queue
 
-arguments = /home/raid/bayrak/devel/stroke_preprop/fprepro.sh 30 /scr/ilz2/bayrak/32_COIL_func/30/rsd01/ rsd01 5 149 2.3 2>&1
-output = /scr/ilz2/bayrak/32_COIL_func/30/rsd01/rsd01.out 
-error = /scr/ilz2/bayrak/32_COIL_func/30/rsd01/rsd01.error
+arguments = /home/raid/bayrak/devel/stroke_preprop/fprepro.sh 30 /scr/ilz2/bayrak/32_COIL_func/30/rsd01/ rsd01 5 149 2.3
+output = /scr/ilz2/bayrak/32_COIL_func/30/rsd01/rsd01.out
+error = /scr/ilz2/bayrak/32_COIL_func/30/rsd01/rsd01.out
 log = /scr/ilz2/bayrak/32_COIL_func/30/rsd01/rsd01.log
 queue
 
-arguments = /home/raid/bayrak/devel/stroke_preprop/fprepro.sh 30 /scr/ilz2/bayrak/32_COIL_func/30/rsd05/ rsd05 5 149 2.3 2>&1
-output = /scr/ilz2/bayrak/32_COIL_func/30/rsd05/rsd05.out 
-error = /scr/ilz2/bayrak/32_COIL_func/30/rsd05/rsd05.error
+arguments = /home/raid/bayrak/devel/stroke_preprop/fprepro.sh 30 /scr/ilz2/bayrak/32_COIL_func/30/rsd05/ rsd05 5 149 2.3
+output = /scr/ilz2/bayrak/32_COIL_func/30/rsd05/rsd05.out
+error = /scr/ilz2/bayrak/32_COIL_func/30/rsd05/rsd05.out
 log = /scr/ilz2/bayrak/32_COIL_func/30/rsd05/rsd05.log
 queue
 
-arguments = /home/raid/bayrak/devel/stroke_preprop/fprepro.sh 31 /scr/ilz2/bayrak/32_COIL_func/31/rsd00/ rsd00 5 149 2.3 2>&1
-output = /scr/ilz2/bayrak/32_COIL_func/31/rsd00/rsd00.out 
-error = /scr/ilz2/bayrak/32_COIL_func/31/rsd00/rsd00.error
+arguments = /home/raid/bayrak/devel/stroke_preprop/fprepro.sh 31 /scr/ilz2/bayrak/32_COIL_func/31/rsd00/ rsd00 5 149 2.3
+output = /scr/ilz2/bayrak/32_COIL_func/31/rsd00/rsd00.out
+error = /scr/ilz2/bayrak/32_COIL_func/31/rsd00/rsd00.out
 log = /scr/ilz2/bayrak/32_COIL_func/31/rsd00/rsd00.log
 queue
 
-arguments = /home/raid/bayrak/devel/stroke_preprop/fprepro.sh 31 /scr/ilz2/bayrak/32_COIL_func/31/rsd01/ rsd01 5 149 2.3 2>&1
-output = /scr/ilz2/bayrak/32_COIL_func/31/rsd01/rsd01.out 
-error = /scr/ilz2/bayrak/32_COIL_func/31/rsd01/rsd01.error
+arguments = /home/raid/bayrak/devel/stroke_preprop/fprepro.sh 31 /scr/ilz2/bayrak/32_COIL_func/31/rsd01/ rsd01 5 149 2.3
+output = /scr/ilz2/bayrak/32_COIL_func/31/rsd01/rsd01.out
+error = /scr/ilz2/bayrak/32_COIL_func/31/rsd01/rsd01.out
 log = /scr/ilz2/bayrak/32_COIL_func/31/rsd01/rsd01.log
 queue
 
-arguments = /home/raid/bayrak/devel/stroke_preprop/fprepro.sh 31 /scr/ilz2/bayrak/32_COIL_func/31/rsd05/ rsd05 5 149 2.3 2>&1
-output = /scr/ilz2/bayrak/32_COIL_func/31/rsd05/rsd05.out 
-error = /scr/ilz2/bayrak/32_COIL_func/31/rsd05/rsd05.error
+arguments = /home/raid/bayrak/devel/stroke_preprop/fprepro.sh 31 /scr/ilz2/bayrak/32_COIL_func/31/rsd05/ rsd05 5 149 2.3
+output = /scr/ilz2/bayrak/32_COIL_func/31/rsd05/rsd05.out
+error = /scr/ilz2/bayrak/32_COIL_func/31/rsd05/rsd05.out
 log = /scr/ilz2/bayrak/32_COIL_func/31/rsd05/rsd05.log
 queue
 

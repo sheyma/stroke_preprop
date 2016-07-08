@@ -23,9 +23,9 @@ for subj in * ; do
 	cd $subj || continue
 		for rest in * ; do
    			out=$path_data/$subj/$rest/$rest
-			echo "arguments = $path_run/fprepro.sh $subj $path_data/$subj/$rest/ $rest $TRstart $TRend $TR 2>&1"
-			echo "output = $out.out "
-			echo "error = $out.error"
+			echo "arguments = $path_run/fprepro.sh $subj $path_data/$subj/$rest/ $rest $TRstart $TRend $TR"
+			echo "output = $out.out"
+			echo "error = $out.out" # stderr and stdout into the same file
 			echo "log = $out.log"
 			echo "queue" 
 			echo ""		

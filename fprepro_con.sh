@@ -16,7 +16,7 @@ echo "request_memory = 3072" >> $path_run/fprepro_condor
 echo "getenv = True" >> $path_run/fprepro_condor
 echo "notification = Error" >> $path_run/fprepro_condor 
 
-echo "arguments = $path_run/fprepro.sh $subj $path_rest $rest_scan $TRstart $TRend $TR 2>&1" >> $path_run/fprepro_condor
+echo "arguments = $path_run/fprepro.sh $subj $path_rest $rest_scan $TRstart $TRend $TR  " >> $path_run/fprepro_condor
 echo "output = $out.out " >> $path_run/fprepro_condor
 echo "error = $out.error" >> $path_run/fprepro_condor
 echo "log = $out.log" >> $path_run/fprepro_condor
