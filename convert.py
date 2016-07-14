@@ -1,11 +1,5 @@
-import os
-import sys
-import shutil
-from nipype.pipeline.engine import Node, Workflow
-from nipype.interfaces.dcmstack import DcmStack
-import nipype.interfaces.utility as util
-import nipype.interfaces.io as nio
-from nipype.interfaces.io import DataSink, SelectFiles
+import os, sys
+from subprocess import call
 
 data_dir = '/scr/ilz2/bayrak/32_COIL_ordered/'
 working_dir = '/scr/ilz2/bayrak/32_COIL_nifti/'
@@ -19,32 +13,19 @@ print ''
 print scans
 print ''
 
-print type(subject_id)
-
 for scan in scans:
-  
-  workflow_dir = os.path.join(working_dir + 'wf')
-   
-  wflow = Workflow(name='wflow')
-  wflow.base_dir = os.path.join(workflow_dir, subject_id, scan )
-  wflow.config['execution']['crashdump_dir'] = wflow.base_dir + "/crash_files"
 
-  file_template = {'test' : subject_id + '/' + scan +'/*dcm'}
+	dicom_files = os.path.join(data_dir, subject_id, scan)
 
-  selectfiles = Node(SelectFiles(file_template, base_directory=data_dir),
-		    name="selectfiles")
+	out_dir = os.path.join(working_dir, subject_id, scan)
+	if not os.path.exists(out_dir):
+    		os.makedirs(out_dir)	
 
-  stacker = Node(DcmStack(embed_meta=True),
-		name='stacker')
-  stacker.inputs.out_format = scan
+	output_name = scan	
 
-  ds_dir = working_dir
-  ds = Node(DataSink(), name='ds')
-  ds.inputs.base_directory = ds_dir
-
-  wflow.connect(selectfiles, 'test', stacker, 'dicom_files')
-  wflow.connect(stacker, 'out_file' , ds, subject_id)
-
-  wflow.run()
+	print "converting files ", out_dir, "..."
+	call(["dcmstack", dicom_files,
+		"--dest-dir", out_dir,
+		"-o", output_name])
 
 
