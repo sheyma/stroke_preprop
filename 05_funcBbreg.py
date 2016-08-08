@@ -6,17 +6,23 @@ from nipype.interfaces.c3 import C3dAffineTool
 
 data_in = '/scr/ilz2/bayrak/stroke_func/'
 data_out = '/scr/ilz2/bayrak/stroke_bbreg'
-free_dir = '/scr/ilz2/bayrak/stroke_reconall'
 
 subject_id = sys.argv[1]
 scan = sys.argv[2]
-	
+Tscan = sys.argv[3]
+
+# get freesurfer directory for recon_all outputs
+free_dir = '/scr/ilz2/bayrak/stroke_reconall'
+freesurfer_dir = os.path.join(free_dir, subject_id)
+freesurfer_dir = os.path.join(freesurfer_dir, Tscan)	
+
+# create a working directory	
 if not os.path.exists(os.path.join(data_out, subject_id)):
 	os.makedirs(os.path.join(data_out, subject_id))
 work_dir = os.path.join(data_out, subject_id)
-if not os.path.exists(os.path.join(work_dir, scan)):
-	os.makedirs(os.path.join(work_dir, scan))
-work_dir = os.path.join(work_dir, scan)
+if not os.path.exists(os.path.join(work_dir, scan+'_'+Tscan)):
+	os.makedirs(os.path.join(work_dir, scan+'_'+Tscan))
+work_dir = os.path.join(work_dir, scan+'_'+Tscan)
 
 # go into working directory
 os.chdir(work_dir)
@@ -25,8 +31,6 @@ os.chdir(work_dir)
 data_in_absol = os.path.join(data_in, subject_id, scan)
 img_nifti = os.path.join(data_in_absol, 'rest_ss.nii.gz')
 os.system("cp %s %s" % (img_nifti, work_dir))
-
-print img_nifti
 
 # CHECK ORIENTATION PRIOR TO CO-REGISTRATION!!!
 
@@ -37,13 +41,8 @@ fslmaths.inputs.out_file = 'rest_mean.nii.gz'
 fslmaths.inputs.dimension = 'T'
 fslmaths.run()
 
-# get freesurfer directory for recon_all outputs
-freesurfer_dir = os.path.join(free_dir, subject_id)
-T_scan = 'T1d' + scan[3:5] 
-freesurfer_dir = os.path.join(freesurfer_dir, T_scan)	
-
 if not os.path.exists(freesurfer_dir):
-	error_message = scan + " doesn't have " + T_scan + '!!!'''
+	error_message = scan + " doesn't have " + Tscan + '!!!'''
 	sys.exit(error_message)
 else:
 	# do bbregister
@@ -55,13 +54,23 @@ else:
 	bbreg.inputs.subject_id = 'recon_all'
 	bbreg.inputs.out_reg_file = 'rest2anat.dat'
 	bbreg.inputs.out_fsl_file = 'rest2anat.mat'
-	bbreg.inputs.registered_file = 'rest_mean2anat_highres.nii.gz'
+	bbreg.inputs.registered_file = 'rest2anat_highRes.nii.gz'
 	bbreg.inputs.epi_mask = True
 	bbreg.run()
-	
-#cd3_affine_tool
+
+	# get structural image
+	img_struc = os.path.join(free_dir, subject_id, Tscan, 
+				 'recon_all/mri/brain.mgz') 
+	os.system("cp %s %s" % (img_struc, work_dir))
+
+	# convert structural image into nifti 
+	os.system("mri_convert %s %s" % (img_struc, 'brain.nii.gz'))
+		
+# convert bbregister out into itk format for ants later...
 c3 = C3dAffineTool()
-c3.inputs.transform_file = work_dir + '/rest2anat.mat'
-c3.inputs.itk_transform = work_dir + '/bla.mat'
+c3.inputs.transform_file = 'rest2anat.mat'
+c3.inputs.itk_transform = 'rest2anat_itk.mat'
+c3.inputs.reference_file = 'brain.nii.gz'
+c3.inputs.source_file = 'rest_mean.nii.gz'
 c3.inputs.fsl2ras = True
 c3.run()
