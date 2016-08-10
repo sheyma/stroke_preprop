@@ -25,11 +25,11 @@ TR=2.3
 
 
 path_run=$HOME/devel/stroke_preprop
-path_data='/scr/ilz2/bayrak/stroke_func'
+path_data='/scr/ilz2/bayrak/healthy_func'
 file_name='rest'
 outfile="$path_run/funcProcess"
 
-subj_list='/scr/ilz2/bayrak/32_COIL_ordered/subject_list'
+subj_list='/scr/ilz2/bayrak/subject_healthy'
 
 echo "executable = $path_run/setenv.sh" > $outfile
 echo "universe = vanilla" >> $outfile
@@ -40,24 +40,41 @@ echo "notification = Error" >> $outfile
 cd $path_data
 echo $( pwd )
 
-for subj in $(cat $subj_list) ; do
-	
+#for subj in $(cat $subj_list) ; do
+#	
+#	cd $subj
+#
+#	for rest in * ; do
+#		
+#				
+#		out="$path_data/${subj}_${rest}"
+#
+#		echo "arguments = /usr/bin/time -v  $path_run/03_funcProcess.sh $subj $path_data/$subj/$rest/ $file_name $TRstart $TRend $TR"
+#		echo "output = $out.out"
+#		echo "error = $out.out" # stderr and stdout into the same file
+#		echo "log = $out.log"
+#		echo "queue" 
+#		echo ""		
+#		
+#	
+#	done >> $outfile
+#
+#	cd ..
+#done
+
+
+for subj in  06 09 ; do
+
 	cd $subj
-
-	for rest in * ; do
-		
-				
-		out="$path_data/${subj}_${rest}"
-
-		echo "arguments = /usr/bin/time -v  $path_run/03_funcProcess.sh $subj $path_data/$subj/$rest/ $file_name $TRstart $TRend $TR"
-		echo "output = $out.out"
-		echo "error = $out.out" # stderr and stdout into the same file
-		echo "log = $out.log"
-		echo "queue" 
-		echo ""		
-		
-	
-	done >> $outfile
+	rest='rs'	
+	out="$path_data/${subj}_${rest}"
+	echo "arguments = /usr/bin/time -v  $path_run/03_funcProcess.sh $subj $path_data/$subj/$rest/ $file_name $TRstart $TRend $TR"
+	echo "output = $out.out"
+	echo "error = $out.out" # stderr and stdout into the same file
+	echo "log = $out.log"
+	echo "queue" 
+	echo ""		
 
 	cd ..
-done
+done	>> $outfile
+

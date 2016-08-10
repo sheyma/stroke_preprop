@@ -12,22 +12,37 @@ echo "getenv = True" >> $outfile
 echo "notification = Error" >> $outfile
 
 
-for i in $subj_dir/*; do
+#for i in $subj_dir/*; do
+#
+#	subj=$(basename $i) 	
+#
+#	for j in $subj_dir/$subj/T*; do
+#		
+#		scan=$(basename $j) 
+#		out="$out_dir/${subj}_${scan}"
+#
+#		echo "arguments = /usr/bin/time -v python $path_run/02_structReconAll.py $subj $scan";
+#		echo "output = $out.out"
+#		echo "error = $out.out" # stderr and stdout into the same file
+#		echo "log = $out.log"
+#		echo "queue" 
+#		echo ""
+#	done ;
+#
+#done >> $outfile 
 
-	subj=$(basename $i) 	
 
-	for j in $subj_dir/$subj/T*; do
-		
-		scan=$(basename $j) 
-		out="$out_dir/${subj}_${scan}"
+for subj in 41 43 44 45 46 48 49 ; do		
 
-		echo "arguments = /usr/bin/time -v python $path_run/02_structReconAll.py $subj $scan";
-		echo "output = $out.out"
-		echo "error = $out.out" # stderr and stdout into the same file
-		echo "log = $out.log"
-		echo "queue" 
-		echo ""
-	done ;
+	scan='T1d00' 
+	out="$out_dir/${subj}_${scan}"
+
+	echo "arguments = /usr/bin/time -v python $path_run/02_structReconAll.py $subj $scan";
+	echo "output = $out.out"
+	echo "error = $out.out" # stderr and stdout into the same file
+	echo "log = $out.log"
+	echo "queue" 
+	echo ""
 
 done >> $outfile 
 
