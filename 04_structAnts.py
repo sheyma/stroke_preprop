@@ -5,9 +5,14 @@ import os, sys
 import nipype.interfaces.ants as ants
 from subprocess import call
 
-# data dir's 
-data_in = '/scr/ilz2/bayrak/stroke_reconall/'
-data_out = '/scr/ilz2/bayrak/stroke_ants/'
+## data dir's for stroke data
+#data_in = '/scr/ilz2/bayrak/stroke_reconall/'
+#data_out = '/scr/ilz2/bayrak/stroke_ants/'
+
+# data dir's for healthy group
+data_in = '/scr/ilz2/bayrak/healthy_reconall/'
+data_out = '/scr/ilz2/bayrak/healthy_ants/'
+
 recon_path = 'recon_all/mri'
 
 # user given subject_id and structural scan
