@@ -4,15 +4,24 @@ from nipype.interfaces.freesurfer import BBRegister
 from subprocess import call
 from nipype.interfaces.c3 import C3dAffineTool
 
-data_in = '/scr/ilz2/bayrak/stroke_func/'
-data_out = '/scr/ilz2/bayrak/stroke_bbreg'
+## data dir's for stroke data
+#data_in = '/scr/ilz2/bayrak/stroke_func/'
+#data_out = '/scr/ilz2/bayrak/stroke_bbreg'
+
+# data dir's for healthy group
+data_in = '/scr/ilz2/bayrak/healthy_func/'
+data_out = '/scr/ilz2/bayrak/healthy_bbreg/'
 
 subject_id = sys.argv[1]
 scan = sys.argv[2]
 Tscan = sys.argv[3]
 
-# get freesurfer directory for recon_all outputs
-free_dir = '/scr/ilz2/bayrak/stroke_reconall'
+## freesurfer dir for recon_all outputs -> stroke
+#free_dir = '/scr/ilz2/bayrak/stroke_reconall'
+
+# freesurfer dir for recon_all outputs -> healthy
+free_dir = '/scr/ilz2/bayrak/healthy_reconall'
+
 freesurfer_dir = os.path.join(free_dir, subject_id)
 freesurfer_dir = os.path.join(freesurfer_dir, Tscan)	
 
