@@ -1,4 +1,17 @@
 *~
 .nfs*
+
 structReconAll
 funcProcess
+funcBbreg
+funcBbreg.sh
+funcBbreg_tmp
+funcBbreg_tmp.sh
+funcRegis
+funcRegis.sh
+structAnts
+structAnts.sh
+structReconAll_tmp
+structReconAll_tmp.sh
+struct_regist.py
+
