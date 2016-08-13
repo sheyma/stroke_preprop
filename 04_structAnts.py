@@ -5,19 +5,14 @@ import os, sys
 import nipype.interfaces.ants as ants
 from subprocess import call
 
-## data dir's for stroke data
-#data_in = '/scr/ilz2/bayrak/stroke_reconall/'
-#data_out = '/scr/ilz2/bayrak/stroke_ants/'
-
-# data dir's for healthy group
-data_in = '/scr/ilz2/bayrak/healthy_reconall/'
-data_out = '/scr/ilz2/bayrak/healthy_ants/'
-
+# data dir's 
+data_in    = '/scr/ilz2/bayrak/data_struc/'
+data_out   = '/scr/ilz2/bayrak/data_ants/'
 recon_path = 'recon_all/mri'
 
 # user given subject_id and structural scan
 subject_id = sys.argv[1]
-scan = sys.argv[2]
+scan 	   = sys.argv[2]
 
 # MNI template (no skull)
 mni_temp = os.path.join('/usr/share/fsl/5.0/data/standard', 
@@ -31,10 +26,10 @@ if not os.path.exists(os.path.join(work_dir, scan)):
 	os.makedirs(os.path.join(work_dir, scan))
 work_dir = os.path.join(work_dir, scan)
 
-# go into working directory
+# go into work dir
 os.chdir(work_dir)
 
-# pull *mgz data from recon_all path and push into work_dir
+# pull *mgz data from recon_path & push into work dir
 data_dir = os.path.join(data_in, subject_id, scan, recon_path)
 img_mgz = os.path.join(data_dir, 'brain.mgz')
 os.system("cp %s %s" % (img_mgz, work_dir))
@@ -75,10 +70,8 @@ ants_anat2mni = ants.Registration(dimension=3,
 	            output_warped_image=True,
 	            use_histogram_matching=True)
 
-ants_anat2mni.inputs.fixed_image = mni_temp
-ants_anat2mni.inputs.moving_image = img_RPI
+ants_anat2mni.inputs.fixed_image 	 = mni_temp
+ants_anat2mni.inputs.moving_image 	 = img_RPI
 ants_anat2mni.inputs.output_warped_image = img_ants
 ants_anat2mni.run()
-#print ants_anat2mni.cmdline
-
 
