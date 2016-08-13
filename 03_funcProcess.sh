@@ -56,7 +56,7 @@ echo "Reorienting ${subject}"
 
 ##4. Slice-time correction 
 echo "Slice-time correction ${subject}"
-3dTshift -prefix ${rest}_st.nii.gz -tpattern alt+z2 ${rest}_ro.nii.gz
+3dTshift -prefix ${rest}_st.nii.gz -tzero 0.0 -tpattern alt+z2 -TR $TR ${rest}_ro.nii.gz
 
 ##5. Motion correct to average of timeseries
 echo "Motion correcting ${subject}"
