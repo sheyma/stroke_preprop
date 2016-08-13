@@ -1,14 +1,17 @@
 import os, sys
 import nipype.interfaces.ants as ants
 
-data_in = '/scr/ilz2/bayrak/stroke_bbreg'
-data_out = '/scr/ilz2/bayrak/stroke_rest2mni'
-data_ants = '/scr/ilz2/bayrak/stroke_ants'
+# data dir's
+data_in   = '/scr/ilz2/bayrak/data_bbreg'
+data_out  = '/scr/ilz2/bayrak/data_rest2mni'
+data_ants = '/scr/ilz2/bayrak/data_ants'
+
 mni_dir = '/usr/share/fsl/5.0/data/standard'
 
+# subject id, resting scan, T1 scan
 subject_id = sys.argv[1]
-scan = sys.argv[2]
-Tscan = sys.argv[3]
+scan 	   = sys.argv[2]
+Tscan      = sys.argv[3]
 
 if not os.path.exists(os.path.join(data_out, subject_id)):
 	os.makedirs(os.path.join(data_out, subject_id))
