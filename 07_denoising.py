@@ -1,15 +1,20 @@
 import os, sys
 import nipype.interfaces.nipy as nipy
 import nipype.algorithms.rapidart as ra
+import nipype.interfaces.freesurfer as fs
+import nipype.interfaces.fsl as fsl
 
 # data dir's 
 # data_in MUST BE CHANGED!
 data_in  = '/scr/ilz2/bayrak/new_func/'
 data_out = '/scr/ilz2/bayrak/new_denoise/'
+free_dir = '/scr/ilz2/bayrak/new_struc/'
+recon_al = 'recon_all/mri'
 
 # subject id, resting scan dir
 subject_id = sys.argv[1]
 scan 	   = sys.argv[2]
+Tscan      = sys.argv[3]
 
 # create a working directory	
 if not os.path.exists(os.path.join(data_out, subject_id)):
@@ -33,7 +38,9 @@ params_func = os.path.join(data_in, subject_id, scan,
 mask_func = os.path.join(data_in, subject_id, scan,
 			'corr_rest_roi_brain_mask.nii.gz')
 
-# Step#1 get the outlier...
+# STEP #1 ###########################################
+# get the outlier by using motion and intensity params
+
 ad = ra.ArtifactDetect()
 ad.inputs.realigned_files 	 = img_func 
 ad.inputs.parameter_source 	 = 'NiPy' 
@@ -47,7 +54,9 @@ ad.run()
 
 outlier_file = 'art.corr_rest_roi_outliers.txt'
 
-# Step#2 get motion regressors
+# STEP #2 ############################################
+# get motion regressors
+
 def motion_regressors(motion_params, order=0, derivatives=1):
 	"""Compute motion regressors upto given order and derivative
 	motion + d(motion)/dt + d2(motion)/dt2 (linear + quadratic)
@@ -84,3 +93,49 @@ def motion_regressors(motion_params, order=0, derivatives=1):
 motion_regressors(params_func, order=2, derivatives=1)[0]
 
 motionreg_file = 'motion_regressor_der1_ord2.txt'
+
+# STEP #3 ###########################################################
+# get white matter mask
+
+# get aparc+aseg.mgz from recon_all dir
+aparc_aseg = os.path.join(free_dir, subject_id, Tscan, recon_al,
+			  'aparc+aseg.mgz')
+# define new filenames
+aparc_aseg_nifti  = os.path.abspath('aparc_aseg.nii.gz')
+aparc_aseg_mask   = os.path.abspath('aparc_aseg_mask.nii.gz')
+aparc_aseg_filled = os.path.abspath('aparc_aseg_mask_filled.nii.gz')
+wm_and_csf_mask   = os.path.abspath('wmcsf_mask.nii.gz')
+
+# convert *mgz into *nii.gz
+mricon = fs.MRIConvert()
+mricon.inputs.in_file  = aparc_aseg
+mricon.inputs.out_file = aparc_aseg_nifti
+mricon.inputs.out_type = 'niigz'
+mricon.run()
+
+# get mask from aparc+aseg
+brainmask = fs.Binarize()
+brainmask.inputs.in_file     = aparc_aseg_nifti
+brainmask.inputs.min         = 0.5
+brainmask.inputs.dilate      = 1
+brainmask.inputs.out_type    = 'nii.gz'
+brainmask.inputs.binary_file = aparc_aseg_mask
+brainmask.run()
+
+# fill holes in mask
+fillholes = fsl.maths.MathsCommand()
+fillholes.inputs.in_file  = aparc_aseg_mask
+fillholes.inputs.args     = '-fillh -s 3 -thr 0.1 -bin'
+fillholes.inputs.out_file = aparc_aseg_filled
+fillholes.run()
+
+# create wmcsf mask
+wmcsf_mask = fs.Binarize()
+wmcsf_mask.inputs.in_file     = aparc_aseg_filled
+wmcsf_mask.inputs.wm_ven_csf  = True
+wmcsf_mask.inputs.erode       = 2
+wmcsf_mask.inputs.out_type    = 'nii.gz'
+wmcsf_mask.inputs.binary_file = wm_and_csf_mask
+wmcsf_mask.run()
+
+
