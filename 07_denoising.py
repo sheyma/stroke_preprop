@@ -113,16 +113,6 @@ mricon.inputs.out_file = aparc_aseg_nifti
 mricon.inputs.out_type = 'niigz'
 mricon.run()
 
-# get mask from aparc+aseg
-brainmask = fs.Binarize()
-brainmask.inputs.in_file     = aparc_aseg_nifti
-brainmask.inputs.min         = 0.5
-brainmask.inputs.dilate      = 1
-brainmask.inputs.out_type    = 'nii.gz'
-brainmask.inputs.binary_file = aparc_aseg_mask
-brainmask.run()
-
-
 # create wmcsf mask
 wmcsf_mask = fs.Binarize()
 wmcsf_mask.inputs.in_file     = aparc_aseg_nifti
