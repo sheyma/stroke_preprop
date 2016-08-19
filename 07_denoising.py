@@ -122,16 +122,10 @@ brainmask.inputs.out_type    = 'nii.gz'
 brainmask.inputs.binary_file = aparc_aseg_mask
 brainmask.run()
 
-# fill holes in mask
-fillholes = fsl.maths.MathsCommand()
-fillholes.inputs.in_file  = aparc_aseg_mask
-fillholes.inputs.args     = '-fillh -s 3 -thr 0.1 -bin'
-fillholes.inputs.out_file = aparc_aseg_filled
-fillholes.run()
 
 # create wmcsf mask
 wmcsf_mask = fs.Binarize()
-wmcsf_mask.inputs.in_file     = aparc_aseg_filled
+wmcsf_mask.inputs.in_file     = aparc_aseg_nifti
 wmcsf_mask.inputs.wm_ven_csf  = True
 wmcsf_mask.inputs.erode       = 2
 wmcsf_mask.inputs.out_type    = 'nii.gz'
