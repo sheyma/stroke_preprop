@@ -1,8 +1,8 @@
 from nipype.interfaces.freesurfer.preprocess import ReconAll
 import os, glob, sys
 
-data_dir = '/scr/ilz2/bayrak/data_nifti/'
-data_out = '/scr/ilz2/bayrak/data_struc/'
+data_dir = '/scr/ilz2/bayrak/new_nifti/'
+data_out = '/scr/ilz2/bayrak/new_struc/'
 
 # subject_id and T1 scan directory: user given
 subject_id = sys.argv[1]
@@ -21,11 +21,10 @@ work_dir_02 = os.path.join(work_dir_01, scan)
 os.chdir(work_dir_02)
 
 # find out the T1.nii.gz to be preprocessed
-data_nifti = os.path.join(data_dir, subject_id, scan, 'T1.nii.gz')
-# copy T1.nii.gz into working directory
-os.system("cp %s %s" % (data_nifti, work_dir_02))
+data_T1 = os.path.join(data_dir, subject_id, scan, 
+		      'T1.nii.gz')
 
 # run ReconAll
 recon_all = ReconAll()
-recon_all.inputs.T1_files = 'T1.nii.gz'
+recon_all.inputs.T1_files = data_T1
 recon_all.run()
