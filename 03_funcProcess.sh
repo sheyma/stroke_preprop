@@ -50,13 +50,13 @@ echo "Dropping first TRs"
 echo "Deobliquing ${subject}"
 3drefit -deoblique ${rest}_dr.nii.gz
 
-##3. Reorient into fsl friendly space (what AFNI calls RPI)
-echo "Reorienting ${subject}"
-3dresample -orient RPI -inset ${rest}_dr.nii.gz -prefix ${rest}_ro.nii.gz
+###3. Reorient into fsl friendly space (what AFNI calls RPI)
+#echo "Reorienting ${subject}"
+#3dresample -orient RPI -inset ${rest}_dr.nii.gz -prefix ${rest}_ro.nii.gz
 
 ##4. Slice-time correction 
 echo "Slice-time correction ${subject}"
-3dTshift -prefix ${rest}_st.nii.gz -tzero 0.0 -tpattern alt+z2 -TR $TR ${rest}_ro.nii.gz
+3dTshift -prefix ${rest}_st.nii.gz -tzero 0.0 -tpattern alt+z2 -TR $TR ${rest}_dr.nii.gz
 
 ##5. Motion correct to average of timeseries
 echo "Motion correcting ${subject}"
