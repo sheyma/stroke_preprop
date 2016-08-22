@@ -5,8 +5,8 @@ from subprocess import call
 from nipype.interfaces.c3 import C3dAffineTool
 
 # data dir's 
-data_in  = '/scr/ilz2/bayrak/data_func/'
-data_out = '/scr/ilz2/bayrak/data_bbreg/'
+data_in  = '/scr/ilz2/bayrak/new_func/'
+data_out = '/scr/ilz2/bayrak/new_bbreg/'
 
 # subject id, resting scan, T1 scan
 subject_id = sys.argv[1]
@@ -14,7 +14,7 @@ scan 	   = sys.argv[2]
 Tscan 	   = sys.argv[3]
 
 # freesurfer dir for recon_all outputs 
-free_dir = '/scr/ilz2/bayrak/data_struc'
+free_dir = '/scr/ilz2/bayrak/new_struc'
 
 freesurfer_dir = os.path.join(free_dir, subject_id)
 freesurfer_dir = os.path.join(freesurfer_dir, Tscan)	
@@ -23,23 +23,24 @@ freesurfer_dir = os.path.join(freesurfer_dir, Tscan)
 if not os.path.exists(os.path.join(data_out, subject_id)):
 	os.makedirs(os.path.join(data_out, subject_id))
 work_dir = os.path.join(data_out, subject_id)
-if not os.path.exists(os.path.join(work_dir, scan+'_'+Tscan)):
-	os.makedirs(os.path.join(work_dir, scan+'_'+Tscan))
-work_dir = os.path.join(work_dir, scan+'_'+Tscan)
+# dir for 'resting scan registered to T1 scan'
+rs_T1 = scan+'_'+Tscan
+if not os.path.exists(os.path.join(work_dir, rs_T1)):
+	os.makedirs(os.path.join(work_dir, rs_T1))
+work_dir = os.path.join(work_dir, rs_T1)
 
 # go into working directory
 os.chdir(work_dir)
 
-# get motion corrected and skull stripped rs image
+# get motion and slice-time corrected rs image
 data_in_absol = os.path.join(data_in, subject_id, scan)
-img_nifti = os.path.join(data_in_absol, 'rest_ss.nii.gz')
-os.system("cp %s %s" % (img_nifti, work_dir))
-
-# CHECK ORIENTATION PRIOR TO CO-REGISTRATION!!!
+img_rest = os.path.join(data_in_absol, 'corr_rest_roi.nii.gz')
+print img_rest
+#os.system("cp %s %s" % (img_nifti, work_dir))
 
 # get T-mean of rs image
 fslmaths = MeanImage()
-fslmaths.inputs.in_file   = 'rest_ss.nii.gz'
+fslmaths.inputs.in_file   = img_rest
 fslmaths.inputs.out_file  = 'rest_mean.nii.gz'
 fslmaths.inputs.dimension = 'T'
 fslmaths.run()
@@ -60,8 +61,6 @@ bbreg.run()
 # get structural image
 img_struc = os.path.join(free_dir, subject_id, Tscan, 
 			 'recon_all/mri/brain.mgz') 
-
-os.system("cp %s %s" % (img_struc, work_dir))
 
 # convert structural image into nifti 
 os.system("mri_convert %s %s" % (img_struc, 'brain.nii.gz'))
