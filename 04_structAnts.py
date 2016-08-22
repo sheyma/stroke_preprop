@@ -6,8 +6,8 @@ import nipype.interfaces.ants as ants
 from subprocess import call
 
 # data dir's 
-data_in    = '/scr/ilz2/bayrak/data_struc/'
-data_out   = '/scr/ilz2/bayrak/data_ants/'
+data_in    = '/scr/ilz2/bayrak/new_struc/'
+data_out   = '/scr/ilz2/bayrak/new_ants/'
 recon_path = 'recon_all/mri'
 
 # user given subject_id and structural scan
@@ -29,21 +29,16 @@ work_dir = os.path.join(work_dir, scan)
 # go into work dir
 os.chdir(work_dir)
 
-# pull *mgz data from recon_path & push into work dir
-data_dir = os.path.join(data_in, subject_id, scan, recon_path)
-img_mgz = os.path.join(data_dir, 'brain.mgz')
-os.system("cp %s %s" % (img_mgz, work_dir))
+# get structural image
+img_struc = os.path.join(data_in, subject_id, scan, 
+			 recon_path, 'brain.mgz') 
 
-# convert .mgz to nifti-1 format
-img_nifti = work_dir + '/brain.nii.gz'
-os.system("mri_convert %s %s" % (img_mgz, img_nifti))
+# convert structural image into nifti 
+os.system("mri_convert %s %s" % (img_struc, 'brain.nii.gz'))
+img_nifti = os.path.abspath('brain.nii.gz')
 
-# change the orientation of nifti-1 file
-img_RPI = work_dir + '/brain_RPI.nii.gz'
-os.system("fslswapdim %s RL PA IS %s" % (img_nifti, img_RPI))
-
-# ants registration on RPI oriented nifti-1 file
-img_ants = work_dir + '/brain_RPI_mni.nii.gz'
+# define ants output 
+img_ants = os.path.abspath('brain_mni.nii.gz')
 
 ants_anat2mni = ants.Registration(dimension=3,
 	            transforms=['Rigid','Affine','SyN'],
@@ -69,9 +64,8 @@ ants_anat2mni = ants.Registration(dimension=3,
 	            output_inverse_warped_image=True,
 	            output_warped_image=True,
 	            use_histogram_matching=True)
-
 ants_anat2mni.inputs.fixed_image 	 = mni_temp
-ants_anat2mni.inputs.moving_image 	 = img_RPI
+ants_anat2mni.inputs.moving_image 	 = img_nifti
 ants_anat2mni.inputs.output_warped_image = img_ants
 ants_anat2mni.run()
 
