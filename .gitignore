@@ -1,5 +1,6 @@
 *~
 .nfs*
+*tmp*
 
 structReconAll
 funcProcess
@@ -11,7 +12,5 @@ funcRegis
 funcRegis.sh
 structAnts
 structAnts.sh
-structReconAll_tmp
-structReconAll_tmp.sh
-struct_regist.py
-
+funcProcess.sh
+structReconAll.sh
