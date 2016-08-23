@@ -5,7 +5,7 @@
 
 path_run=$HOME/devel/stroke_preprop
 outfile="$path_run/funcProcess"
-job_dir='/scr/ilz2/bayrak/data_func'
+job_dir='/scr/ilz2/bayrak/new_func'
 file_name='rest'
 
 TRstart=5
