@@ -4,6 +4,8 @@ import nipype.algorithms.rapidart as ra
 import nipype.interfaces.freesurfer as fs
 import nipype.interfaces.fsl as fsl
 import nipype.interfaces.ants as ants
+from functions import motion_regressors
+from functions import nilearn_denoise
 
 # data dir's 
 # data_in MUST BE CHANGED!
@@ -43,7 +45,7 @@ params_func = os.path.join(data_in, subject_id, scan,
 mask_func = os.path.join(data_in, subject_id, scan,
 			'corr_rest_roi_brain_mask.nii.gz')
 
-# STEP #1 ###########################################
+# STEP #1 #################################################
 # get the outlier by using motion and intensity params
 
 ad = ra.ArtifactDetect()
@@ -59,48 +61,14 @@ ad.run()
 
 outlier_file = 'art.corr_rest_roi_outliers.txt'
 
-# STEP #2 ############################################
-# get motion regressors
+# STEP #2 #####################################################
+# get motion regressors, output saved in motionreg_file
 
-def motion_regressors(motion_params, order=0, derivatives=1):
-	"""Compute motion regressors upto given order and derivative
-	motion + d(motion)/dt + d2(motion)/dt2 (linear + quadratic)
-	"""
-	from nipype.utils.filemanip import filename_to_list
-	import numpy as np
-	import os
+motionreg_file = motion_regressors(params_func,
+				   order=2, derivatives=1)[0]
 
-	out_files = []
-	for idx, filename in enumerate(filename_to_list(motion_params)):
-		params = np.genfromtxt(filename)
-		out_params = params
-		
-		for d in range(1, derivatives + 1):
-			cparams = np.vstack((np.repeat(params[0, :][None, :], 
-				 	     d, axis=0), params))
-					    
-			out_params = np.hstack((out_params, np.diff(cparams, 
-						d, axis=0)))
-		out_params2 = out_params
-
-		for i in range(2, order + 1):
-			out_params2 = np.hstack((out_params2, 
-						 np.power(out_params, i)))
-		
-		filename = os.path.join(os.getcwd(), 
-					"motion_regressor_der%d_ord%d.txt"
-					 % (derivatives, order))
-
-		np.savetxt(filename, out_params2, fmt="%.10f")
-		out_files.append(filename)
-	return out_files
-
-motion_regressors(params_func, order=2, derivatives=1)[0]
-
-motionreg_file = 'motion_regressor_der1_ord2.txt'
-
-# STEP #3 ###########################################################
-# get white matter mask
+# STEP #3 #####################################################
+# get white matter & CSF mask
 
 # get aparc+aseg.mgz from recon_all dir
 aparc_aseg = os.path.join(free_dir, subject_id, Tscan, recon_al,
@@ -137,9 +105,12 @@ at.inputs.invert_transform_flags = [True]
 at.inputs.output_image     = wmcsf_mask_func
 at.run()
 
-# STEP #4 ###########################################################
-# denoising...
+# STEP #4 #######################################################
+# denoising
 
-
+nilearn_denoise(in_file = img_func, brain_mask = mask_func, 
+		wm_csf_mask = wmcsf_mask_func, motreg_file = motionreg_file,
+		outlier_file = outlier_file, bandpass = [0.1, 0.01],
+		tr = 2.3)
 
 
