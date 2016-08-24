@@ -1,8 +1,8 @@
 import os, sys
-from subprocess import call
+from nipype.interfaces.dcmstack import DcmStack
 
 data_dir = '/scr/ilz2/bayrak/32_COIL_ordered/'
-data_out = '/scr/ilz2/bayrak/stroke_nifti/'
+data_out = '/scr/ilz2/bayrak/new_nifti/'
 
 subject_id = sys.argv[1]
 
@@ -37,15 +37,9 @@ for scan in scans:
 	if scan[0:2] == 'T1':
 		output_name = 'T1'
 
-	print "converting files ", dicom_files, "..."
-	call(["dcmstack", dicom_files,
-		"--dest-dir", work_dir,
-		"-o", output_name])
-	
-	img_nifti = os.path.join(output_name + '.nii.gz')
-
-	# change the orientation of nifti-1 file
-	img_RPI = output_name + '.nii.gz'
-	os.system("fslswapdim %s RL PA IS %s" % (img_nifti, img_RPI))
-
-
+	converter = DcmStack() 
+	converter.inputs.dicom_files = dicom_files 
+	converter.inputs.embed_meta  = True
+	converter.inputs.out_format  = output_name
+	converter.inputs.out_ext     = '.nii.gz'	
+	converter.run()		
