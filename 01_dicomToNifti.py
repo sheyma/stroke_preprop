@@ -1,5 +1,5 @@
 import os, sys
-from nipype.interfaces.dcmstack import DcmStack
+from subprocess import call
 
 data_dir = '/scr/ilz2/bayrak/32_COIL_ordered/'
 data_out = '/scr/ilz2/bayrak/new_nifti/'
@@ -37,9 +37,7 @@ for scan in scans:
 	if scan[0:2] == 'T1':
 		output_name = 'T1'
 
-	converter = DcmStack() 
-	converter.inputs.dicom_files = dicom_files 
-	converter.inputs.embed_meta  = True
-	converter.inputs.out_format  = output_name
-	converter.inputs.out_ext     = '.nii.gz'	
-	converter.run()		
+	print "converting files ", dicom_files, "..."
+	call(["dcmstack", dicom_files,
+		"--dest-dir", work_dir,
+		"-o", output_name])
