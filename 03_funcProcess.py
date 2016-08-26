@@ -44,15 +44,27 @@ def strip_rois_func(in_file, t_min):
 n_vol_remove = 5 
 img_rois = strip_rois_func(img_rest, n_vol_remove)
 
-# Step#2 simultaneous slice-time correction & motion correction
+# Step#2 simultaneous slice-time & motion correction
 realigner  		     = nipy.SpaceTimeRealigner()
 realigner.inputs.in_file     = img_rois
 realigner.inputs.tr	     = 2.3
-realigner.inputs.slice_times = 'asc_alt_2_1'
+
+# get slice time sequence depending on subject_id 
+# reads the sequence from text file for stroke data 
+# assigns it to "asc_alt_2_1" for healthy controls
+if subject_id[0:2] == 'sd':
+	filename = os.path.join(data_in, subject_id, scan,
+		        	'slice_timing.txt')
+	with open(filename) as f:
+		st = map(float, f)
+	realigner.inputs.slice_times = st
+else:
+	realigner.inputs.slice_times = 'asc_alt_2_1'	
+
 realigner.inputs.slice_info  = 2
 realigner.run() 
 
-## Step#3 get binary mask & skull stripped image
+## Step#3 get binary mask & skull stripped imag
 img_StMoco = os.path.abspath('corr_rest_roi.nii.gz')
 
 btr 		     = fsl.BET()
