@@ -4,7 +4,7 @@ import nipype.interfaces.ants as ants
 # data dir's
 data_bbreg = '/scr/ilz2/bayrak/new_bbreg'
 data_ants  = '/scr/ilz2/bayrak/new_ants'
-data_rest  = '/scr/ilz2/bayrak/new_func'
+data_rest  = '/scr/ilz2/bayrak/new_denoise'
 data_out   = '/scr/ilz2/bayrak/new_func2mni'
 
 mni_dir = '/scr/ilz2/bayrak'
@@ -28,8 +28,11 @@ work_dir = os.path.join(work_dir, rs_T1)
 os.chdir(work_dir)
 
 # find functional data to be registered
-img_rest = os.path.join(data_rest, subject_id, scan, 
-			'corr_rest_roi.nii.gz')
+#img_rest = os.path.join(data_rest, subject_id, scan, 
+#			'corr_rest_roi.nii.gz')
+
+img_rest = os.path.join(data_rest, subject_id, rs_T1, 
+			'corr_rest_roi_denoised.nii.gz')
 
 # apply all transform matrices ($bbregister & $ants.Register) 
 # on resting-state image
