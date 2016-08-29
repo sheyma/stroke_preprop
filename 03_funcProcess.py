@@ -3,28 +3,19 @@ import nipype.interfaces.nipy as nipy
 import nipype.interfaces.fsl as fsl
 
 # data dir's 
-data_in  = '/scr/ilz2/bayrak/new_nifti/'
-data_out = '/scr/ilz2/bayrak/new_func/'
+data_dir  = '/scr/ilz2/bayrak/preprocess/'
 
 # subject id, resting scan dir
 subject_id = sys.argv[1]
 scan 	   = sys.argv[2]
 
-# resting state image
-img_rest = os.path.join(data_in, subject_id, scan, 
-			'rest.nii.gz')
-
-# create a working directory	
-if not os.path.exists(os.path.join(data_out, subject_id)):
-	os.makedirs(os.path.join(data_out, subject_id))
-work_dir = os.path.join(data_out, subject_id)
-
-if not os.path.exists(os.path.join(work_dir, scan)):
-	os.makedirs(os.path.join(work_dir, scan))
-work_dir = os.path.join(work_dir, scan)
-
+# define working dir
+work_dir = os.path.join(data_dir, subject_id, scan)
 # go into working directory
 os.chdir(work_dir)
+
+# resting state image
+img_rest = os.path.join(work_dir, 'rest.nii.gz')
 
 # Step#1 dropping first volumes
 def strip_rois_func(in_file, t_min):
@@ -53,12 +44,14 @@ realigner.inputs.tr	     = 2.3
 # reads the sequence from text file for stroke data 
 # assigns it to "asc_alt_2_1" for healthy controls
 if subject_id[0:2] == 'sd':
-	filename = os.path.join(data_in, subject_id, scan,
-		        	'slice_timing.txt')
+	# find slice sequence text file
+	filename = os.path.join(work_dir, 'slice_timing.txt')
+	print "getting slice time sequence from", filename 
 	with open(filename) as f:
 		st = map(float, f)
 	realigner.inputs.slice_times = st
 else:
+	# ascend alternate every second slice, starting at second slice
 	realigner.inputs.slice_times = 'asc_alt_2_1'	
 
 realigner.inputs.slice_info  = 2
