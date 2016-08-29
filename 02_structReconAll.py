@@ -1,28 +1,23 @@
+"""
+How to run:
+$ python 02_structReconAll.py hc01 T1d00
+"""
 from nipype.interfaces.freesurfer.preprocess import ReconAll
 import os, glob, sys
 
-data_dir = '/scr/ilz2/bayrak/new_nifti/'
-data_out = '/scr/ilz2/bayrak/new_struc/'
+data_dir = '/scr/ilz2/bayrak/preprocess'
 
 # subject_id and T1 scan directory: user given
 subject_id = sys.argv[1]
-scan 	   = sys.argv[2] 
+Tscan 	   = sys.argv[2] 
 
-# create working dir
-if not os.path.exists(os.path.join(data_out, subject_id)):
-	os.makedirs(os.path.join(data_out, subject_id))
-work_dir_01 = os.path.join(data_out, subject_id)
-
-if not os.path.exists(os.path.join(work_dir_01, scan)):
-	os.makedirs(os.path.join(work_dir_01, scan))
-work_dir_02 = os.path.join(work_dir_01, scan)
-
+# define working dir
+work_dir = os.path.join(data_dir, subject_id, Tscan)
 # go into working dir
-os.chdir(work_dir_02)
+os.chdir(work_dir)
 
 # find out the T1.nii.gz to be preprocessed
-data_T1 = os.path.join(data_dir, subject_id, scan, 
-		      'T1.nii.gz')
+data_T1 = os.path.join(work_dir, 'T1.nii.gz')
 
 # run ReconAll
 recon_all = ReconAll()
