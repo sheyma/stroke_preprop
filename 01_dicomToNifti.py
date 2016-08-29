@@ -5,7 +5,7 @@ from dicom import read_file
 from nipype.utils.filemanip import filename_to_list
 
 data_dir = '/scr/ilz2/bayrak/32_COIL_ordered/'
-data_out = '/scr/ilz2/bayrak/new_nifti/'
+data_out = '/scr/ilz2/bayrak/preprocess/'
 
 subject_id = sys.argv[1]
 
