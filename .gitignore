@@ -1,7 +1,10 @@
 *~
 .nfs*
 *tmp*
+*sh
+*pyc
 
+dicomToNifti
 structReconAll
 funcProcess
 funcBbreg
