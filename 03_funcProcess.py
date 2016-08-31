@@ -4,18 +4,24 @@ import nipype.interfaces.fsl as fsl
 
 # data dir's 
 data_dir  = '/scr/ilz2/bayrak/preprocess/'
-
+temp_dir  = 'func_prepro'
 # subject id, resting scan dir
 subject_id = sys.argv[1]
 scan 	   = sys.argv[2]
 
 # define working dir
-work_dir = os.path.join(data_dir, subject_id, scan)
+work_dir = os.path.join(data_dir, subject_id, 
+			scan, temp_dir)
+if not os.path.exists(work_dir):
+	os.makedirs(work_dir)
+
 # go into working directory
 os.chdir(work_dir)
+print work_dir
 
 # resting state image
-img_rest = os.path.join(work_dir, 'rest.nii.gz')
+dir_rest = os.path.join(data_dir, subject_id, scan)
+img_rest = os.path.join(dir_rest, 'rest.nii.gz')
 
 # Step#1 dropping first volumes
 def strip_rois_func(in_file, t_min):
@@ -45,13 +51,13 @@ realigner.inputs.tr	     = 2.3
 # assigns it to "asc_alt_2_1" for healthy controls
 if subject_id[0:2] == 'sd':
 	# find slice sequence text file
-	filename = os.path.join(work_dir, 'slice_timing.txt')
+	filename = os.path.join(dir_rest, 'slice_timing.txt')
 	print "getting slice time sequence from", filename 
 	with open(filename) as f:
 		st = map(float, f)
 	realigner.inputs.slice_times = st
 else:
-	# ascend alternate every second slice, starting at second slice
+	# ascend alternate every 2nd slice, starting at 2nd slice
 	realigner.inputs.slice_times = 'asc_alt_2_1'	
 
 realigner.inputs.slice_info  = 2
