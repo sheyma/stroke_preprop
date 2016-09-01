@@ -1,36 +1,36 @@
 """
 non-linear registration from T1 to MNI
+How to run:
+$ python 04_structAnts.py hc01 T1d00
 """
 import os, sys
 import nipype.interfaces.ants as ants
 from subprocess import call
 
 # data dir's 
-data_in    = '/scr/ilz2/bayrak/new_struc/'
-data_out   = '/scr/ilz2/bayrak/new_ants/'
+data_dir   = '/scr/ilz2/bayrak/preprocess/'
+temp_dir   = 'ants_all'
 recon_path = 'recon_all/mri'
 
-# user given subject_id and structural scan
+# user given subject_id and T1 scan
 subject_id = sys.argv[1]
-scan 	   = sys.argv[2]
+Tscan 	   = sys.argv[2]
 
 # MNI template (no skull)
 mni_temp = os.path.join('/usr/share/fsl/5.0/data/standard', 
 			'MNI152_T1_1mm_brain.nii.gz')
-	
-# create a work dir
-if not os.path.exists(os.path.join(data_out, subject_id)):
-	os.makedirs(os.path.join(data_out, subject_id))
-work_dir = os.path.join(data_out, subject_id)
-if not os.path.exists(os.path.join(work_dir, scan)):
-	os.makedirs(os.path.join(work_dir, scan))
-work_dir = os.path.join(work_dir, scan)
 
+# define working dir
+work_dir = os.path.join(data_dir, subject_id, 
+			Tscan, temp_dir)
+if not os.path.exists(work_dir):
+	os.makedirs(work_dir)
+	
 # go into work dir
 os.chdir(work_dir)
 
 # get structural image
-img_struc = os.path.join(data_in, subject_id, scan, 
+img_struc = os.path.join(data_dir, subject_id, Tscan, 
 			 recon_path, 'brain.mgz') 
 
 # convert structural image into nifti 
