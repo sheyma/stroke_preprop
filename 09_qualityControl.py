@@ -2,6 +2,7 @@ import numpy as np
 import nibabel as nb
 import matplotlib.pyplot as plt
 import os
+import sys
 import math
 import time
 import seaborn as sns
@@ -12,14 +13,11 @@ from matplotlib.backends.backend_pdf import FigureCanvasPdf as FigureCanvas
 
 
 
-def calc_FD_power(motion_pars):
+def calc_FD_power(motion_pars, fd_out):
     '''
     Method to calculate FD based on (Power, 2012)
     '''
-    import os
-    import numpy as np
 
-    fd_out       =  os.path.join(os.getcwd(), 'FD.1D')
     lines        =  open(motion_pars, 'r').readlines()
     rows         = [[float(x) for x in line.split()] for line in lines]
     cols         = np.array([list(col) for col in zip(*rows)])
@@ -33,6 +31,9 @@ def calc_FD_power(motion_pars):
 
     return fd_out
 
-A = '/scr/ilz2/bayrak/preprocess/hc01/rsd00_T1d00/denoise/motion_regressor_der1_ord2.txt'
 
-print calc_FD_power(A)
+# for all args write "FD.1D" file to the same path
+for infile in sys.argv[1:]:
+    print infile
+    outfile=os.path.join(os.path.dirname(infile), 'FD.1D')
+    print calc_FD_power(infile, outfile)
