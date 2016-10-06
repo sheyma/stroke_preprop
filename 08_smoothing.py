@@ -1,39 +1,50 @@
 import os, sys
-
-
+import nipype.interfaces.fsl as fsl
 
 # data dir's
-data_in   = '/scr/ilz2/bayrak/new_func2mni'
-data_out  = '/scr/ilz2/bayrak/new_smooth'
+data_dir  = '/nobackup/ilz2/bayrak/preprocess'
+data_out  = 'smooth'
 
 # subject id, resting scan, T1 scan
 subject_id = sys.argv[1]
-rs_T1      = sys.argv[2]
+scan 	   = sys.argv[2]
+Tscan      = sys.argv[3]
 
-if not os.path.exists(os.path.join(data_out, subject_id)):
-	os.makedirs(os.path.join(data_out, subject_id))
-work_dir = os.path.join(data_out, subject_id)
-if not os.path.exists(os.path.join(work_dir, rs_T1)):
-	os.makedirs(os.path.join(work_dir, rs_T1))
-work_dir = os.path.join(work_dir, rs_T1)
+# define working dir
+rs_T1    = scan+'_'+Tscan
+
+work_dir = os.path.join(data_dir, subject_id, rs_T1, 
+			data_out) 
+if not os.path.exists(work_dir):
+	os.makedirs(work_dir)
 
 # go into working directory
 os.chdir(work_dir)
 
 
-rest_fun2mni = os.path.join(data_in, subject_id, rs_T1,
-				'rest_mni.nii.gz')
+rest_fun2mni = os.path.join(data_dir, subject_id, rs_T1,
+			    'func2mni', 'rest_mni.nii.gz')
+print rest_fun2mni
+# Step#1 get a brain mask for func2mni image 
+from nipype.interfaces import afni as afni
+automask = afni.Automask()
+automask.inputs.in_file    = rest_fun2mni 
+automask.inputs.outputtype = "NIFTI_GZ"
+automask.run()
 
-# Xiangyu
+# Step#2 smooth func2mni image
 from nipype.interfaces.fsl import maths
 smooth = maths.IsotropicSmooth()
 smooth.inputs.in_file = rest_fun2mni
 smooth.inputs.fwhm    = 6
 smooth.run()
-#print smooth.cmdline
+print smooth.cmdline
 
-# A.S.Kanaan
-from nilearn.image import smooth_img
-smoothed_img = smooth_img(rest_fun2mni, fwhm=6)
-smoothed_img.to_filename("OUT.nii") 
-
+# Step#3 mask the smoothed image
+from nipype.interfaces.fsl import maths
+maskApp = maths.ApplyMask()
+maskApp.inputs.in_file     = 'rest_mni_smooth.nii.gz'
+maskApp.inputs.mask_file   = 'rest_mni_mask.nii.gz'
+maskApp.inputs.out_file    = 'rest_mni_smooth_masked.nii.gz'
+maskApp.inputs.output_type = 'NIFTI_GZ'
+maskApp.run()
