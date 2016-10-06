@@ -1,5 +1,8 @@
 import numpy as np
+from scipy.stats import norm
 import nibabel as nb
+import matplotlib as mpl
+#mpl.use('Agg')
 import matplotlib.pyplot as plt
 import os
 import sys
@@ -27,13 +30,43 @@ def calc_FD_power(motion_pars, fd_out):
     #FD is zero for the first time point
     FD_power = np.insert(FD_power, 0, 0)
 
-    np.savetxt(fd_out, FD_power)
+    #np.savetxt(fd_out, FD_power)
 
-    return fd_out
+    return np.mean(FD_power)
 
+
+
+
+if len(sys.argv) < 2:
+    print "error: no input files given"
+    sys.exit(1)
+
+means_dict = dict()
+means = np.zeros(len(sys.argv[1:]))
 
 # for all args write "FD.1D" file to the same path
+i=0
 for infile in sys.argv[1:]:
-    print infile
-    outfile=os.path.join(os.path.dirname(infile), 'FD.1D')
-    print calc_FD_power(infile, outfile)
+    print "%s ..." % (infile)
+    outfile = os.path.join(os.path.dirname(infile), 'FD.1D')
+    mean = calc_FD_power(infile, outfile)
+    print "mean: %f" % (mean)
+    means_dict[outfile] = mean
+    means[i] = mean
+    i += 1
+
+print means
+
+
+plt.hist(means, bins=15)
+
+plt.xlabel('FD (mm)' , fontsize = 22)
+plt.ylabel('Number of Subjects' , fontsize = 22)
+plt.tick_params(labelsize=20)
+
+
+
+plt.title("FD Distribution", fontsize = 22)
+plt.show()
+#plt.savefig('/tmp/foo.png')
+
