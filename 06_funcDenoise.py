@@ -9,11 +9,10 @@ from functions import nilearn_denoise
 
 # data dir's 
 # data_in MUST BE CHANGED!
-data_in  = '/scr/ilz2/bayrak/new_func/'
-data_out = '/scr/ilz2/bayrak/new_denoise/'
-free_dir = '/scr/ilz2/bayrak/new_struc/'
-recon_al = 'recon_all/mri'
-data_bbreg = '/scr/ilz2/bayrak/new_bbreg/'
+data_dir   = '/scr/ilz2/bayrak/preprocess/'
+rest_pre   = 'func_prepro'
+recon_all  = 'recon_all/mri'
+bbregister = 'bbregister'
 
 # subject id, resting scan dir
 subject_id = sys.argv[1]
@@ -23,27 +22,25 @@ Tscan      = sys.argv[3]
 # create a working directory	
 rs_T1 = scan+'_'+Tscan
 
-if not os.path.exists(os.path.join(data_out, subject_id)):
-	os.makedirs(os.path.join(data_out, subject_id))
-work_dir = os.path.join(data_out, subject_id)
+# define working dir
+rs_T1    = scan+'_'+Tscan
 
-if not os.path.exists(os.path.join(work_dir, rs_T1)):
-	os.makedirs(os.path.join(work_dir, rs_T1))
-work_dir = os.path.join(work_dir, rs_T1)
+work_dir = os.path.join(data_dir, subject_id, rs_T1, 
+			'denoise') 
+if not os.path.exists(work_dir):
+	os.makedirs(work_dir)
 
-# go into working directory
+# go into working dir
 os.chdir(work_dir)
 
 # EXISTING FILENAMES
 # motion corrected functional image
-img_func = os.path.join(data_in, subject_id, scan,
-			'corr_rest_roi.nii.gz')
+func_prepro = os.path.join(data_dir, subject_id, scan, rest_pre) 
+img_func = os.path.join(func_prepro, 'corr_rest_roi.nii.gz')
 # motion correction parameters
-params_func = os.path.join(data_in, subject_id, scan,
-			'rest_roi.nii.gz.par')
+params_func = os.path.join(func_prepro, 'rest_roi.nii.gz.par')
 # binary mask produced by skull stripping
-mask_func = os.path.join(data_in, subject_id, scan,
-			'corr_rest_roi_brain_mask.nii.gz')
+mask_func = os.path.join(func_prepro, 'corr_rest_roi_brain_mask.nii.gz')
 
 # STEP #1 #################################################
 # get the outlier by using motion and intensity params
@@ -71,8 +68,9 @@ motionreg_file = motion_regressors(params_func,
 # get white matter & CSF mask
 
 # get aparc+aseg.mgz from recon_all dir
-aparc_aseg = os.path.join(free_dir, subject_id, Tscan, recon_al,
-			  'aparc+aseg.mgz')
+freesurfer_dir = os.path.join(data_dir, subject_id, Tscan, recon_all)
+aparc_aseg = os.path.join(freesurfer_dir, 'aparc+aseg.mgz')
+
 # define new filenames
 aparc_aseg_nifti  = os.path.abspath('aparc_aseg.nii.gz')
 wmcsf_mask        = os.path.abspath('wmcsf_mask.nii.gz')
@@ -95,15 +93,16 @@ get_mask.inputs.binary_file = wmcsf_mask
 get_mask.run()
 
 # project wmcsf mask to functional space
+bbregdir = os.path.join(data_dir, subject_id, rs_T1, bbregister)
 at			   = ants.ApplyTransforms()
 at.inputs.input_image      = wmcsf_mask
-at.inputs.transforms       = [os.path.join(data_bbreg, subject_id, rs_T1, 						   'rest2anat_itk.mat')]
-at.inputs.reference_image  = os.path.join(data_bbreg, subject_id, rs_T1,
-					   'rest_mean.nii.gz')
+at.inputs.transforms       = [os.path.join(bbregdir, 'rest2anat_itk.mat')]
+at.inputs.reference_image  = os.path.join(bbregdir, 'rest_mean.nii.gz')
 at.inputs.interpolation    = 'NearestNeighbor'
 at.inputs.invert_transform_flags = [True]
 at.inputs.output_image     = wmcsf_mask_func
 at.run()
+
 
 # STEP #4 #######################################################
 # denoising
