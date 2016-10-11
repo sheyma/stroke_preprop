@@ -76,7 +76,8 @@ def plot_frame_displacement(realignment_parameters_file, mean_FD_distribution=No
         plot_vline(MeanFD, label, ax=ax)
         
     fig.suptitle('motion', fontsize='14')
-        
+    print fig
+    fig.savefig('A.pdf', format='pdf')
     return fig
 
 
@@ -91,7 +92,7 @@ B = get_mean_FD_dist(infiles)
 #print B 
 
 Figure = plot_frame_displacement(infile, mean_FD_distribution=None, figsize=(11.7,8.3))
-plt.show()
+
 
 #for infile in sys.argv[1:]:
 #    print "%s ..." % (infile)
