@@ -1,27 +1,26 @@
 import os, sys
 import nipype.interfaces.nipy as nipy
 import nipype.interfaces.fsl as fsl
+from nipype.interfaces.fsl.maths import MeanImage
+import nipype.algorithms.misc as misc
 
 # data dir's 
-data_dir  = '/scr/ilz2/bayrak/preprocess/'
-temp_dir  = 'func_prepro'
-# subject id, resting scan dir
+data_dir  = '/nobackup/ilz2/bayrak/subjects/'
+
 subject_id = sys.argv[1]
-scan 	   = sys.argv[2]
 
 # define working dir
 work_dir = os.path.join(data_dir, subject_id, 
-			scan, temp_dir)
+			'preprocessed/func/realign')
 if not os.path.exists(work_dir):
 	os.makedirs(work_dir)
 
 # go into working directory
 os.chdir(work_dir)
-print work_dir
 
 # resting state image
-dir_rest = os.path.join(data_dir, subject_id, scan)
-img_rest = os.path.join(dir_rest, 'rest.nii.gz')
+img_rest = os.path.join(data_dir, subject_id, 
+                        'nifti/resting', 'rest.nii.gz')
 
 # Step#1 dropping first volumes
 def strip_rois_func(in_file, t_min):
@@ -39,7 +38,7 @@ def strip_rois_func(in_file, t_min):
 	return os.path.abspath(base + "_roi.nii.gz")
 
 n_vol_remove = 5 
-img_rois = strip_rois_func(img_rest, n_vol_remove)
+img_rois     = strip_rois_func(img_rest, n_vol_remove)
 
 # Step#2 simultaneous slice-time & motion correction
 realigner  		     = nipy.SpaceTimeRealigner()
@@ -63,7 +62,14 @@ else:
 realigner.inputs.slice_info  = 2
 realigner.run() 
 
-## Step#3 get binary mask & skull stripped imag
+# Step#3 get T-mean of rs image after realignment 
+fslmaths = MeanImage()
+fslmaths.inputs.in_file   = 'corr_rest_roi.nii.gz'
+fslmaths.inputs.out_file  = 'mean_corr_rest_roi.nii.gz'
+fslmaths.inputs.dimension = 'T'
+fslmaths.run()
+
+## Step#4 get binary mask & skull stripped imag
 img_StMoco = os.path.abspath('corr_rest_roi.nii.gz')
 
 btr 		     = fsl.BET()
@@ -71,7 +77,9 @@ btr.inputs.in_file   = img_StMoco
 btr.inputs.mask      = True
 btr.run() 
 
-
-
+# Step#5 tsnr calculation on realigned image
+tsnr = misc.TSNR()
+tsnr.inputs.in_file = 'corr_rest_roi.nii.gz'
+tsnr.run()
 
 
