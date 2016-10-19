@@ -112,6 +112,7 @@ at.inputs.invert_transform_flags = [True]
 at.inputs.output_image     = wmcsf_mask_func
 at.run()
 
+
 ### projecting brain_mask to functional space
 brain_mask = os.path.join(data_dir, subject_id,
 			'preprocessed/anat/', 'brain_mask.nii.gz')
@@ -123,21 +124,40 @@ at.inputs.reference_image  = rest_mean
 at.inputs.interpolation    = 'NearestNeighbor'
 at.inputs.invert_transform_flags = [True]
 at.inputs.output_image     = brain_mask_func
-at.run()
+#at.run()
+
+
+### get the wm edge contour in anatomical space
+os.chdir(os.path.join(data_dir, subject_id,
+			'preprocessed/anat/'))
+
+coolBinarize = fs.Binarize()
+coolBinarize.inputs.in_file     = aparc_aseg_nifti
+coolBinarize.inputs.match       = [2, 7, 41, 46, 16]
+coolBinarize.out_type           ='nii.gz'
+coolBinarize.inputs.binary_file ='brain_wmseg.nii.gz'
+coolBinarize.run()
+
+# make edge from wmseg  to visualize coregistration quality
+edge = fsl.ApplyMask()
+edge.inputs.in_file = 'brain_wmseg.nii.gz'
+edge.inputs.mask_file = 'brain_wmseg.nii.gz'
+edge.inputs.args    ='-edge -bin'
+edge.inputs.out_file       ='brain_wmedge.nii.gz'
+edge.run()
 
 
 
+# STEP #4 denoising with CompCor, normalization and band-pass filtering...
 
-## STEP #4 denoising with CompCor, normalization and band-pass filtering...
+os.chdir(work_dir)
+os.chdir(work_dir_regress)
 
-#os.chdir(work_dir)
-#os.chdir(work_dir_regress)
+rest_denoised = os.path.join(data_dir, subject_id, 'preprocessed/func/',
+			     'rest_preprocessed.nii.gz')
 
-#rest_denoised = os.path.join(data_dir, subject_id, 'preprocessed/func/',
-#			     'rest_preprocessed.nii.gz')
-
-#nilearn_denoise(in_file = img_func, brain_mask = mask_func, 
-#		wm_csf_mask = wmcsf_mask_func, motreg_file = motionreg_file,
-#		outlier_file = outlier_file, bandpass = [0.1, 0.01],
-#		tr = 2.3, img_fname = rest_denoised)
+nilearn_denoise(in_file = img_func, brain_mask = mask_func, 
+		wm_csf_mask = wmcsf_mask_func, motreg_file = motionreg_file,
+		outlier_file = outlier_file, bandpass = [0.1, 0.01],
+		tr = 2.3, img_fname = rest_denoised)
 
