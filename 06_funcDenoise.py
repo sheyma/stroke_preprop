@@ -98,6 +98,7 @@ get_mask.run()
 transform_matrix = os.path.join(data_dir, subject_id, 
 			'preprocessed/func/coregister/transforms2anat',
 			'rest2anat_itk.mat')
+
 # mean rest scan after realignment
 rest_mean  = os.path.join(data_dir, subject_id,
 			  'preprocessed/func/realign',
@@ -112,7 +113,6 @@ at.inputs.invert_transform_flags = [True]
 at.inputs.output_image     = wmcsf_mask_func
 at.run()
 
-
 ### projecting brain_mask to functional space
 brain_mask = os.path.join(data_dir, subject_id,
 			'preprocessed/anat/', 'brain_mask.nii.gz')
@@ -124,29 +124,7 @@ at.inputs.reference_image  = rest_mean
 at.inputs.interpolation    = 'NearestNeighbor'
 at.inputs.invert_transform_flags = [True]
 at.inputs.output_image     = brain_mask_func
-#at.run()
-
-
-### get the wm edge contour in anatomical space
-os.chdir(os.path.join(data_dir, subject_id,
-			'preprocessed/anat/'))
-
-coolBinarize = fs.Binarize()
-coolBinarize.inputs.in_file     = aparc_aseg_nifti
-coolBinarize.inputs.match       = [2, 7, 41, 46, 16]
-coolBinarize.out_type           ='nii.gz'
-coolBinarize.inputs.binary_file ='brain_wmseg.nii.gz'
-coolBinarize.run()
-
-# make edge from wmseg  to visualize coregistration quality
-edge = fsl.ApplyMask()
-edge.inputs.in_file = 'brain_wmseg.nii.gz'
-edge.inputs.mask_file = 'brain_wmseg.nii.gz'
-edge.inputs.args    ='-edge -bin'
-edge.inputs.out_file       ='brain_wmedge.nii.gz'
-edge.run()
-
-
+at.run()
 
 # STEP #4 denoising with CompCor, normalization and band-pass filtering...
 
