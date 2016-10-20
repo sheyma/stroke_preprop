@@ -17,3 +17,8 @@ structAnts
 structAnts.sh
 funcProcess.sh
 structReconAll.sh
+commands
+func2mni
+funcDenoise
+funcSmooth
+
