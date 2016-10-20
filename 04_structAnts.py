@@ -1,4 +1,5 @@
 """
+generates anatomical anatomical masks &
 non-linear registration from T1 to MNI
 How to run:
 $ python 04_structAnts.py hc01_d00
@@ -28,13 +29,20 @@ if not os.path.exists(work_dir):
 # go into work dir
 os.chdir(work_dir)
 
+#### Step1 # get the freesurfer output and convert it
+
 # get skull stripped (recon_all) structural image
 img_struc = os.path.join(data_dir, subject_id,  
 			 'freesurfer/mri', 'brain.mgz') 
 
-# convert structural image into nifti 
-os.system("mri_convert %s %s" % (img_struc, 'brain.nii.gz'))
-img_nifti = os.path.abspath('brain.nii.gz')
+# convert *mgz into *nii.gz
+mricon = fs.MRIConvert(in_file = img_struc,
+		       out_file = 'brain.nii.gz',
+		       out_type = 'niigz').run()
+
+brain_nifti = os.path.abspath('brain.nii.gz')
+
+#### Step2 # generate masks...##################
 
 # create  brain mask 
 get_mask = fs.Binarize()
@@ -45,13 +53,31 @@ get_mask.inputs.out_type    = 'nii.gz'
 get_mask.inputs.binary_file = 'brain_mask.nii.gz'
 get_mask.run()
 
-## fill holes in mask, smooth, rebinarize
-#fillholes = fsl.maths.MathsCommand()
+# get the wm segmentation from aparc+aseg
+aparc_aseg = os.path.join(data_dir, subject_id,
+	                  'freesurfer/mri', 
+			  'aparc+aseg.mgz')
 
-#fillholes = fsl.maths.MathsCommand(args='-fillh -s 3 -thr 0.1 -bin')
-#fillholes.inputs.in_file = 'brain_mask.nii.gz'
-#fillholes.out_file = 'bla.nii.gz'
-#fillholes.run()
+mricon = fs.MRIConvert(in_file = aparc_aseg,
+		       out_file = 'aparc+aseg.nii.gz',	
+		       out_type = 'niigz').run()
+
+coolBinarize = fs.Binarize()
+coolBinarize.inputs.in_file     = 'aparc+aseg.nii.gz'
+coolBinarize.inputs.match       = [2, 7, 41, 46, 16]
+coolBinarize.out_type           = 'nii.gz'
+coolBinarize.inputs.binary_file = 'brain_wmseg.nii.gz'
+coolBinarize.run()
+
+# make edge from wm seg. to use for quality control
+edge = fsl.ApplyMask()
+edge.inputs.in_file   = 'brain_wmseg.nii.gz'
+edge.inputs.mask_file = 'brain_wmseg.nii.gz'
+edge.inputs.args      = '-edge -bin'
+edge.inputs.out_file  = 'brain_wmedge.nii.gz'
+edge.run()
+
+#### Step3 # run ants...################################
 
 # define ants output 
 img_ants = os.path.abspath('brain_mni.nii.gz')
@@ -87,7 +113,7 @@ ants_anat2mni = ants.Registration(dimension=3,
 	            output_warped_image=True,
 	            use_histogram_matching=True)
 ants_anat2mni.inputs.fixed_image 	 = mni_temp
-ants_anat2mni.inputs.moving_image 	 = img_nifti
+ants_anat2mni.inputs.moving_image 	 = brain_nifti
 ants_anat2mni.inputs.output_warped_image = img_ants
 ants_anat2mni.run()
 
