@@ -39,7 +39,7 @@ def motion_regressors(motion_params, order=0, derivatives=1):
 
 def nilearn_denoise(in_file, brain_mask, wm_csf_mask,
                       motreg_file, outlier_file,
-                      bandpass, tr ):
+                      bandpass, tr, img_fname ):
 	"""Clean time series using Nilearn high_variance_confounds to extract 
 	CompCor regressors and NiftiMasker for regression of all nuissance regressors,
 	detrending, normalziation and bandpass filtering.
@@ -88,7 +88,7 @@ def nilearn_denoise(in_file, brain_mask, wm_csf_mask,
 
 	# save  
 	_, base, _ = split_filename(in_file)
-	img_fname = base + '_denoised.nii.gz'
+	#img_fname = base + '_denoised.nii.gz'
 	nb.save(denoised_img, img_fname)
 
 	confound_fname = os.path.join(os.getcwd(), "all_confounds.txt")
