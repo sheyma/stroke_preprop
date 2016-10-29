@@ -9,14 +9,15 @@ import nipype.interfaces.ants as ants
 data_dir  = '/nobackup/ilz2/bayrak/subjects'
 
 # subject id
-subject_id = 'hc01_d00'
+#subject_id = 'hc01_d00'
+subject_id = sys.argv[1]
 
 # freesurfer dir for recon_all outputs
 freesurfer_dir = '/nobackup/ilz2/bayrak/freesurfer'
 
 # define working dir
 work_dir = os.path.join(data_dir, subject_id,  
-			'preprocessed/func/denoise/mask') 
+			'preprocessed/func/connectivity') 
 
 if not os.path.exists(work_dir):
 	os.makedirs(work_dir)
@@ -43,14 +44,14 @@ coolBinarize = fs.Binarize()
 coolBinarize.inputs.in_file     = aseg_nifti
 coolBinarize.inputs.match       = gm_labels
 coolBinarize.out_type           = 'nii.gz'
-coolBinarize.inputs.binary_file = 'gm_Jmask.nii.gz'
+coolBinarize.inputs.binary_file = 'gm_mask_anat.nii.gz'
 coolBinarize.run()
 
 ######
 mni_temp = os.path.join('/nobackup/ilz2/bayrak',
 			'MNI152_T1_3mm_brain.nii.gz')
 
-gm_mask = os.path.abspath('gm_Jmask.nii.gz')
+gm_mask = os.path.abspath('gm_mask_anat.nii.gz')
 
 trans_dir = os.path.join(data_dir, subject_id, 
 			 'preprocessed/anat/transforms2mni') 
@@ -62,11 +63,10 @@ at.inputs.transforms             = [os.path.join(trans_dir,
                                     os.path.join(trans_dir,
 				   'transform0GenericAffine.mat')]
 at.inputs.reference_image        = mni_temp
-at.inputs.interpolation          = 'NearestNeighbor'
+at.inputs.interpolation          = 'BSpline'
 at.inputs.invert_transform_flags = [False, False]
-at.inputs.output_image           = 'gm_Jmask_mni.nii.gz'
+at.inputs.output_image           = 'gm_mask_MNI.nii.gz'
 
-print at.cmdline
 at.run()
 
 
