@@ -38,7 +38,7 @@ mricon = fs.MRIConvert(in_file  = aseg_mgz,
 
 aseg_nifti  = os.path.abspath('aseg.nii.gz')
 
-# WAY 1
+# binarize aseg.nii.gz via GM labels
 
 coolBinarize = fs.Binarize()
 coolBinarize.inputs.in_file     = aseg_nifti
@@ -47,7 +47,7 @@ coolBinarize.out_type           = 'nii.gz'
 coolBinarize.inputs.binary_file = 'gm_mask_anat.nii.gz'
 coolBinarize.run()
 
-######
+# normalize GM mask to MNI space
 mni_temp = os.path.join('/nobackup/ilz2/bayrak',
 			'MNI152_T1_3mm_brain.nii.gz')
 
@@ -63,9 +63,11 @@ at.inputs.transforms             = [os.path.join(trans_dir,
                                     os.path.join(trans_dir,
 				   'transform0GenericAffine.mat')]
 at.inputs.reference_image        = mni_temp
-at.inputs.interpolation          = 'BSpline'
+at.inputs.interpolation          = 'NearestNeighbor'
+#at.inputs.interpolation          = 'BSpline'
+
 at.inputs.invert_transform_flags = [False, False]
-at.inputs.output_image           = 'gm_mask_MNI.nii.gz'
+at.inputs.output_image           = 'gm_mask_MNI_Neigh.nii.gz'
 
 at.run()
 
