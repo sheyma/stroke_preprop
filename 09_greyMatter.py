@@ -1,7 +1,6 @@
 import os, sys
 import nipype.interfaces.freesurfer as fs
 import nibabel as nb
-import numpy as np
 import nipype.interfaces.fsl as fsl
 import nipype.interfaces.ants as ants
 
@@ -9,15 +8,14 @@ import nipype.interfaces.ants as ants
 data_dir  = '/nobackup/ilz2/bayrak/subjects'
 
 # subject id
-#subject_id = 'hc01_d00'
 subject_id = sys.argv[1]
 
 # freesurfer dir for recon_all outputs
 freesurfer_dir = '/nobackup/ilz2/bayrak/freesurfer'
 
-# define working dir
+# define working dir 
 work_dir = os.path.join(data_dir, subject_id,  
-			'preprocessed/func/connectivity') 
+			'preprocessed/anat') 
 
 if not os.path.exists(work_dir):
 	os.makedirs(work_dir)
@@ -38,20 +36,30 @@ mricon = fs.MRIConvert(in_file  = aseg_mgz,
 
 aseg_nifti  = os.path.abspath('aseg.nii.gz')
 
-# binarize aseg.nii.gz via GM labels
-
+###### Step # 1: binarize aseg.nii.gz via GM labels
 coolBinarize = fs.Binarize()
 coolBinarize.inputs.in_file     = aseg_nifti
 coolBinarize.inputs.match       = gm_labels
 coolBinarize.out_type           = 'nii.gz'
-coolBinarize.inputs.binary_file = 'gm_mask_anat.nii.gz'
+coolBinarize.inputs.binary_file = 'brain_gmseg.nii.gz'
 coolBinarize.run()
 
-# normalize GM mask to MNI space
-mni_temp = os.path.join('/nobackup/ilz2/bayrak',
-			'MNI152_T1_3mm_brain.nii.gz')
+# define working dir
+work_dir = os.path.join(data_dir, subject_id,  
+			'preprocessed/func/connectivity') 
 
-gm_mask = os.path.abspath('gm_mask_anat.nii.gz')
+if not os.path.exists(work_dir):
+	os.makedirs(work_dir)
+# go into working dir
+os.chdir(work_dir)
+
+###### Step #2: normalize GM mask to MNI1mm space
+mni_temp = os.path.join('/usr/share/fsl/5.0/data/standard', 
+			'MNI152_T1_1mm_brain.nii.gz')
+
+gm_mask = os.path.join(data_dir, subject_id,
+		       'preprocessed/anat', 
+		       'brain_gmseg.nii.gz')
 
 trans_dir = os.path.join(data_dir, subject_id, 
 			 'preprocessed/anat/transforms2mni') 
@@ -63,12 +71,34 @@ at.inputs.transforms             = [os.path.join(trans_dir,
                                     os.path.join(trans_dir,
 				   'transform0GenericAffine.mat')]
 at.inputs.reference_image        = mni_temp
-at.inputs.interpolation          = 'NearestNeighbor'
-#at.inputs.interpolation          = 'BSpline'
-
+at.inputs.interpolation          = 'BSpline'
 at.inputs.invert_transform_flags = [False, False]
-at.inputs.output_image           = 'gm_mask_MNI_Neigh.nii.gz'
-
+at.inputs.output_image           = 'gm_mni1.nii.gz'
 at.run()
+
+###### Step #3: resampling MNI1mm -->> MNI3mm
+flt = fsl.FLIRT(bins=640, cost_func='mutualinfo')
+flt.inputs.apply_isoxfm = 3.0
+flt.inputs.in_file      = os.path.join(data_dir, subject_id,
+		                      'preprocessed/func/connectivity',
+				      'gm_mni1.nii.gz')
+flt.inputs.reference    = os.path.join('/nobackup/ilz2/bayrak',
+				       'MNI152_T1_3mm_brain.nii.gz')
+flt.inputs.output_type  = "NIFTI_GZ"
+flt.inputs.out_file     = os.path.join(data_dir, subject_id,
+		                       'preprocessed/func/connectivity',
+				       'gm_mni3.nii.gz')
+flt.run()
+
+from nipype.interfaces.fsl.maths import MathsCommand
+
+binarize = MathsCommand()
+binarize.inputs.args     = '-thr 0.25 -bin'
+binarize.inputs.in_file  = 'gm_mni3.nii.gz'
+binarize.inputs.out_file = 'gm_mask_mni3.nii.gz'
+binarize.run()
+
+
+
 
 
