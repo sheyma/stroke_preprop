@@ -3,6 +3,7 @@ import nipype.interfaces.freesurfer as fs
 import nibabel as nb
 import nipype.interfaces.fsl as fsl
 import nipype.interfaces.ants as ants
+from nipype.interfaces.fsl.maths import MathsCommand
 
 # data dir's 
 data_dir  = '/nobackup/ilz2/bayrak/subjects'
@@ -90,8 +91,7 @@ flt.inputs.out_file     = os.path.join(data_dir, subject_id,
 				       'gm_mni3.nii.gz')
 flt.run()
 
-from nipype.interfaces.fsl.maths import MathsCommand
-
+###### Step #4: get a binary mask
 binarize = MathsCommand()
 binarize.inputs.args     = '-thr 0.25 -bin'
 binarize.inputs.in_file  = 'gm_mni3.nii.gz'
