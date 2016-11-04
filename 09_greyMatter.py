@@ -91,12 +91,6 @@ flt.inputs.out_file     = os.path.join(data_dir, subject_id,
 				       'gm_mni3.nii.gz')
 flt.run()
 
-###### Step #4: get a binary mask
-binarize = MathsCommand()
-binarize.inputs.args     = '-thr 0.25 -bin'
-binarize.inputs.in_file  = 'gm_mni3.nii.gz'
-binarize.inputs.out_file = 'gm_mask_mni3.nii.gz'
-binarize.run()
 
 
 
