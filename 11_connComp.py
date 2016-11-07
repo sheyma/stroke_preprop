@@ -38,7 +38,9 @@ voxel_z    = np.where(mask_array==1)[2]
 print "%s voxels are in GM..." % len(voxel_x)
 
 ###### Step #2: get correlation matrix for subjects based on GM ###
-sbj_list = ['hc01_d00', 'hc02_d00']
+## quick run
+#sbj_list = ['hc01_d00', 'hc02_d00']
+
 for i in range(0, len(sbj_list)):
 	
         subject_id = sbj_list[i]
