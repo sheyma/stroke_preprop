@@ -1,9 +1,14 @@
+"""
+get individual GM masks, project to MNI3mm &
+get individual rest masks (3dAutomask)
+"""
 import os, sys
 import nipype.interfaces.freesurfer as fs
 import nibabel as nb
 import nipype.interfaces.fsl as fsl
 import nipype.interfaces.ants as ants
 from nipype.interfaces.fsl.maths import MathsCommand
+from nipype.interfaces import afni
 
 # data dir's 
 data_dir  = '/nobackup/ilz2/bayrak/subjects'
@@ -88,11 +93,19 @@ flt.inputs.reference    = os.path.join('/nobackup/ilz2/bayrak',
 flt.inputs.output_type  = "NIFTI_GZ"
 flt.inputs.out_file     = os.path.join(data_dir, subject_id,
 		                       'preprocessed/func/connectivity',
-				       'gm_mni3.nii.gz')
+				       'gm_prob_mni3.nii.gz')
 flt.run()
 
 
+####### Step #4: get rest mask to exclude voxels having 0's 
+image_rest4D = os.path.join(data_dir, subject_id, 
+         	            'preprocessed/func', 
+		            'rest_preprocessed2mni_sm.nii.gz') 
 
-
-
+automask = afni.Automask()
+automask.inputs.in_file    = image_rest4D
+automask.inputs.outputtype = 'NIFTI_GZ'
+automask.inputs.brain_file = 'rest_masked_mni3.nii.gz'
+automask.inputs.out_file   = 'rest_mask_mni3.nii.gz'
+automask.run()  
 
