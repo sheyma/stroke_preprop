@@ -1,6 +1,7 @@
 """
 get GM mask at group level 
 get rest mask at group level
+get individual correlation matrix
 """
 import os, sys
 from nipype.interfaces.fsl import MultiImageMaths
@@ -64,10 +65,10 @@ maths.run()
 
 # get GM mask (binarize the probabilistic GM map)
 binarize = MathsCommand()
-binarize.inputs.args     = '-thr  0.25 -bin'
+binarize.inputs.args     = '-thr  0.40 -bin'
 binarize.inputs.in_file  = 'gm_prob_mni3_ave.nii.gz'
 binarize.inputs.out_file = 'gm_prob_mni3_ave_mask.nii.gz'
-#binarize.run()
+binarize.run()
 
 # get group level resting mask by multiplying individual ones
 maths = MultiImageMaths()
@@ -82,5 +83,6 @@ maths = MultiImageMaths()
 maths.inputs.in_file       = 'gm_prob_mni3_ave_mask.nii.gz'
 maths.inputs.op_string     = '-mul %s'
 maths.inputs.operand_files = 'rest_mask_mni3_ave.nii.gz'
-maths.inputs.out_file      = 'MNI152_rest_3mm_GM_mask.nii.gz'
+maths.inputs.out_file      = 'mni3_rest_gm_mask.nii.gz'
 maths.run()
+
