@@ -1,16 +1,19 @@
+"""
+convert dicoms to nifti for stroke patients data
+"""
 import os, sys, glob
 from subprocess import call
 from dcmstack.extract import default_extractor
 from dicom import read_file
 from nipype.utils.filemanip import filename_to_list
 
-data_dir = '/scr/ilz2/bayrak/32_COIL_ordered/'
-data_out = '/scr/ilz2/bayrak/preprocess/'
 
 subject_id = sys.argv[1]
 
-scan_path = os.path.join(data_dir, subject_id)
-print scan_path
+data_dir = '/nobackup/ilz2/bayrak/subjects/'
+
+scan_path = os.path.join(data_dir, subject_id, 'dicom')
+
 scans = next(os.walk(scan_path))[1]
 print ''
 print scans
@@ -32,21 +35,17 @@ def get_info(dicom_files):
 
 for scan in scans:
 
-	dicom_dir = os.path.join(data_dir, subject_id, scan)
+	dicom_dir = os.path.join(data_dir, subject_id, 'dicom', scan)
 
-	if not os.path.exists(os.path.join(data_out, subject_id)):
-		os.makedirs(os.path.join(data_out, subject_id))
-	work_dir = os.path.join(data_out, subject_id)
+	nifti_dir = os.path.join(data_dir, subject_id, 'nifti', scan)
 
-	if not os.path.exists(os.path.join(work_dir, scan)):
-		os.makedirs(os.path.join(work_dir, scan))
-	work_dir = os.path.join(work_dir, scan)
+	if not os.path.exists(nifti_dir):
+		os.makedirs(nifti_dir)
+	os.chdir(nifti_dir)
 
-	os.chdir(work_dir)
-
-	output_name = 'unknown'
+	#output_name = 'unknown'
 	
-	if scan[0:3] == 'rsd':
+	if scan[0:4] == 'rest':
 		output_name = 'rest'
 
 		dicom_files = []
@@ -65,15 +64,15 @@ for scan in scans:
 		for item in sta_ms:
 			thefile.write("%s\n" % item)
 		
-	if scan[0:5] == 'FLAIR':
+	if scan[0:5] == 'flair':
 		output_name = 'flair'
-	if scan[0:2] == 'DW':
+	if scan[0:3] == 'dwi':
 		output_name = 'dwi'
-	if scan[0:2] == 'T1':
+	if scan[0:6] == 'mprage':
 		output_name = 'T1'
-
+	
 	print "converting files ", dicom_dir, "..."
 	call(["dcmstack", dicom_dir,
-		"--dest-dir", work_dir,
+		"--dest-dir", nifti_dir,
 		"-o", output_name])
 
