@@ -9,6 +9,7 @@ import nipype.interfaces.ants as ants
 import nipype.interfaces.freesurfer as fs
 import nipype.interfaces.fsl as fsl
 from subprocess import call
+from nipype.interfaces.c3 import C3dAffineTool
 
 # data dir's 
 data_dir   = '/nobackup/ilz2/bayrak/subjects'
@@ -77,43 +78,83 @@ edge.inputs.args      = '-edge -bin'
 edge.inputs.out_file  = 'brain_wmedge.nii.gz'
 edge.run()
 
-#### Step3 # run ants...################################
+#### Step3 ##################################################################### 
+# for subjects at day00 -->> run ants (register to mni)
+# for subjects at dayXX -->> run fsl.flirt (register to day00)
 
-# define ants output 
-img_ants = os.path.abspath('brain_mni.nii.gz')
 
-# define working dir for transform matrices
-work_dir_trf = os.path.join(data_dir, subject_id,  
-			    'preprocessed/anat/transforms2mni')
-if not os.path.exists(work_dir_trf):
-	os.makedirs(work_dir_trf)
+if subject_id[5:8] == 'd00':
+	####### run ants ################################
+	# define ants output 
+	img_ants = os.path.abspath('brain_mni.nii.gz')
 
-ants_anat2mni = ants.Registration(dimension=3,
-	            transforms=['Rigid','Affine','SyN'],
-	            metric=['MI','MI','CC'],
-	            metric_weight=[1,1,1],
-	            number_of_iterations=[[1000,500,250,100],[1000,500,250,100],
-					  [100,70,50,20]],
-	            convergence_threshold=[1e-6,1e-6,1e-6],
-	            convergence_window_size=[10,10,10],
-	            shrink_factors=[[8,4,2,1],[8,4,2,1],[8,4,2,1]],
-	            smoothing_sigmas=[[3,2,1,0],[3,2,1,0],[3,2,1,0]],
-	            sigma_units=['vox','vox','vox'],
-	            initial_moving_transform_com=1,
-	            transform_parameters=[(0.1,),(0.1,),(0.1,3.0,0.0)],
-	            sampling_strategy=['Regular', 'Regular', 'None'],
-	            sampling_percentage=[0.25,0.25,1],
-	            radius_or_number_of_bins=[32,32,4],
-	            num_threads=1,
-	            interpolation='Linear',
-	            winsorize_lower_quantile=0.005,
-	            winsorize_upper_quantile=0.995,
-	            collapse_output_transforms=True,
-	            output_inverse_warped_image=True,
-	            output_warped_image=True,
-	            use_histogram_matching=True)
-ants_anat2mni.inputs.fixed_image 	 = mni_temp
-ants_anat2mni.inputs.moving_image 	 = brain_nifti
-ants_anat2mni.inputs.output_warped_image = img_ants
-ants_anat2mni.run()
+	# define working dir for transform matrices
+	work_dir_trf = os.path.join(data_dir, subject_id,  
+				    'preprocessed/anat/transforms2mni')
+	if not os.path.exists(work_dir_trf):
+		os.makedirs(work_dir_trf)
+
+	ants_anat2mni = ants.Registration(dimension=3,
+			    transforms=['Rigid','Affine','SyN'],
+			    metric=['MI','MI','CC'],
+			    metric_weight=[1,1,1],
+			    number_of_iterations=[[1000,500,250,100],[1000,500,250,100],
+						  [100,70,50,20]],
+			    convergence_threshold=[1e-6,1e-6,1e-6],
+			    convergence_window_size=[10,10,10],
+			    shrink_factors=[[8,4,2,1],[8,4,2,1],[8,4,2,1]],
+			    smoothing_sigmas=[[3,2,1,0],[3,2,1,0],[3,2,1,0]],
+			    sigma_units=['vox','vox','vox'],
+			    initial_moving_transform_com=1,
+			    transform_parameters=[(0.1,),(0.1,),(0.1,3.0,0.0)],
+			    sampling_strategy=['Regular', 'Regular', 'None'],
+			    sampling_percentage=[0.25,0.25,1],
+			    radius_or_number_of_bins=[32,32,4],
+			    num_threads=1,
+			    interpolation='Linear',
+			    winsorize_lower_quantile=0.005,
+			    winsorize_upper_quantile=0.995,
+			    collapse_output_transforms=True,
+			    output_inverse_warped_image=True,
+			    output_warped_image=True,
+			    use_histogram_matching=True)
+	ants_anat2mni.inputs.fixed_image 	 = mni_temp
+	ants_anat2mni.inputs.moving_image 	 = brain_nifti
+	ants_anat2mni.inputs.output_warped_image = img_ants
+	#ants_anat2mni.run()
+
+else:
+	###### run fsl flirt ##############################
+	# define working dir for transform matrices
+	work_dir_trf = os.path.join(data_dir, subject_id,  
+				    'preprocessed/anat/transforms2day00')
+	if not os.path.exists(work_dir_trf):
+		os.makedirs(work_dir_trf)
+	os.chdir(work_dir_trf)
+
+	subject_day00 = subject_id[0:5] + 'd00'
+
+	flt = fsl.FLIRT()
+	flt.inputs.in_file   = os.path.join(data_dir, subject_id,
+					 'preprocessed/anat', 'brain.nii.gz')
+	flt.inputs.reference = os.path.join(data_dir, subject_day00,
+					 'preprocessed/anat', 'brain.nii.gz')
+	flt.inputs.dof 	     = 6
+	flt.inputs.out_matrix_file = 'transform_day00.mat'
+	flt.inputs.out_file        = 'brain_day00.nii.gz'
+	flt.inputs.output_type     = "NIFTI_GZ"
+	#print flt.cmdline 
+	flt.run()
+
+	# convert bbregister out into itk format for ants later
+	c3 = C3dAffineTool()
+	c3.inputs.transform_file  = 'transform_day00.mat'
+	c3.inputs.itk_transform   = 'transform_day00_itk.mat'
+	c3.inputs.reference_file  = os.path.join(data_dir, subject_day00,
+					 'preprocessed/anat', 'brain.nii.gz')
+	c3.inputs.source_file     = os.path.join(data_dir, subject_id,
+					 'preprocessed/anat', 'brain.nii.gz')
+	c3.inputs.fsl2ras         = True
+	c3.run()
+
 
