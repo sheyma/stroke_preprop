@@ -21,7 +21,7 @@ os.chdir(work_dir)
 # resting state image
 img_rest = os.path.join(data_dir, subject_id, 
                         'nifti/resting', 'rest.nii.gz')
-
+print "resting state: ", img_rest
 # Step#1 dropping first volumes
 def strip_rois_func(in_file, t_min):
 	import numpy as np
@@ -50,10 +50,12 @@ realigner.inputs.tr	     = 2.3
 # assigns it to "asc_alt_2_1" for healthy controls
 if subject_id[0:2] == 'sd':
 	# find slice sequence text file
-	filename = os.path.join(dir_rest, 'slice_timing.txt')
+	filename = os.path.join(data_dir, subject_id,
+				'nifti/resting', 'slice_timing.txt')
 	print "getting slice time sequence from", filename 
 	with open(filename) as f:
 		st = map(float, f)
+	print st
 	realigner.inputs.slice_times = st
 else:
 	# ascend alternate every 2nd slice, starting at 2nd slice
