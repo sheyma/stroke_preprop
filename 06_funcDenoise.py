@@ -1,4 +1,6 @@
 import os, sys
+import matplotlib
+matplotlib.use('Agg')
 import nipype.interfaces.nipy as nipy
 import nipype.algorithms.rapidart as ra
 import nipype.interfaces.freesurfer as fs
