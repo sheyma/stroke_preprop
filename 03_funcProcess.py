@@ -3,6 +3,7 @@ import nipype.interfaces.nipy as nipy
 import nipype.interfaces.fsl as fsl
 from nipype.interfaces.fsl.maths import MeanImage
 import nipype.algorithms.misc as misc
+from nipype.interfaces.c3 import C3dAffineTool
 
 # data dir's 
 data_dir  = '/nobackup/ilz2/bayrak/subjects/'
@@ -84,4 +85,44 @@ tsnr = misc.TSNR()
 tsnr.inputs.in_file = 'corr_rest_roi.nii.gz'
 tsnr.run()
 
+if subject_id[5:8] != 'd01':
+
+	###### rsdXX -->> rsdYY ##############################
+	
+	work_dir_trf = os.path.join(data_dir, subject_id,  
+				    'preprocessed/func/transforms2rest01')
+	if not os.path.exists(work_dir_trf):
+		os.makedirs(work_dir_trf)
+	os.chdir(work_dir_trf)
+
+	subject_dayX = subject_id[0:5] + 'd01'
+
+	flt = fsl.FLIRT()
+	flt.inputs.in_file   = os.path.join(data_dir, subject_id,
+					 'preprocessed/func/realign',
+					 'mean_corr_rest_roi.nii.gz')
+	flt.inputs.reference = os.path.join(data_dir, subject_dayX,
+					 'preprocessed/func/realign',
+					 'mean_corr_rest_roi.nii.gz')
+	flt.inputs.dof 	     = 6
+	flt.inputs.cost      = 'mutualinfo'
+	flt.inputs.out_matrix_file = 'transform_day01.mat'
+	flt.inputs.out_file        = 'mean_corr_rest_roi_2day01.nii.gz'
+	flt.inputs.output_type     = "NIFTI_GZ"
+	print flt.cmdline 
+	flt.run()
+
+	## convert fsl flirt out into itk format for ants later
+	c3 = C3dAffineTool()
+	c3.inputs.transform_file  = 'transform_day01.mat'
+	c3.inputs.itk_transform   = 'transform_day01_itk.mat'
+	c3.inputs.reference_file  =  os.path.join(data_dir, subject_dayX,
+					 'preprocessed/func/realign',
+					 'mean_corr_rest_roi.nii.gz')
+	c3.inputs.source_file     = os.path.join(data_dir, subject_id,
+					 'preprocessed/func/realign',
+					 'mean_corr_rest_roi.nii.gz')
+
+	c3.inputs.fsl2ras         = True
+	c3.run()
 
