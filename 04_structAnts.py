@@ -29,7 +29,7 @@ if not os.path.exists(work_dir):
 	
 # go into work dir
 os.chdir(work_dir)
-
+print "YESSSS"
 #### Step1 # get the freesurfer output and convert it
 
 # get skull stripped (recon_all) structural image
@@ -79,11 +79,8 @@ edge.inputs.out_file  = 'brain_wmedge.nii.gz'
 edge.run()
 
 #### Step3 ##################################################################### 
-# for subjects at day00 -->> run ants (register to mni)
-# for subjects at dayXX -->> run fsl.flirt (register to day00)
 
-
-if subject_id[5:8] == 'd00':
+if subject_id[5:8] == 'd01':
 	####### run ants ################################
 	# define ants output 
 	img_ants = os.path.abspath('brain_mni.nii.gz')
@@ -121,40 +118,7 @@ if subject_id[5:8] == 'd00':
 	ants_anat2mni.inputs.fixed_image 	 = mni_temp
 	ants_anat2mni.inputs.moving_image 	 = brain_nifti
 	ants_anat2mni.inputs.output_warped_image = img_ants
-	#ants_anat2mni.run()
+	ants_anat2mni.run()
 
-else:
-	###### run fsl flirt ##############################
-	# define working dir for transform matrices
-	work_dir_trf = os.path.join(data_dir, subject_id,  
-				    'preprocessed/anat/transforms2day00')
-	if not os.path.exists(work_dir_trf):
-		os.makedirs(work_dir_trf)
-	os.chdir(work_dir_trf)
-
-	subject_day00 = subject_id[0:5] + 'd00'
-
-	flt = fsl.FLIRT()
-	flt.inputs.in_file   = os.path.join(data_dir, subject_id,
-					 'preprocessed/anat', 'brain.nii.gz')
-	flt.inputs.reference = os.path.join(data_dir, subject_day00,
-					 'preprocessed/anat', 'brain.nii.gz')
-	flt.inputs.dof 	     = 6
-	flt.inputs.out_matrix_file = 'transform_day00.mat'
-	flt.inputs.out_file        = 'brain_day00.nii.gz'
-	flt.inputs.output_type     = "NIFTI_GZ"
-	#print flt.cmdline 
-	flt.run()
-
-	# convert bbregister out into itk format for ants later
-	c3 = C3dAffineTool()
-	c3.inputs.transform_file  = 'transform_day00.mat'
-	c3.inputs.itk_transform   = 'transform_day00_itk.mat'
-	c3.inputs.reference_file  = os.path.join(data_dir, subject_day00,
-					 'preprocessed/anat', 'brain.nii.gz')
-	c3.inputs.source_file     = os.path.join(data_dir, subject_id,
-					 'preprocessed/anat', 'brain.nii.gz')
-	c3.inputs.fsl2ras         = True
-	c3.run()
 
 
