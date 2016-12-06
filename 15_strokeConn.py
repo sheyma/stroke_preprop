@@ -34,43 +34,43 @@ def IPN_kendallW(X):
 #A = np.random.randn(3, 100)
 #np.savetxt('tmp.txt', A)
 
-A = np.loadtxt('tmp.txt')
-bla  = IPN_kendallW(A)
-print bla
+#A = np.loadtxt('tmp.txt')
+#bla  = IPN_kendallW(A)
+#print bla
 
 
 
 
 
-data_dir   = '/nobackup/ilz2/bayrak/subjects/'
-suffix     = 'preprocessed/func/connectivity/corrUpper.h5'
+#data_dir   = '/nobackup/ilz2/bayrak/subjects/'
+#suffix     = 'preprocessed/func/connectivity/corrUpper.h5'
 
-Ma_name = os.path.join(data_dir, 'sd02_d00', suffix)
-Kb_name = os.path.join(data_dir, 'sd02_d01', suffix)
-Gh_name = os.path.join(data_dir, 'sd02_d05', suffix)
+#Ma_name = os.path.join(data_dir, 'sd02_d00', suffix)
+#Kb_name = os.path.join(data_dir, 'sd02_d01', suffix)
+#Gh_name = os.path.join(data_dir, 'sd02_d05', suffix)
 
-#print Ma_name
-Ma = h5py.File(Ma_name, 'r').get('data')
-Ma = np.array(Ma)
-N_orig     = N_original(Ma)
-Ma.resize([N_orig, N_orig])
-Ma_corr       = upper_to_down(Ma)
-print np.shape(Ma_corr)
-
-
-Kb = h5py.File(Kb_name, 'r').get('data')
-Kb = np.array(Kb)
-Kb.resize([N_orig, N_orig])
-Kb_corr       = upper_to_down(Kb)
-print np.shape(Kb_corr)
+##print Ma_name
+#Ma = h5py.File(Ma_name, 'r').get('data')
+#Ma = np.array(Ma)
+#N_orig     = N_original(Ma)
+#Ma.resize([N_orig, N_orig])
+#Ma_corr       = upper_to_down(Ma)
+#print np.shape(Ma_corr)
 
 
+#Kb = h5py.File(Kb_name, 'r').get('data')
+#Kb = np.array(Kb)
+#Kb.resize([N_orig, N_orig])
+#Kb_corr       = upper_to_down(Kb)
+#print np.shape(Kb_corr)
 
-Gh = h5py.File(Gh_name, 'r').get('data')
-Gh = np.array(Gh)
-Gh.resize([N_orig, N_orig])
-Kb_corr       = upper_to_down(Kb)
-print np.shape(Kb_corr)
+
+
+#Gh = h5py.File(Gh_name, 'r').get('data')
+#Gh = np.array(Gh)
+#Gh.resize([N_orig, N_orig])
+#Kb_corr       = upper_to_down(Kb)
+#print np.shape(Kb_corr)
 
 
 
@@ -102,8 +102,13 @@ def tied_rank(x):
                 r[sorted_x[j][1]] = float(last_rank+i+2)/2.0
     return r
 
+C = np.array([[ 0.34451582,  0.82713242],
+       [ 0.42677927, -0.21582965],
+       [ 0.27928397,  0.67561533],
+       [-0.22274886, -0.07290921],
+       [-0.09819769, -1.35265992]])
 
-
+tied_rank(C)
 
 #N_orig     = N_original(corr_upper)
 #print np.shape(t_series)
