@@ -127,6 +127,7 @@ corr_All = np.array(corr_All)
 print np.shape(corr_All)      
 
 ##### Step 2, calculate Kendall's W for each voxel #######################
+print "calculating Kendall's W over voxels..."
 
 W_voxels = []
 p_voxels = []
