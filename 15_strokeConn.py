@@ -34,12 +34,9 @@ def IPN_kendallW(X):
 #A = np.random.randn(3, 100)
 #np.savetxt('tmp.txt', A)
 
-#A = np.loadtxt('tmp.txt')
-#bla  = IPN_kendallW(A)
-#print bla
-
-
-
+A = np.loadtxt('tmp.txt')
+bla  = IPN_kendallW(A)
+print bla
 
 
 #data_dir   = '/nobackup/ilz2/bayrak/subjects/'
@@ -108,7 +105,7 @@ C = np.array([[ 0.34451582,  0.82713242],
        [-0.22274886, -0.07290921],
        [-0.09819769, -1.35265992]])
 
-tied_rank(C)
+#tied_rank(C)
 
 #N_orig     = N_original(corr_upper)
 #print np.shape(t_series)
