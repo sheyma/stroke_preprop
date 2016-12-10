@@ -36,6 +36,38 @@ def mask_check_all_subjects(fname, data_dir, mask):
 		[cnt_zeros, matrix] = mask_check(rest, mask)
 		print subject_id, cnt_zeros
 
+def average_upper_matrix(fname, data_dir, out_file):
+	"""
+	fname: text file having subject_id's
+	"""
+	with open(fname) as f:
+		content = f.readlines()
+		sbj_list = [x.strip('\n') for x in content]
+		
+	i = 0
+	N = len(sbj_list)
+	for subject_id in sbj_list:
+		A = os.path.join(data_dir, subject_id,
+                                'preprocessed/func/connectivity',
+                                '%s_corrUpper.h5' % subject_id)
+		A_init = h5py.File(A, 'r')
+		A_data = A_init.get('data')
+		np.array(A_data)
+
+                if i == 0:
+			SUM = A_data
+		else:
+			SUM = ne.evaluate('SUM + A_data')
+		i += 1
+		print subject_id, SUM.shape
+		
+        SUM = ne.evaluate('SUM / N')
+        h = h5py.File(out_file, 'w') 
+        h.create_dataset("data", data=SUM)
+        h.close()
+
+	return SUM
+
 # data dir's 
 data_dir  = '/nobackup/ilz2/bayrak/subjects'
 
@@ -46,8 +78,12 @@ fname = '/nobackup/ilz2/bayrak/documents/cool_hc.txt'
 image_mask = os.path.join('/nobackup/ilz2/bayrak/subjects_group',
                           'mni3_rest_gm_mask.nii.gz')
 
-## check if any of subjects has voxels, which has no signal
-# mask_check_all_subjects(fname, data_dir, image_mask)
+# check if any of subjects has voxels, which has no signal
+mask_check_all_subjects(fname, data_dir, image_mask)
+
+# get average upper triangular of individual (fisher_r2z) correlations
+out_file = '/nobackup/ilz2/bayrak/subjects_group/corrFisherR2Z_upper.h5'
+ave_corr_fish_upper = average_upper_matrix(fname, data_dir, out_file)
 
 # subject_id
 subject_id = sys.argv[1]
@@ -74,3 +110,4 @@ os.chdir(work_dir)
 h = h5py.File("%s_corrUpper.h5" %subject_id, 'w')
 h.create_dataset("data", data=corr_upper)
 h.close()
+
