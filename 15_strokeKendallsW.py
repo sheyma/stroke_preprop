@@ -8,7 +8,7 @@ from nipype.interfaces.fsl import MultiImageMaths
 from nipype.interfaces.fsl.maths import MathsCommand
 from nipype.interfaces import afni
 from hcp_corr import corrcoef_upper, N_original, upper_to_down
-
+import nibabel as nb
 
 def tied_rank(x):
     """
@@ -152,5 +152,24 @@ h.create_dataset("W", data=(W_voxels))
 h.create_dataset("p", data=(p_voxels))
 h.create_dataset("Fdist", data=(Fdist_voxels))
 h.close()
+
+#### Step 3, save Kensall's W as nifti file ############################
+
+mask_array = nb.load(image_mask).get_data()
+voxel_x    = np.where(mask_array==1)[0]
+voxel_y    = np.where(mask_array==1)[1]
+voxel_z    = np.where(mask_array==1)[2]
+
+out_dir = '/nobackup/ilz2/bayrak/subjects_group/'
+mni_3mm    = os.path.join(out_dir, 'MNI152_T1_3mm_brain.nii.gz')
+mni_affine = nb.load(mni_3mm).get_affine()
+data_temp  = np.zeros(nb.load(mni_3mm).get_data().shape)
+
+data_temp[voxel_x, voxel_y, voxel_z] = W_voxels
+img_temp   = nb.Nifti1Image(data_temp, mni_affine)
+name_temp  = 'Kendall_W.nii.gz'
+nb.save(img_temp, name_temp)
+
+
 
 
