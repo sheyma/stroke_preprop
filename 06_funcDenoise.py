@@ -141,3 +141,4 @@ nilearn_denoise(in_file = img_func, brain_mask = mask_func,
 		outlier_file = outlier_file, bandpass = [0.1, 0.01],
 		tr = 2.3, img_fname = rest_denoised)
 
+
