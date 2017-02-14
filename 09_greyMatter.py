@@ -59,28 +59,57 @@ if not os.path.exists(work_dir):
 # go into working dir
 os.chdir(work_dir)
 
-###### Step #2: normalize GM mask to MNI1mm space
+###### Step #2: normalize GM mask to MNI space
+
+gm_mask  = os.path.join(data_dir, subject_id,
+		        'preprocessed/anat', 
+		        'brain_gmseg.nii.gz')
+
 mni_temp = os.path.join('/usr/share/fsl/5.0/data/standard', 
 			'MNI152_T1_1mm_brain.nii.gz')
 
-gm_mask = os.path.join(data_dir, subject_id,
-		       'preprocessed/anat', 
-		       'brain_gmseg.nii.gz')
+at                          = ants.ApplyTransforms()
+at.inputs.input_image       = gm_mask
+at.inputs.reference_image   = mni_temp
 
-trans_dir = os.path.join(data_dir, subject_id, 
-			 'preprocessed/anat/transforms2mni') 
+# design transformation matrices 
+if subject_id[5:8] == 'd00':
+	# (T1_d00 -->> mni)
 
-at = ants.ApplyTransforms()
-at.inputs.input_image            = gm_mask
-at.inputs.transforms             = [os.path.join(trans_dir,
-				   'transform1Warp.nii.gz'),
-                                    os.path.join(trans_dir,
-				   'transform0GenericAffine.mat')]
-at.inputs.reference_image        = mni_temp
+	trans_dir = os.path.join(data_dir, subject_id, 
+				 'preprocessed/anat/transforms2mni') 
+
+	at.inputs.transforms             = [os.path.join(trans_dir,
+					   'transform1Warp.nii.gz'),
+		                            os.path.join(trans_dir,
+					   'transform0GenericAffine.mat')]
+	
+	at.inputs.invert_transform_flags = [False, False]
+
+else: 
+	# (T1_dXX -->> T1_d00 -->> mni)
+
+	subject_day00 = subject_id[0:5] + 'd00'
+	
+	# fsl-flirt transform matrices (T1_XX -->> T1_d00)
+	flirt_dir = os.path.join(data_dir, subject_id,
+				 'preprocessed/anat/transforms2day00')
+
+	# ants transform matrices (T1_d00 -->> mni3mm)
+	ants_dir = os.path.join(data_dir, subject_day00,  
+				'preprocessed/anat/transforms2mni')
+
+	at.inputs.transforms  = [os.path.join(ants_dir, 						   						   'transform1Warp.nii.gz'),
+	      		         os.path.join(ants_dir, 						   						   'transform0GenericAffine.mat'),
+			         os.path.join(flirt_dir,
+				           'transform_day00_itk.mat')]	
+	
+	at.inputs.invert_transform_flags = [False, False, False]	
+
 at.inputs.interpolation          = 'BSpline'
-at.inputs.invert_transform_flags = [False, False]
 at.inputs.output_image           = 'gm_mni1.nii.gz'
 at.run()
+
 
 ###### Step #3: resampling MNI1mm -->> MNI3mm
 flt = fsl.FLIRT(bins=640, cost_func='mutualinfo')
@@ -97,7 +126,7 @@ flt.inputs.out_file     = os.path.join(data_dir, subject_id,
 flt.run()
 
 
-####### Step #4: get rest mask to exclude voxels having 0's 
+###### Step #4: get rest mask to exclude voxels having 0's 
 image_rest4D = os.path.join(data_dir, subject_id, 
          	            'preprocessed/func', 
 		            'rest_preprocessed2mni_sm.nii.gz') 
