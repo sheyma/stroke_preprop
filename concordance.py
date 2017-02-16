@@ -26,7 +26,8 @@ def tiedrank(X):
 def IPN_kendallW(X):
     """
     Kendall's W
-    X is 2D numpy-array
+    X is 2D numpy-array (n*k ratings matrix)
+    n is the number of objects and k is the number of judges.
     """
     [n, k] = np.shape(X)
 
@@ -52,7 +53,7 @@ def IPN_kendallW(X):
 ############ Concordance Correlation Coefficient (CCC) ########################
 def IPN_ssd(X):
     """
-    X is a 1D array, 1xR
+    X is a 1D array
     """
     R = len(X)
     ssd = 0
@@ -62,7 +63,11 @@ def IPN_ssd(X):
 
 def IPN_ccc(Y):
     """
-    Y is a 2D array, NxR
+    Y is a 2D array, (N * R data matrix)
+    REFERENCE:
+    Lin, L.I. 1989. A Corcordance Correlation Coefficient to Evaluate
+    Reproducibility. Biometrics 45, 255-268.
+
     """
     Ybar = np.mean(Y, axis=0) 
     S = np.cov(Y, rowvar=False, bias=True)
