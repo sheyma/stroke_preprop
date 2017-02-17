@@ -1,0 +1,36 @@
+executable = /home/raid/bayrak/devel/stroke_preprop/setenv.sh
+universe = vanilla
+request_memory = 3072
+getenv = True
+notification = Error
+requirements = Machine == "kalifornien.cbs.mpg.de"
+arguments = /usr/bin/time -v python /home/raid/bayrak/devel/stroke_preprop/07_funcToMNI_forday01.py sd01_d01
+output = /nobackup/ilz2/bayrak/subjects/sd01_d01_mni.out
+error = /nobackup/ilz2/bayrak/subjects/sd01_d01_mni.out
+log = /nobackup/ilz2/bayrak/subjects/sd01_d01_mni.log
+queue
+
+arguments = /usr/bin/time -v python /home/raid/bayrak/devel/stroke_preprop/07_funcToMNI_forday01.py sd02_d01
+output = /nobackup/ilz2/bayrak/subjects/sd02_d01_mni.out
+error = /nobackup/ilz2/bayrak/subjects/sd02_d01_mni.out
+log = /nobackup/ilz2/bayrak/subjects/sd02_d01_mni.log
+queue
+
+arguments = /usr/bin/time -v python /home/raid/bayrak/devel/stroke_preprop/07_funcToMNI_forday01.py sd04_d01
+output = /nobackup/ilz2/bayrak/subjects/sd04_d01_mni.out
+error = /nobackup/ilz2/bayrak/subjects/sd04_d01_mni.out
+log = /nobackup/ilz2/bayrak/subjects/sd04_d01_mni.log
+queue
+
+arguments = /usr/bin/time -v python /home/raid/bayrak/devel/stroke_preprop/07_funcToMNI_forday01.py sd07_d01
+output = /nobackup/ilz2/bayrak/subjects/sd07_d01_mni.out
+error = /nobackup/ilz2/bayrak/subjects/sd07_d01_mni.out
+log = /nobackup/ilz2/bayrak/subjects/sd07_d01_mni.log
+queue
+
+arguments = /usr/bin/time -v python /home/raid/bayrak/devel/stroke_preprop/07_funcToMNI_forday01.py sd08_d01
+output = /nobackup/ilz2/bayrak/subjects/sd08_d01_mni.out
+error = /nobackup/ilz2/bayrak/subjects/sd08_d01_mni.out
+log = /nobackup/ilz2/bayrak/subjects/sd08_d01_mni.log
+queue
+

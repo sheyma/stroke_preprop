@@ -1,0 +1,23 @@
+executable = /home/raid/bayrak/devel/stroke_preprop/setenv.sh
+universe = vanilla
+request_memory = 92160
+getenv = True
+notification = Error
+arguments = /usr/bin/time -v python /home/raid/bayrak/devel/stroke_preprop/11_corrUpper.py hc10_d00
+output = /nobackup/ilz2/bayrak/subjects/hc10_d00_gm2mni.out
+error = /nobackup/ilz2/bayrak/subjects/hc10_d00_gm2mni.out
+log = /nobackup/ilz2/bayrak/subjects/hc10_d00_gm2mni.log
+queue
+
+arguments = /usr/bin/time -v python /home/raid/bayrak/devel/stroke_preprop/11_corrUpper.py hc16_d00
+output = /nobackup/ilz2/bayrak/subjects/hc16_d00_gm2mni.out
+error = /nobackup/ilz2/bayrak/subjects/hc16_d00_gm2mni.out
+log = /nobackup/ilz2/bayrak/subjects/hc16_d00_gm2mni.log
+queue
+
+arguments = /usr/bin/time -v python /home/raid/bayrak/devel/stroke_preprop/11_corrUpper.py hc33_d00
+output = /nobackup/ilz2/bayrak/subjects/hc33_d00_gm2mni.out
+error = /nobackup/ilz2/bayrak/subjects/hc33_d00_gm2mni.out
+log = /nobackup/ilz2/bayrak/subjects/hc33_d00_gm2mni.log
+queue
+

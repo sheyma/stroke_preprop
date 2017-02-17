@@ -6,9 +6,9 @@ from subprocess import call
 from nipype.interfaces.c3 import C3dAffineTool
 
 # data dir's 
-data_dir   = '/nobackup/ilz2/bayrak/subjects'
+data_dir   = '/data/pt_mar006/subjects'
 
-mni_temp = os.path.join('/nobackup/ilz2/bayrak/subjects_group',
+mni_temp = os.path.join('/data/pt_mar006/subjects_group',
 			            'MNI152_T1_3mm_brain.nii.gz')
 
 # user given subject_id 

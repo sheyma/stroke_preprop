@@ -11,8 +11,8 @@ from hcp_corr import corrcoef_upper, N_original, upper_to_down
 
 # subject_id = 'sd01_d00'
 subject_id = sys.argv[1]
-data_dir   = '/nobackup/ilz2/bayrak/subjects/'
-gm_mask    = '/nobackup/ilz2/bayrak/subjects_group/mni3_rest_gm_mask.nii.gz'
+data_dir   = '/data/pt_mar006/subjects/'
+gm_mask    = '/data/pt_mar006/subjects_group/mni3_rest_gm_mask.nii.gz'
 
 #X = 'd00'
 X          = sys.argv[2]   ######  LESION DAY ######## 
@@ -20,7 +20,7 @@ les_mask   = os.path.join(data_dir, subject_id[0:5]+X, 'lesion',
                           'lesion_mask_mni.nii.gz')
 
 # write subject-id's into a list
-fname = '/nobackup/ilz2/bayrak/documents/cool_sd.txt'
+fname = '/data/pt_mar006/documents/cool_sd.txt'
 with open(fname) as f:
     content = f.readlines()
 sbj_list = [x.strip('\n') for x in content]
@@ -56,7 +56,7 @@ def individual_rest_mask_generation(data_dir, sbj_list):
 #### Step 1 ############################################################
 
 # define working dir
-work_dir = os.path.join('/nobackup/ilz2/bayrak/stroke_intrasubject',
+work_dir = os.path.join('/data/pt_mar006/stroke_intrasubject',
                         subject_id[0:4]) 
 if not os.path.exists(work_dir):
 	os.makedirs(work_dir)

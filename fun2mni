@@ -1,0 +1,101 @@
+executable = /home/raid/bayrak/devel/stroke_preprop/setenv.sh
+universe = vanilla
+request_memory = 3072
+getenv = True
+notification = Error
+arguments = /usr/bin/time -v python /home/raid/bayrak/devel/stroke_preprop/07_funcToMNI.py sd10_d00
+output = /nobackup/ilz2/bayrak/subjects/sd10_d00_mni.out
+error = /nobackup/ilz2/bayrak/subjects/sd10_d00_mni.out
+log = /nobackup/ilz2/bayrak/subjects/sd10_d00_mni.log
+queue
+
+arguments = /usr/bin/time -v python /home/raid/bayrak/devel/stroke_preprop/07_funcToMNI.py sd11_d00
+output = /nobackup/ilz2/bayrak/subjects/sd11_d00_mni.out
+error = /nobackup/ilz2/bayrak/subjects/sd11_d00_mni.out
+log = /nobackup/ilz2/bayrak/subjects/sd11_d00_mni.log
+queue
+
+arguments = /usr/bin/time -v python /home/raid/bayrak/devel/stroke_preprop/07_funcToMNI.py sd24_d00
+output = /nobackup/ilz2/bayrak/subjects/sd24_d00_mni.out
+error = /nobackup/ilz2/bayrak/subjects/sd24_d00_mni.out
+log = /nobackup/ilz2/bayrak/subjects/sd24_d00_mni.log
+queue
+
+arguments = /usr/bin/time -v python /home/raid/bayrak/devel/stroke_preprop/07_funcToMNI.py sd36_d00
+output = /nobackup/ilz2/bayrak/subjects/sd36_d00_mni.out
+error = /nobackup/ilz2/bayrak/subjects/sd36_d00_mni.out
+log = /nobackup/ilz2/bayrak/subjects/sd36_d00_mni.log
+queue
+
+arguments = /usr/bin/time -v python /home/raid/bayrak/devel/stroke_preprop/07_funcToMNI.py sd43_d00
+output = /nobackup/ilz2/bayrak/subjects/sd43_d00_mni.out
+error = /nobackup/ilz2/bayrak/subjects/sd43_d00_mni.out
+log = /nobackup/ilz2/bayrak/subjects/sd43_d00_mni.log
+queue
+
+arguments = /usr/bin/time -v python /home/raid/bayrak/devel/stroke_preprop/07_funcToMNI.py sd44_d00
+output = /nobackup/ilz2/bayrak/subjects/sd44_d00_mni.out
+error = /nobackup/ilz2/bayrak/subjects/sd44_d00_mni.out
+log = /nobackup/ilz2/bayrak/subjects/sd44_d00_mni.log
+queue
+
+arguments = /usr/bin/time -v python /home/raid/bayrak/devel/stroke_preprop/07_funcToMNI.py sd48_d00
+output = /nobackup/ilz2/bayrak/subjects/sd48_d00_mni.out
+error = /nobackup/ilz2/bayrak/subjects/sd48_d00_mni.out
+log = /nobackup/ilz2/bayrak/subjects/sd48_d00_mni.log
+queue
+
+arguments = /usr/bin/time -v python /home/raid/bayrak/devel/stroke_preprop/07_funcToMNI.py sd49_d00
+output = /nobackup/ilz2/bayrak/subjects/sd49_d00_mni.out
+error = /nobackup/ilz2/bayrak/subjects/sd49_d00_mni.out
+log = /nobackup/ilz2/bayrak/subjects/sd49_d00_mni.log
+queue
+
+arguments = /usr/bin/time -v python /home/raid/bayrak/devel/stroke_preprop/07_funcToMNI.py sd10_d05
+output = /nobackup/ilz2/bayrak/subjects/sd10_d05_mni.out
+error = /nobackup/ilz2/bayrak/subjects/sd10_d05_mni.out
+log = /nobackup/ilz2/bayrak/subjects/sd10_d05_mni.log
+queue
+
+arguments = /usr/bin/time -v python /home/raid/bayrak/devel/stroke_preprop/07_funcToMNI.py sd11_d05
+output = /nobackup/ilz2/bayrak/subjects/sd11_d05_mni.out
+error = /nobackup/ilz2/bayrak/subjects/sd11_d05_mni.out
+log = /nobackup/ilz2/bayrak/subjects/sd11_d05_mni.log
+queue
+
+arguments = /usr/bin/time -v python /home/raid/bayrak/devel/stroke_preprop/07_funcToMNI.py sd24_d05
+output = /nobackup/ilz2/bayrak/subjects/sd24_d05_mni.out
+error = /nobackup/ilz2/bayrak/subjects/sd24_d05_mni.out
+log = /nobackup/ilz2/bayrak/subjects/sd24_d05_mni.log
+queue
+
+arguments = /usr/bin/time -v python /home/raid/bayrak/devel/stroke_preprop/07_funcToMNI.py sd36_d05
+output = /nobackup/ilz2/bayrak/subjects/sd36_d05_mni.out
+error = /nobackup/ilz2/bayrak/subjects/sd36_d05_mni.out
+log = /nobackup/ilz2/bayrak/subjects/sd36_d05_mni.log
+queue
+
+arguments = /usr/bin/time -v python /home/raid/bayrak/devel/stroke_preprop/07_funcToMNI.py sd43_d05
+output = /nobackup/ilz2/bayrak/subjects/sd43_d05_mni.out
+error = /nobackup/ilz2/bayrak/subjects/sd43_d05_mni.out
+log = /nobackup/ilz2/bayrak/subjects/sd43_d05_mni.log
+queue
+
+arguments = /usr/bin/time -v python /home/raid/bayrak/devel/stroke_preprop/07_funcToMNI.py sd44_d05
+output = /nobackup/ilz2/bayrak/subjects/sd44_d05_mni.out
+error = /nobackup/ilz2/bayrak/subjects/sd44_d05_mni.out
+log = /nobackup/ilz2/bayrak/subjects/sd44_d05_mni.log
+queue
+
+arguments = /usr/bin/time -v python /home/raid/bayrak/devel/stroke_preprop/07_funcToMNI.py sd48_d04
+output = /nobackup/ilz2/bayrak/subjects/sd48_d04_mni.out
+error = /nobackup/ilz2/bayrak/subjects/sd48_d04_mni.out
+log = /nobackup/ilz2/bayrak/subjects/sd48_d04_mni.log
+queue
+
+arguments = /usr/bin/time -v python /home/raid/bayrak/devel/stroke_preprop/07_funcToMNI.py sd49_d05
+output = /nobackup/ilz2/bayrak/subjects/sd49_d05_mni.out
+error = /nobackup/ilz2/bayrak/subjects/sd49_d05_mni.out
+log = /nobackup/ilz2/bayrak/subjects/sd49_d05_mni.log
+queue
+

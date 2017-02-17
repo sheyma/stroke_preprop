@@ -1,4 +1,5 @@
 import os, sys
+# abcd
 from nilearn import masking
 import numpy as np
 #import matplotlib as mpl
@@ -9,32 +10,28 @@ from nipype.interfaces.fsl import MultiImageMaths
 import h5py
 import pickle
 
-subject_id = 'sd27_d00'
-comp_file = '/nobackup/ilz2/bayrak/subjects_group/mni3_component_1.nii.gz'
+#subject_id = 'sd27_d00'
+#comp_file  = '/data/pt_mar006/subjects_group/mni3_component_1.nii.gz'
 
-#subject_id = sys.argv[1]
-#comp_file  = sys.argv[2]
-data_dir   = '/nobackup/ilz2/bayrak/subjects/'
-data_out   = '/nobackup/ilz2/bayrak/stroke_intrasubject/'
+subject_id = sys.argv[1]
+comp_file  = sys.argv[2]
 
-new_dir = os.path.splitext(os.path.splitext(os.path.basename(comp_file))[0])[0]
-work_dir   = os.path.join(data_out, subject_id[0:4], new_dir)
-if not os.path.exists(work_dir):
-	os.makedirs(work_dir)
-# go into working dir
-os.chdir(work_dir)
+data_dir   = '/data/pt_mar006/stroke_intrasubject/'
 
-#les_file = os.path.join(data_dir, subject_id, 'lesion/lesion_mask_mni.nii.gz')
+new_name = os.path.splitext(os.path.splitext(os.path.basename(comp_file))[0])[0]
+os.chdir(os.path.join(data_dir, subject_id[0:4]))
 
-gm_mask  = '/nobackup/ilz2/bayrak/subjects_group/mni3_rest_gm_mask.nii.gz'
+les_file = os.path.join(data_dir, subject_id, 'lesion/lesion_mask_mni.nii.gz')
 
-lesOnGMmask = os.path.join(data_out, subject_id[0:4], 'subject_mask_03.nii.gz')
+lesOnGMmask = os.path.join(data_dir, subject_id[0:4], 'subject_mask_03.nii.gz')
 
-ken_file = os.path.join(data_out, subject_id[0:4], 'Kendall_W.nii.gz')
+ken_file = os.path.join(data_dir, subject_id[0:4], 'Kendall_W.nii.gz')
 
-ccc_file = os.path.join(data_out, subject_id[0:4], 'ConCor.nii.gz')
+ccc_file = os.path.join(data_dir, subject_id[0:4], 'ConCor.nii.gz')
 
-sbj_mask = os.path.join(data_out, subject_id[0:4], 'subject_mask_final.nii.gz')
+sbj_mask = os.path.join(data_dir, subject_id[0:4], 'subject_mask_final.nii.gz')
+
+gm_mask  = '/data/pt_mar006/subjects_group/mni3_rest_gm_mask.nii.gz'
 
 print comp_file
 print gm_mask
@@ -65,9 +62,9 @@ comp_hc  = masking.apply_mask(comp_file, sbj_mask)
 comp_min = comp_hc.min()
 comp_max = comp_hc.max() 
 
-COMP        = np.array(nb.load(comp_file).get_data())
-KENDAL      = np.array(nb.load(ken_file).get_data())
-CCC         = np.array(nb.load(ccc_file).get_data())
+COMP     = np.array(nb.load(comp_file).get_data())
+KENDAL   = np.array(nb.load(ken_file).get_data())
+CCC      = np.array(nb.load(ccc_file).get_data())
 
 ##for tot_box_num in range(50,1000,50):
 for tot_box_num in range(100, 101):
@@ -77,18 +74,6 @@ for tot_box_num in range(100, 101):
     bins = np.linspace(comp_min, comp_max, tot_box_num + 1)
       
     #print "shape of component: ", COMP[x, y, z].shape
-
-    # component's hist distribution into the bins
-    #fig = plt.figure(figsize=(15,7.5))
-    fig = plt.figure(figsize=(14,10))
-
-    #plt.title("bins = %s " % tot_box_num)
-    
-    # without pdf
-    #plt.hist(COMP[x, y, z], bins, color='blue', label='comp - HC')    
-    # with pdf    
-    #plt.hist(COMP[x, y, z], bins, normed=True, color='blue', label='comp - HC')
-    #plt.show()
 
     # for each comp element, find which bin it falls into 
     inds = np.digitize(COMP[x, y, z], bins)
@@ -137,130 +122,39 @@ for tot_box_num in range(100, 101):
         prop = cnt_les[box_num -1 ] / float(cnt_comp[box_num - 1]) * 100
         box_proportion[box_num] = prop
 
-
     begin = bins[0] + (bins[1]-bins[0]) / 2.0
     end   = bins[-1] - (bins[1]-bins[0]) / 2.0
     new_bins = np.linspace(begin, end, len(bins)-1 )
 
-    ## without pdf
-    #plt.hist(COMP[x, y, z], bins, color='blue', label='comp - HC')    
-    # with pdf    
-    plt.hist(COMP[x, y, z], bins, normed=True, color='orange', label='1st component')
-    
-    #ccc_all = CCC[x,y,z]
-    #print ccc_all
-    #ax = fig.add_subplot(111)
-    #ax.plot(range(0, len(ccc_all)), ccc_all, 'o', color='green')
-    #plt.ylabel('CCC', fontsize=40)
-    #plt.xlabel('voxel index', fontsize=40)
-    ##plt.axis([0, len(ccc_all), -1, 1  ])
-    #plt.tick_params(axis='both', which='major', labelsize=30)
-    #from matplotlib.ticker import ScalarFormatter
-    #fmt = ScalarFormatter()
-    #fmt.set_powerlimits((-3, 3))
-    #ax.xaxis.set_major_formatter(fmt)
 
+##### plotting
 
-    #plt.hist(A, bins, normed=True, color='red', label='lesion - SD')
-    #plt.plot(new_bins, box_proportion.values(), 'r', linewidth=5, 
-    #         color='red', label='lesion %')
-
-    plt.plot(new_bins, box_ccc.values(), 'go', markersize=15,  
-             label='CCC')
-
-    plt.legend(frameon=False)
-    plt.title('%s' % subject_id[0:4] )
-    plt.ylabel('number of voxels', fontsize=40)
-    plt.xlabel('component spectrum', fontsize=40)
-    plt.axis([comp_min, comp_max, 0, 0.7])
-    plt.tick_params(axis='both', which='major', labelsize=30)
-    #plt.show()
-
-
-
-    ## save dictionaries
-    #file_prop = "prop_%s.pickle" % (tot_box_num)
-    #file_kenw = "kenw_%s.pickle" % (tot_box_num)
-    #file_ccc = "ccc_%s.pickle" % (tot_box_num)
-
-
-    #with open(file_prop, 'wb') as handle:
-    #    pickle.dump(box_proportion, handle, protocol=pickle.HIGHEST_PROTOCOL)
-
-    #with open(file_kenw, 'wb') as handle:
-    #    pickle.dump(box_kendal, handle, protocol=pickle.HIGHEST_PROTOCOL)
-
-    #with open(file_ccc, 'wb') as handle:
-    #    pickle.dump(box_ccc, handle, protocol=pickle.HIGHEST_PROTOCOL)
-
-    
-    # plotting
-    #begin = bins[0] + (bins[1]-bins[0]) / 2.0
-    #end   = bins[-1] - (bins[1]-bins[0]) / 2.0
-    #new_bins = np.linspace(begin, end, len(bins)-1 )
-
-    #plt.figure(figsize=(25, 15))
-    #plt.title("bins = %s " % tot_box_num)
-    #plt.hist(COMP[x, y, z], bins, color='blue', label='comp - HC')
-    #plt.hist(A, bins, color='red', label='lesion - SD')
-    #plt.plot(new_bins, box_proportion.values(), 'o', linewidth=5, 
-    #         color='green', label='prop')
-    #plt.plot(new_bins, box_kendal.values(), 'o', color='red', 
-    #        linewidth = 4, label='KendallsW')
-    #plt.plot(new_bins, box_ccc.values(), 'o', color='violet', 
-    #        linewidth = 4, label='CCC')
-    #plt.legend()
-    #plt.axis([comp_min, comp_max, 0.2, 0.9])
-    #plt.savefig("fig01_%s.png" % tot_box_num)
-    #plt.close('all')
-    #plt.show()
-
-    #plt.figure(figsize=(25, 15))
-    #plt.title("bins = %s " % tot_box_num)
-    #plt.hist(A, bins, color='red', label='lesion - SD')
-    #plt.plot(new_bins, box_proportion.values(), 'o', linewidth=5, 
-    #         color='green', label='prop')
-    #plt.plot(new_bins, box_kendal.values(), 'o', color='black', 
-    #        linewidth = 4, label='KendallsW')
-    #plt.plot(new_bins, box_ccc.values(), 'o', color='violet', 
-    #        linewidth = 4, label='CCC')
-    #plt.legend()
-    #plt.axis([comp_min, comp_max, 0, 15  ])
-    #plt.savefig("fig02_%s.png" % tot_box_num)
-    #plt.close('all')
-
-
-#with open("ccc_%s.pickle" % tot_box_num, 'rb') as handle:
-#    b = pickle.load(handle)
-
-
-import numpy as np
-import matplotlib.pyplot as plt
-
-#fig = plt.figure(figsize=(14,10))
-#fig, ax1 = plt.subplots(figsize=(15, 11))
-fig, ax1 = plt.subplots(figsize=(15, 7.5))
+fig, ax1 = plt.subplots(figsize=(17, 11))
 
 ax1.hist(COMP[x, y, z], bins, normed=True, color='orange')
-ax1.set_xlabel('time (s)')
-# Make the y-axis label and tick labels match the line color.
-ax1.set_title('subject 27', fontsize=40)
+
+ax1.plot(new_bins, box_proportion.values(), 'r', linewidth=5, 
+             color='red', label='lesion %')
+
+# make the y-axis label and tick labels match the line color
+ax2 = ax1.twinx()
+
+ax2.plot(new_bins, box_kendal.values(), 'go', markersize=15,  
+             label='CCC')
+
+ax2.set_ylabel('CCC', color='g', fontsize=40)
+for tl in ax2.get_yticklabels():
+    tl.set_color('g')
+
+ax1.set_title(subject_id[0:4], fontsize=40)
 ax1.set_ylabel('number of voxels', fontsize=40)
 ax1.set_xlabel('component spectrum', fontsize=40)
 for tl in ax1.get_yticklabels():
     tl.set_color('k')
-#plt.plot(new_bins, box_proportion.values(), 'r', linewidth=5, 
-#            color='red', label='lesion %')
+
 plt.legend(frameon=False)
-
-ax2 = ax1.twinx()
-
-ax2.plot(new_bins, box_ccc.values(), 'go', markersize=15,  
-             label='CCC')
-ax2.set_ylabel('CCC', color='g', fontsize=40)
-for tl in ax2.get_yticklabels():
-    tl.set_color('g')
-#plt.legend()
+#plt.savefig("/data/pt_mar006/figures/fig_%s_%s.png" % 
+#            (new_name, subject_id[0:4]))
 plt.show()
 
 
