@@ -1,5 +1,12 @@
 """
-convert dicoms to nifti for stroke patients data
+convert dicoms to nifti for stroke patients data,
+export slice time sequence for resting scans as *txt file
+
+usage:
+    subject_id = sd51_d00
+    data_dir   = /data/pt_mar006/subjects/
+    
+    $ python 01_dicomToNifti.py sd51_d00 /data/pt_mar006/subjects/
 """
 import os, sys, glob
 from subprocess import call
@@ -7,10 +14,8 @@ from dcmstack.extract import default_extractor
 from dicom import read_file
 from nipype.utils.filemanip import filename_to_list
 
-
 subject_id = sys.argv[1]
-
-data_dir = '/nobackup/ilz2/bayrak/subjects/'
+data_dir   = sys.argv[2]
 
 scan_path = os.path.join(data_dir, subject_id, 'dicom')
 
@@ -42,8 +47,6 @@ for scan in scans:
 	if not os.path.exists(nifti_dir):
 		os.makedirs(nifti_dir)
 	os.chdir(nifti_dir)
-
-	#output_name = 'unknown'
 	
 	if scan[0:4] == 'rest':
 		output_name = 'rest'
