@@ -95,7 +95,10 @@ btr.run()
 
 # Step#5 tsnr calculation on realigned image
 tsnr = misc.TSNR()
-tsnr.inputs.in_file = 'corr_rest_roi.nii.gz'
+tsnr.inputs.in_file     = 'corr_rest_roi.nii.gz'
+tsnr.inputs.mean_file   = 'corr_rest_roi_tsnr_mean.nii.gz'
+tsnr.inputs.tsnr_file   = 'corr_rest_roi_tsnr.nii.gz'
+tsnr.inputs.stddev_file = 'corr_rest_roi_tsnr_stddev.nii.gz'
 tsnr.run()
 
 # (optional) registration from restYY -->> restXX
