@@ -1,3 +1,18 @@
+"""
+    minimal preprocessing on resting state nifti file
+    # dropping first volumes
+    # simultaneous slice-time & motion correction
+    # T-mean of resting state
+    # binary mask & skull stripped resting image
+    # TSNR calculation
+    ### (optional) registration between rest images
+
+subject_id = 'sd51_d00'
+data_dir   = '/data/pt_mar006/subjects'
+dayXX      = 'd01'
+Usage:
+    $ python 03_funcProcess.py <data_dir>  <subject_id> [dayXX]
+"""
 import os, sys
 import nipype.interfaces.nipy as nipy
 import nipype.interfaces.fsl as fsl
@@ -5,10 +20,8 @@ from nipype.interfaces.fsl.maths import MeanImage
 import nipype.algorithms.misc as misc
 from nipype.interfaces.c3 import C3dAffineTool
 
-# data dir's 
-data_dir  = '/nobackup/ilz2/bayrak/subjects/'
-
-subject_id = sys.argv[1]
+data_dir   = sys.argv[1]
+subject_id = sys.argv[2]
 
 # define working dir
 work_dir = os.path.join(data_dir, subject_id, 
@@ -72,7 +85,7 @@ fslmaths.inputs.out_file  = 'mean_corr_rest_roi.nii.gz'
 fslmaths.inputs.dimension = 'T'
 fslmaths.run()
 
-## Step#4 get binary mask & skull stripped imag
+# Step#4 get binary mask & skull stripped imag
 img_StMoco = os.path.abspath('corr_rest_roi.nii.gz')
 
 btr 		     = fsl.BET()
@@ -85,44 +98,49 @@ tsnr = misc.TSNR()
 tsnr.inputs.in_file = 'corr_rest_roi.nii.gz'
 tsnr.run()
 
-if subject_id[5:8] != 'd00':
+# (optional) registration from restYY -->> restXX
+if len(sys.argv) > 3:
+    # e.g. dayXX = 'd01'
+    dayXX = sys.argv[3]    
 
-	###### rsdXX -->> rsdYY ##############################
-	
-	work_dir_trf = os.path.join(data_dir, subject_id,  
-				    'preprocessed/func/transforms2rest00')
-	if not os.path.exists(work_dir_trf):
-		os.makedirs(work_dir_trf)
-	os.chdir(work_dir_trf)
+    # create work_dir for transform matrices
+    dir_trf      = 'transforms2rest' + dayXX[1:]
+    work_dir_trf = os.path.join(data_dir, subject_id,  
+                                'preprocessed/func', dir_trf) 
+    if not os.path.exists(work_dir_trf):
+            os.makedirs(work_dir_trf)
+    os.chdir(work_dir_trf)
+    
+    # get subject_id, which is the reference for the registration
+    subject_dayXX = subject_id[0:5] + dayXX
+    
+    # do registration
+    flt = fsl.FLIRT()
+    flt.inputs.in_file         = os.path.join(data_dir, subject_id,
+                                        'preprocessed/func/realign',
+                                        'mean_corr_rest_roi.nii.gz')
+    flt.inputs.reference       = os.path.join(data_dir, subject_dayXX,
+                                        'preprocessed/func/realign',
+                                        'mean_corr_rest_roi.nii.gz')
+    flt.inputs.dof 	       = 6
+    flt.inputs.cost            = 'mutualinfo'
+    flt.inputs.out_matrix_file = 'transform_day' + dayXX[1:] + '.mat'
+    flt.inputs.out_file        = 'mean_corr_rest_roi_2day' + dayXX[1:] + '.nii.gz'
+    flt.inputs.output_type     = "NIFTI_GZ"
+    print flt.cmdline 
+    flt.run()
+    
+    # convert fsl flirt out into itk format for ants later
+    c3 = C3dAffineTool()
+    c3.inputs.transform_file  = 'transform_day' + dayXX[1:] + '.mat'
+    c3.inputs.itk_transform   = 'transform_day' + dayXX[1:] + '_itk.mat'
+    c3.inputs.reference_file  =  os.path.join(data_dir, subject_dayXX,
+                                        'preprocessed/func/realign',
+                                        'mean_corr_rest_roi.nii.gz')
+    c3.inputs.source_file     = os.path.join(data_dir, subject_id,
+                                        'preprocessed/func/realign',
+                                        'mean_corr_rest_roi.nii.gz')
 
-	subject_dayX = subject_id[0:5] + 'd00'
-
-	flt = fsl.FLIRT()
-	flt.inputs.in_file   = os.path.join(data_dir, subject_id,
-					 'preprocessed/func/realign',
-					 'mean_corr_rest_roi.nii.gz')
-	flt.inputs.reference = os.path.join(data_dir, subject_dayX,
-					 'preprocessed/func/realign',
-					 'mean_corr_rest_roi.nii.gz')
-	flt.inputs.dof 	     = 6
-	flt.inputs.cost      = 'mutualinfo'
-	flt.inputs.out_matrix_file = 'transform_day00.mat'
-	flt.inputs.out_file        = 'mean_corr_rest_roi_2day00.nii.gz'
-	flt.inputs.output_type     = "NIFTI_GZ"
-	print flt.cmdline 
-	flt.run()
-
-	## convert fsl flirt out into itk format for ants later
-	c3 = C3dAffineTool()
-	c3.inputs.transform_file  = 'transform_day00.mat'
-	c3.inputs.itk_transform   = 'transform_day00_itk.mat'
-	c3.inputs.reference_file  =  os.path.join(data_dir, subject_dayX,
-					 'preprocessed/func/realign',
-					 'mean_corr_rest_roi.nii.gz')
-	c3.inputs.source_file     = os.path.join(data_dir, subject_id,
-					 'preprocessed/func/realign',
-					 'mean_corr_rest_roi.nii.gz')
-
-	c3.inputs.fsl2ras         = True
-	c3.run()
-
+    c3.inputs.fsl2ras         = True
+    c3.run()
+    
