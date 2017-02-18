@@ -6,7 +6,7 @@ usage:
     subject_id = sd51_d00
     data_dir   = /data/pt_mar006/subjects/
     
-    $ python 01_dicomToNifti.py sd51_d00 /data/pt_mar006/subjects/
+    $ python 01_dicomToNifti.py <subject_id> <data_dir>
 """
 import os, sys, glob
 from subprocess import call
