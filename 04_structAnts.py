@@ -1,8 +1,13 @@
 """
-generates anatomical anatomical masks &
-non-linear registration from T1 to MNI
-How to run:
-$ python 04_structAnts.py hc01_d00
+    # converts freesurfer *mgz outputs into *nifti
+    # generates anatomical brain mask
+    # ants nonlinear registration from T1 to MNI
+    
+mni_temp   = '/data/pt_mar006/subjects_group/MNI152_T1_1mm_brain.nii.gz'   
+data_dir   = '/data/pt_mar006/subjects'     
+subject_id = 'sd51_d00'
+Usage:
+    $ python 04_structAnts.py <mni_temp> <data_dir>  <subject_id> 
 """
 import os, sys
 import nipype.interfaces.ants as ants
@@ -11,15 +16,9 @@ import nipype.interfaces.fsl as fsl
 from subprocess import call
 from nipype.interfaces.c3 import C3dAffineTool
 
-# data dir's 
-data_dir   = '/nobackup/ilz2/bayrak/subjects'
-
-# user given subject_id 
-subject_id = sys.argv[1]
-
-# MNI template (no skull)
-mni_temp = os.path.join('/usr/share/fsl/5.0/data/standard', 
-			'MNI152_T1_1mm_brain.nii.gz')
+mni_temp   = sys.argv[1]
+data_dir   = sys.argv[2]
+subject_id = sys.argv[3]
 
 # define working dir
 work_dir = os.path.join(data_dir, subject_id,  
@@ -29,23 +28,19 @@ if not os.path.exists(work_dir):
 	
 # go into work dir
 os.chdir(work_dir)
-print "YESSSS"
-#### Step1 # get the freesurfer output and convert it
 
-# get skull stripped (recon_all) structural image
+#### Step1 # convert (skull-stripped brain) *mgz to nifti 
 img_struc = os.path.join(data_dir, subject_id,  
 			 'freesurfer/mri', 'brain.mgz') 
 
-# convert *mgz into *nii.gz
 mricon = fs.MRIConvert(in_file = img_struc,
 		       out_file = 'brain.nii.gz',
 		       out_type = 'niigz').run()
 
 brain_nifti = os.path.abspath('brain.nii.gz')
 
-#### Step2 # generate masks...##################
-
-# create  brain mask 
+#### Step2 # generate anatomical masks as nifti
+# get the skull-stripped brain mask
 get_mask = fs.Binarize()
 get_mask.inputs.in_file     = 'brain.nii.gz'
 get_mask.inputs.min         = 0.5
@@ -78,10 +73,7 @@ edge.inputs.args      = '-edge -bin'
 edge.inputs.out_file  = 'brain_wmedge.nii.gz'
 edge.run()
 
-#### Step3 ##################################################################### 
-
-
-####### run ants ################################
+#### Step3 # ANTS nonlinear registration from T1 to MNI
 # define ants output 
 img_ants = os.path.abspath('brain_mni.nii.gz')
 
@@ -118,7 +110,4 @@ ants_anat2mni = ants.Registration(dimension=3,
 ants_anat2mni.inputs.fixed_image 	 = mni_temp
 ants_anat2mni.inputs.moving_image 	 = brain_nifti
 ants_anat2mni.inputs.output_warped_image = img_ants
-#ants_anat2mni.run()
-
-
-
+ants_anat2mni.run()
