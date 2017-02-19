@@ -10,17 +10,20 @@ def tiedrank(X):
     # X is 1D numpy-array
     n = X.shape[0]
 
-    # get sorted index-array and inverse index-array
+    # get sorted index-array
     isort = X.argsort()
-    Risort = isort.argsort()
 
-    # this is already almost a good ranking, except we still have to average over duplicates
-    Rx = Risort + 1.0
+    # some tricks for speed: getting the inverse permutaton of isort and
+    # increment by 1.0. This is already almost a good ranking, except we still
+    # have to average over duplicates
+    Rx = np.empty(n, dtype=np.float)
+    Rx[isort] = np.arange(1, n+1)
 
-    # all the code below is only needed to handle duplicate values ...
+    # all the slow code below is only needed to handle duplicate values like
+    # Matlab's tiedrank() does ...
+
     Z = X[isort]
     I = np.arange(0, n)[isort]
-
     i = 0
     while i < n:
         z = Z[i]
