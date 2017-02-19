@@ -1,3 +1,10 @@
+"""
+#mni_temp   = '/data/pt_mar006/subjects_group/MNI152_T1_3mm_brain.nii.gz'
+#data_dir   = '/data/pt_mar006/subjects/'
+#out_dir    = '/data/pt_mar006/stroke_intrasubject'
+#subject_id = 'sd01_d00'
+
+"""
 import os, sys, glob
 from nilearn import masking
 import numpy as np
@@ -10,6 +17,17 @@ from nipype.interfaces import afni
 from hcp_corr import corrcoef_upper, N_original, upper_to_down
 import nibabel as nb
 from concordance import IPN_kendallW, IPN_ccc, IPN_icc
+
+mni_temp   = sys.argv[1]
+data_dir   = sys.argv[2]
+out_dir    = sys.argv[3]
+subject_id = sys.argv[4]
+
+work_dir   = os.path.join(out_dir, subject_id[0:4])
+os.chdir(work_dir)
+
+image_mask = os.path.abspath('subject_mask_final.nii.gz')
+print "get mask...", image_mask
 
 def mask_check(rest, mask):
 	"""
@@ -24,19 +42,7 @@ def mask_check(rest, mask):
 			cnt_zeros += 1
 	return cnt_zeros, matrix
 
-#subject_id = 'sd01_d00'
-subject_id = sys.argv[1]
-
-data_dir   = '/data/pt_mar006/subjects/'
-work_dir   = os.path.join('/data/pt_mar006/stroke_intrasubject',
-                          subject_id[0:4])
-os.chdir(work_dir)
-
-image_mask = os.path.abspath('subject_mask_final.nii.gz')
-print "get mask...", image_mask
-
-##### Step 1, get all connectivity matrices of given subject #############
-
+#### Step 1, get all connectivity matrices of given subject #############
 corr_All = []
 
 for image_rest in glob.glob(data_dir + subject_id[0:5] + '*' +
@@ -56,23 +62,27 @@ print 'input data size...', corr_All.shape
 
 ##### Step 2, get concordance value per voxel ############################
 
-W_voxels = [] 
-p_voxels = []
+W_voxels     = [] 
+p_voxels     = []
 Fdist_voxels = []
 
-ccc_voxels = []
+ccc_voxels   = []
 
-ICC_voxels = []
+ICC_voxels   = []
 
-for i in range(0, corr_All.shape[0]):
+#print "reading..."
+#corr_All = np.array(h5py.File('/data/pt_mar006/tmp.h5', 'r')['corr_All'])
+#print "shape ... ", np.shape(corr_All)
+
+for i in xrange(corr_All.shape[0]):
     
-    # Kendall's W    
+    ## Kendall's W    
     W, p, Fdist = IPN_kendallW(corr_All[:,i,:]) 
     W_voxels.append(W)
     p_voxels.append(p)
     Fdist_voxels.append(Fdist)
 
-    # Concordance Correlation Coefficient
+    ## Concordance Correlation Coefficient
     ccc = IPN_ccc(corr_All[:,i,:]) 
     ccc_voxels.append(ccc)
 
@@ -81,20 +91,39 @@ for i in range(0, corr_All.shape[0]):
     ICC = IPN_icc(corr_All[:,i,:], cse=3, typ='k')
     ICC_voxels.append(ICC)
 
-    #print i, W, ccc, ICC
+    print i
 
-np.savetxt('/data/pt_mar006/RkenW_tied_python.txt', W_voxels)
+#np.savetxt('/data/pt_mar006/RkenW_tied_python.txt', W_voxels)
 
-np.savetxt('/data/pt_mar006/Rccc_python.txt', ccc_voxels)
+#np.savetxt('/data/pt_mar006/Rccc_python.txt', ccc_voxels)
 
-np.savetxt('/data/pt_mar006/Ricc_python.txt', ICC_voxels)
-
-
+#np.savetxt('/data/pt_mar006/Ricc_python.txt', ICC_voxels)
 
 
+#### Step 3, save Kensall's W as nifti file ############################
 
+mask_array = nb.load(image_mask).get_data()
+voxel_x    = np.where(mask_array==1)[0]
+voxel_y    = np.where(mask_array==1)[1]
+voxel_z    = np.where(mask_array==1)[2]
 
+mni_affine = nb.load(mni_temp).get_affine()
 
+data_temp_W = np.zeros(nb.load(mni_temp).get_data().shape)
+data_temp_W[voxel_x, voxel_y, voxel_z] = W_voxels
+name_temp_W = os.path.join(work_dir, 'conc_kendall_w.nii.gz')
+img_temp_W  = nb.Nifti1Image(data_temp_W, mni_affine)
+nb.save(img_temp_W, name_temp_W)
 
+data_temp_ccc  = np.zeros(nb.load(mni_temp).get_data().shape)
+data_temp_ccc[voxel_x, voxel_y, voxel_z] = ccc_voxels
+name_temp_ccc = os.path.join(work_dir, 'conc_ccc.nii.gz')
+img_temp_ccc  = nb.Nifti1Image(data_temp_ccc, mni_affine)
+nb.save(img_temp_ccc, name_temp_ccc)
 
+data_temp_ICC  = np.zeros(nb.load(mni_temp).get_data().shape)
+data_temp_ICC[voxel_x, voxel_y, voxel_z] = ICC_voxels
+name_temp_ICC = os.path.join(work_dir, 'conc_intercc.nii.gz')
+img_temp_ICC  = nb.Nifti1Image(data_temp_ICC, mni_affine)
+nb.save(img_temp_ICC, name_temp_ICC)
 
