@@ -19,20 +19,21 @@ def tiedrank(X):
     Rx = np.empty(n, dtype=np.float)
     Rx[isort] = np.arange(1, n+1)
 
-    # all the slow code below is only needed to handle duplicate values like
+    # all the code below is only needed to handle duplicate values like
     # Matlab's tiedrank() does ...
 
     Z = X[isort]
-    I = np.arange(0, n)[isort]
-    i = 0
-    while i < n:
-        z = Z[i]
-        i += 1
-        start = i
-        while i < n and Z[i] == z:
-            i += 1
-        if start != i:
-            Rx[I[start-1:i]] = float(start+i)/2.0
+    vals, idx_start, count = np.unique(Z, return_counts=True,
+                                       return_index=True)
+    w = np.where(count > 1)
+
+    idx_start = idx_start[w]
+    count = count[w]
+
+    for i in xrange(len(count)):
+        ii = idx_start[i]
+        cc = count[i]
+        Rx[isort[ii:ii+cc]] = 0.5 + float(ii) + float(cc)/2.0
 
     return Rx
 
