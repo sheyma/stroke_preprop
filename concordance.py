@@ -6,20 +6,30 @@ from scipy.stats import f
 import math
 
 ############ Kendall's W #####################################################
-def tiedrank(X):  
+def tiedrank(X):
     # X is 1D numpy-array
-    Z = [(x, i) for i, x in enumerate(X)]  
-    Z.sort()  
-    n = len(Z)  
-    Rx = [0]*n   
-    start = 0 # starting mark  
-    for i in range(1, n):  
-        if Z[i][0] != Z[i-1][0]:
-            for j in range(start, i):  
-                Rx[Z[j][1]] = float(start+1+i)/2.0;
-            start = i
-    for j in range(start, n):  
-        Rx[Z[j][1]] = float(start+1+n)/2.0;
+    n = X.shape[0]
+
+    # get sorted index-array and inverse index-array
+    isort = X.argsort()
+    Risort = isort.argsort()
+
+    # this is already almost a good ranking, except we still have to average over duplicates
+    Rx = Risort + 1.0
+
+    # all the code below is only needed to handle duplicate values ...
+    Z = X[isort]
+    I = np.arange(0, n)[isort]
+
+    i = 0
+    while i < n:
+        z = Z[i]
+        i += 1
+        start = i
+        while i < n and Z[i] == z:
+            i += 1
+        if start != i:
+            Rx[I[start-1:i]] = float(start+i)/2.0
 
     return Rx
 
