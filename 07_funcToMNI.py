@@ -1,77 +1,74 @@
+"""
+    # coregistration from functional space to mni template
+    # without the optional arg: rest -> T1 -> mni
+    # with the optional arg: rest -> rest(dayXX) -> T1 -> mni
+
+mni_temp   = '/data/pt_mar006/subjects_group/MNI152_T1_3mm_brain.nii.gz'    
+data_dir   = '/data/pt_mar006/subjects'
+subject_id = 'sd51_d00'
+dayXX      = 'd01'
+Usage:
+    $ python 07_funcToMNI.py <min_temp> <data_dir> <subject_id> [dayXX]
+"""
 import os, sys
 import nipype.interfaces.ants as ants
 
-# data dir's 
-data_dir = '/nobackup/ilz2/bayrak/subjects'
-mni_dir  = '/nobackup/ilz2/bayrak/subjects_group'
-# subject id
-subject_id = sys.argv[1]
+mni_temp   = sys.argv[1]
+data_dir   = sys.argv[2]
+subject_id = sys.argv[3]
 
 # define working dir
 work_dir = os.path.join(data_dir, subject_id, 'preprocessed/func') 
-if not os.path.exists(work_dir):
-	os.makedirs(work_dir)
-# go into working dir
 os.chdir(work_dir)
 
-
-# get preprocessed functional data to be registered
+# get preprocessed functional data in native space
 img_rest = os.path.join(data_dir, subject_id,
-			'preprocessed/func/', 'rest_preprocessed.nii.gz')
+			'preprocessed/func/rest_preprocessed.nii.gz')
 
-if subject_id[5:8] == 'd01':
+# initialize ants parameters
+at			   = ants.ApplyTransforms()
+at.inputs.input_image_type = 3
+at.inputs.input_image      = img_rest
+at.inputs.reference_image  = mni_temp
+at.inputs.output_image     = os.path.abspath('rest_preprocessed2mni.nii.gz')
 
-	# ants transform matrices (T1d00 -->> mni3mm)
-	ants_dir = os.path.join(data_dir, subject_id,  
-				'preprocessed/anat/transforms2mni')
-
-	# bbregister transform matrices (restd00 -->> T1d00)
-	bbre_dir = os.path.join(data_dir, subject_id,
-				'preprocessed/func/coregister/transforms2anat')
-
-
-	# coregistering img_rest to the mni 3mm space
-	at			   = ants.ApplyTransforms()
-	at.inputs.input_image_type = 3
-	at.inputs.input_image      = img_rest
-	at.inputs.transforms	   = [os.path.join(ants_dir, 						   						   'transform1Warp.nii.gz'),
-		      		      os.path.join(ants_dir, 						   						   'transform0GenericAffine.mat'),
-		 		      os.path.join(bbre_dir, 						   						   'rest2anat_itk.mat')]
-	at.inputs.reference_image  = os.path.join(mni_dir, 
-						  'MNI152_T1_3mm_brain.nii.gz')
-	at.inputs.interpolation    = 'NearestNeighbor'
-	at.inputs.invert_transform_flags = [False, False, False]
-	at.inputs.output_image     = os.path.abspath('rest_preprocessed2mni.nii.gz')
-	#print at.cmdline
-	at.run()
-
-elif subject_id[5:8] != 'd01':
-	print "YESS"
-	subject_dayX = subject_id[0:5] + 'd01'
-		
-	at			   = ants.ApplyTransforms()
-	at.inputs.input_image_type = 3
-	at.inputs.input_image      = img_rest
-	at.inputs.reference_image  = os.path.join(mni_dir, 
-						  'MNI152_T1_3mm_brain.nii.gz')
-	
-	at.inputs.transforms	   = [os.path.join(data_dir, subject_dayX,
-				      'preprocessed/anat/transforms2mni/' 						   					      'transform1Warp.nii.gz'),
-		      		      os.path.join(data_dir, subject_dayX,
-				       'preprocessed/anat/transforms2mni/'	 	
-				       'transform0GenericAffine.mat'),
-		 		      os.path.join(data_dir, subject_dayX,
-				       'preprocessed/func/coregister/transforms2anat',
-				       'rest2anat_itk.mat'),
-				      os.path.join(data_dir, subject_id,
-				       'preprocessed/func/transforms2rest01',
-				       'transform_day01_itk.mat')]
-
-	at.inputs.interpolation    = 'NearestNeighbor'
-	at.inputs.invert_transform_flags = [False, False, False, False]
-	at.inputs.output_image     = os.path.abspath('rest_preprocessed2mni.nii.gz')
-	print at.cmdline
-	at.run()
-
-
-
+if len(sys.argv) > 4:
+    # coregisteration ( rest -> rest(dayXX) -> T1 -> mni )
+    # e.g. dayXX = 'd01'
+    dayXX = sys.argv[4] 
+    
+    ants_dir = os.path.join(data_dir, subject_id[:5] + dayXX, 
+                            'preprocessed/anat/transforms2mni/')
+    bbre_dir = os.path.join(data_dir, subject_id[:5] + dayXX,
+                            'preprocessed/func/coregister/transforms2anat')
+    flir_dir = os.path.join(data_dir, subject_id,
+                            'preprocessed/func/transforms2rest' + dayXX[1:])
+    
+    at.inputs.transforms    = [os.path.join(ants_dir,
+                                            'transform1Warp.nii.gz'),
+                               os.path.join(ants_dir,
+                                            'transform0GenericAffine.mat'),
+                               os.path.join(bbre_dir, 'rest2anat_itk.mat'),
+                               os.path.join(flir_dir, 'transform_day'
+                                            + dayXX[1:] + '_itk.mat')]
+    at.inputs.interpolation = 'NearestNeighbor'
+    at.inputs.invert_transform_flags = [False, False, False, False]
+    print at.cmdline
+    at.run()
+    
+else:
+    # coregisteration ( rest -> T1 -> mni )
+    
+    ants_dir = os.path.join(data_dir, subject_id,  
+                            'preprocessed/anat/transforms2mni')
+    bbre_dir = os.path.join(data_dir, subject_id,
+                            'preprocessed/func/coregister/transforms2anat')
+ 
+    at.inputs.transforms       = [os.path.join(ants_dir, 						   				           'transform1Warp.nii.gz'),
+                                   os.path.join(ants_dir,
+                                               'transform0GenericAffine.mat'),
+                                   os.path.join(bbre_dir, 						   	    'rest2anat_itk.mat')]
+    at.inputs.interpolation    = 'NearestNeighbor'
+    at.inputs.invert_transform_flags = [False, False, False]
+    print at.cmdline
+    at.run()
