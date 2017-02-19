@@ -1,15 +1,20 @@
+"""
+    # registration from (mean) funcitonal to anatomical image
+    # converting bbregister ouput into itk format
+    
+freesurfer_dir = '/data/pt_mar006/freesurfer'
+data_dir       = '/data/pt_mar006/subjects'
+subject_id     = 'sd51_d01'
+Usage:
+    $ python 05_funcBbreg.py <freesurfer_dir> <data_dir> <subjects_dir>
+"""
 import os, sys
 from nipype.interfaces.freesurfer import BBRegister
 from nipype.interfaces.c3 import C3dAffineTool
 
-# data dir's 
-data_dir  = '/nobackup/ilz2/bayrak/subjects'
-
-# subject id
-subject_id = sys.argv[1]
-
-# freesurfer dir for recon_all outputs
-freesurfer_dir = '/nobackup/ilz2/bayrak/freesurfer'
+freesurfer_dir = sys.argv[1]
+data_dir       = sys.argv[2]
+subject_id     = sys.argv[3]
 
 # define working dir
 work_dir = os.path.join(data_dir, subject_id,  
