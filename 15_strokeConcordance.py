@@ -2,7 +2,7 @@
     # concordance values per voxels calculated over stroke patients
 
 mni_temp   = '/data/pt_mar006/subjects_group/MNI152_T1_3mm_brain.nii.gz'
-data_dir   = '/data/pt_mar006/subjects/'
+data_dir   = '/data/pt_mar006/subjects'
 out_dir    = '/data/pt_mar006/stroke_intrasubject'
 subject_id = 'sd01'
 Usage:
@@ -32,7 +32,7 @@ os.chdir(work_dir)
 
 image_mask = os.path.abspath('subject_mask_final.nii.gz')
 print "get mask...", image_mask
-print "WORKDIR" , work_dir
+
 def mask_check(rest, mask):
 	"""
 	rest: 4D nifti-filename
@@ -49,10 +49,9 @@ def mask_check(rest, mask):
 #### Step 1, get all connectivity matrices of given subject #########
 corr_All = []
 
-for image_rest in glob.glob(data_dir + subject_id + '*' +
+for image_rest in glob.glob(data_dir + '/' + subject_id + '*' +
                       '/preprocessed/func/' +
                       'rest_preprocessed2mni_sm.nii.gz' ):
-    print "IMAGEREST", image_rest, subject_id[0:5]
     [voxel_zeros, t_series] = mask_check(image_rest, image_mask)
     corr_upper = corrcoef_upper(t_series) 
     N_orig     = N_original(corr_upper)
