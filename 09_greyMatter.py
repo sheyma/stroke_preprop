@@ -1,6 +1,17 @@
 """
-get individual GM masks, project to MNI3mm &
-get individual rest masks (3dAutomask)
+    # for healthy controls:
+    get individual GM masks, project to MNI3mm &
+    get individual rest masks (3dAutomask)
+    
+    # for stroke data:
+    get individual rest masks (3dAutomask)
+
+
+#mni_dir = '/data/pt_mar006/subjects_group/'
+#freesurfer_dir = '/data/pt_mar006/freesurfer'
+#data_dir   = '/data/pt_mar006/subjects'
+#subject_id = 'hc01_d00' or 'sd51_d00'
+
 """
 import os, sys
 import nipype.interfaces.freesurfer as fs
@@ -10,126 +21,91 @@ import nipype.interfaces.ants as ants
 from nipype.interfaces.fsl.maths import MathsCommand
 from nipype.interfaces import afni
 
-# data dir's 
-data_dir  = '/nobackup/ilz2/bayrak/subjects'
-
-# subject id
-subject_id = sys.argv[1]
-
-# freesurfer dir for recon_all outputs
-freesurfer_dir = '/nobackup/ilz2/bayrak/freesurfer'
-
-# define working dir 
-work_dir = os.path.join(data_dir, subject_id,  
-			'preprocessed/anat') 
-
-if not os.path.exists(work_dir):
-	os.makedirs(work_dir)
-# go into working dir
-os.chdir(work_dir)
-
-gm_labels = [3,8,42,17,18,53,54,11,12,13,26,50,
-	     51,52,58,9,10,47,48,49,16,28,60]
-
-# get the freesurfer recon_all segmentation output
-aseg_mgz = os.path.join(freesurfer_dir, subject_id, 'mri', 
-			'aseg.mgz')
-
-# convert *mgz into *nii.gz
-mricon = fs.MRIConvert(in_file  = aseg_mgz,
-		       out_file = 'aseg.nii.gz',
-		       out_type = 'niigz').run()
-
-aseg_nifti  = os.path.abspath('aseg.nii.gz')
-
-###### Step # 1: binarize aseg.nii.gz via GM labels
-coolBinarize = fs.Binarize()
-coolBinarize.inputs.in_file     = aseg_nifti
-coolBinarize.inputs.match       = gm_labels
-coolBinarize.out_type           = 'nii.gz'
-coolBinarize.inputs.binary_file = 'brain_gmseg.nii.gz'
-coolBinarize.run()
+mni_dir  = sys.argv[1]
+freesurfer_dir = sys.argv[2]
+data_dir   = sys.argv[3]
+subject_id = sys.argv[4]
 
 # define working dir
-work_dir = os.path.join(data_dir, subject_id,  
-			'preprocessed/func/connectivity') 
+work_dir_con = os.path.join(data_dir, subject_id,  
+		    'preprocessed/func/connectivity') 
+if not os.path.exists(work_dir_con):
+    os.makedirs(work_dir_con)
 
-if not os.path.exists(work_dir):
-	os.makedirs(work_dir)
-# go into working dir
-os.chdir(work_dir)
+# only for healthy control data...
+if subject_id[0:2] == 'hc' :
+    # define working dir 
+    work_dir = os.path.join(data_dir, subject_id,  
+			    'preprocessed/anat') 
 
-###### Step #2: normalize GM mask to MNI space
+    os.chdir(work_dir)
 
-gm_mask  = os.path.join(data_dir, subject_id,
-		        'preprocessed/anat', 
-		        'brain_gmseg.nii.gz')
+    gm_labels = [3,8,42,17,18,53,54,11,12,13,26,50,
+	         51,52,58,9,10,47,48,49,16,28,60]
 
-mni_temp = os.path.join('/usr/share/fsl/5.0/data/standard', 
-			'MNI152_T1_1mm_brain.nii.gz')
+    # get the freesurfer recon_all segmentation output
+    aseg_mgz = os.path.join(freesurfer_dir, subject_id, 'mri', 
+			    'aseg.mgz')
 
-at                          = ants.ApplyTransforms()
-at.inputs.input_image       = gm_mask
-at.inputs.reference_image   = mni_temp
+    # convert *mgz into *nii.gz
+    mricon = fs.MRIConvert(in_file  = aseg_mgz,
+		           out_file = 'aseg.nii.gz',
+		           out_type = 'niigz').run()
 
-# design transformation matrices 
-if subject_id[5:8] == 'd00':
-	# (T1_d00 -->> mni)
+    aseg_nifti  = os.path.abspath('aseg.nii.gz')
 
-	trans_dir = os.path.join(data_dir, subject_id, 
-				 'preprocessed/anat/transforms2mni') 
+    ###### Step # 1: get gray matter mask by binarizing aparc+aseg with gm labels
+    coolBinarize = fs.Binarize()
+    coolBinarize.inputs.in_file     = aseg_nifti
+    coolBinarize.inputs.match       = gm_labels
+    coolBinarize.out_type           = 'nii.gz'
+    coolBinarize.inputs.binary_file = 'brain_gmseg.nii.gz'
+    coolBinarize.run()
 
-	at.inputs.transforms             = [os.path.join(trans_dir,
-					   'transform1Warp.nii.gz'),
-		                            os.path.join(trans_dir,
-					   'transform0GenericAffine.mat')]
-	
-	at.inputs.invert_transform_flags = [False, False]
+    ###### Step #2: normalize GM mask to MNI (1mm) space
+    os.chdir(work_dir_con)
 
-else: 
-	# (T1_dXX -->> T1_d00 -->> mni)
+    gm_mask  = os.path.join(data_dir, subject_id,
+            		        'preprocessed/anat', 
+            		        'brain_gmseg.nii.gz')
 
-	subject_day00 = subject_id[0:5] + 'd00'
-	
-	# fsl-flirt transform matrices (T1_XX -->> T1_d00)
-	flirt_dir = os.path.join(data_dir, subject_id,
-				 'preprocessed/anat/transforms2day00')
+    at                          = ants.ApplyTransforms()
+    at.inputs.input_image       = gm_mask
+    at.inputs.reference_image   = os.path.join(mni_dir, 
+                                              'MNI152_T1_1mm_brain.nii.gz' )
 
-	# ants transform matrices (T1_d00 -->> mni3mm)
-	ants_dir = os.path.join(data_dir, subject_day00,  
-				'preprocessed/anat/transforms2mni')
+    trans_dir = os.path.join(data_dir, subject_id, 
+			                 'preprocessed/anat/transforms2mni') 
 
-	at.inputs.transforms  = [os.path.join(ants_dir, 						   						   'transform1Warp.nii.gz'),
-	      		         os.path.join(ants_dir, 						   						   'transform0GenericAffine.mat'),
-			         os.path.join(flirt_dir,
-				           'transform_day00_itk.mat')]	
-	
-	at.inputs.invert_transform_flags = [False, False, False]	
+    at.inputs.transforms = [os.path.join(trans_dir,
+			                'transform1Warp.nii.gz'),
+                            os.path.join(trans_dir,
+			                'transform0GenericAffine.mat')]
 
-at.inputs.interpolation          = 'BSpline'
-at.inputs.output_image           = 'gm_mni1.nii.gz'
-at.run()
+    at.inputs.invert_transform_flags = [False, False]
 
+    at.inputs.interpolation          = 'BSpline'
+    at.inputs.output_image           = 'gm_mni1.nii.gz'
+    at.run()
 
-###### Step #3: resampling MNI1mm -->> MNI3mm
-flt = fsl.FLIRT(bins=640, cost_func='mutualinfo')
-flt.inputs.apply_isoxfm = 3.0
-flt.inputs.in_file      = os.path.join(data_dir, subject_id,
-		                      'preprocessed/func/connectivity',
-				      'gm_mni1.nii.gz')
-flt.inputs.reference    = os.path.join('/nobackup/ilz2/bayrak',
-				       'MNI152_T1_3mm_brain.nii.gz')
-flt.inputs.output_type  = "NIFTI_GZ"
-flt.inputs.out_file     = os.path.join(data_dir, subject_id,
-		                       'preprocessed/func/connectivity',
-				       'gm_prob_mni3.nii.gz')
-flt.run()
+    ##### Step #3: resampling MNI1mm -->> MNI3mm
+    os.chdir(work_dir_con)
 
+    flt = fsl.FLIRT(bins=640, cost_func='mutualinfo')
+    flt.inputs.apply_isoxfm = 3.0
+    flt.inputs.in_file      = 'gm_mni1.nii.gz'
+    flt.inputs.output_type  = "NIFTI_GZ"
+    flt.inputs.out_file     = 'gm_prob_mni3.nii.gz'
+    flt.inputs.reference    = os.path.join(mni_dir, 
+                                           'MNI152_T1_3mm_brain.nii.gz')
+    flt.run()
 
-###### Step #4: get rest mask to exclude voxels having 0's 
+##### Step #4: get rest mask to exclude voxels having 0's 
+os.chdir(work_dir_con)
+
 image_rest4D = os.path.join(data_dir, subject_id, 
-         	            'preprocessed/func', 
-		            'rest_preprocessed2mni_sm.nii.gz') 
+         	                'preprocessed/func', 
+		                    'rest_preprocessed2mni_sm.nii.gz') 
 
 automask = afni.Automask()
 automask.inputs.in_file    = image_rest4D
