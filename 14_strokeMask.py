@@ -1,3 +1,18 @@
+"""
+    get intra-subject rest mask for a stroke patient's different day measures 
+    (subject_mask_01.nii.gz), multiply this rest mask with the group-level-
+    healty-control-rest-and-gm-mask (subject_mask_02.nii.gz), find intersection
+    of stroke lesion on top of previous mask (subject_mask_03.nii.gz), finally
+    subtract lesion intersection from the mask (subject_mask_final.nii.gz)
+
+gm_mask    = '/data/pt_mar006/subjects_group/mni3_rest_gm_mask.nii.gz'
+data_dir   = '/data/pt_mar006/subjects/'
+subject_id = 'sd51'
+X          = 'd00'  #### lesion day
+
+Usage:
+    $ python 14_strokeMask.py  <gm_mask> <data_dir> <subject_id> <X>
+"""
 import os, sys, glob
 from nilearn import masking
 import numpy as np
@@ -9,55 +24,19 @@ from nipype.interfaces.fsl.maths import MathsCommand
 from nipype.interfaces import afni
 from hcp_corr import corrcoef_upper, N_original, upper_to_down
 
-# subject_id = 'sd01_d00'
-subject_id = sys.argv[1]
-data_dir   = '/data/pt_mar006/subjects/'
-gm_mask    = '/data/pt_mar006/subjects_group/mni3_rest_gm_mask.nii.gz'
 
-#X = 'd00'
-X          = sys.argv[2]   ######  LESION DAY ######## 
-les_mask   = os.path.join(data_dir, subject_id[0:5]+X, 'lesion', 
-                          'lesion_mask_mni.nii.gz')
+gm_mask    = sys.argv[1]
+data_dir   = sys.argv[2]
+subject_id = sys.argv[3]
+X          = sys.argv[4]  
 
-# write subject-id's into a list
-fname = '/data/pt_mar006/documents/cool_sd.txt'
-with open(fname) as f:
-    content = f.readlines()
-sbj_list = [x.strip('\n') for x in content]
-
-
-def individual_rest_mask_generation(data_dir, sbj_list):
-    for sbj in sbj_list:
-
-        print sbj    
-
-        work_dir_trf = os.path.join(data_dir, sbj,  
-                                   'preprocessed/func/connectivity')
-
-        if not os.path.exists(work_dir_trf):
-            os.makedirs(work_dir_trf)
-        os.chdir(work_dir_trf)
-
-        image_rest4D = os.path.join(data_dir, sbj, 
-             	            'preprocessed/func', 
-		                    'rest_preprocessed2mni_sm.nii.gz') 
-
-        automask = afni.Automask()
-        automask.inputs.in_file    = image_rest4D
-        automask.inputs.outputtype = 'NIFTI_GZ'
-        automask.inputs.brain_file = 'rest_masked_mni3.nii.gz'
-        automask.inputs.out_file   = 'rest_mask_mni3.nii.gz'
-        automask.run()  
-
-
-#individual_rest_mask_generation(data_dir, sbj_list)
-
+les_mask   = os.path.join(data_dir, subject_id + '_' + X, 
+                         'lesion/lesion_mask_mni.nii.gz')
  
 #### Step 1 ############################################################
 
 # define working dir
-work_dir = os.path.join('/data/pt_mar006/stroke_intrasubject',
-                        subject_id[0:4]) 
+work_dir = os.path.join('/data/pt_mar006/stroke_intrasubject', subject_id) 
 if not os.path.exists(work_dir):
 	os.makedirs(work_dir)
 # go into working dir
@@ -68,18 +47,14 @@ rest_str  = []
 i = 0
 
 print "intra-subject rest mask ..."
-for name in glob.glob(data_dir + subject_id[0:5] + '*' +
+for name in glob.glob(data_dir + subject_id + '*' +
                       '/preprocessed/func/connectivity/' +
                       'rest_mask_mni3.nii.gz' ):
     print name
-
     rest_list.append(name)
-
     i += 1
-
     if i != 1:
         rest_str.append('-mul %s')
-
 
 op_string_rest = " ".join((rest_str))
 
