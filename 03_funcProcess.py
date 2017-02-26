@@ -7,8 +7,8 @@
     # TSNR calculation
     ### (optional) registration between rest images
 
-subject_id = 'sd51_d00'
 data_dir   = '/data/pt_mar006/subjects'
+subject_id = 'sd51_d00'
 dayXX      = 'd01'
 Usage:
     $ python 03_funcProcess.py <data_dir>  <subject_id> [dayXX]
