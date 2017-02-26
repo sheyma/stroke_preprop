@@ -1,18 +1,22 @@
+"""
+    # smoothing the preprocessed rest image, which is at mni
+    # since smoothing might spread out of the mni space, 
+    # the smoothed image is masked back to the mni
+    
+data_dir   = '/data/pt_mar006/subjects/'
+subject_id = 'sd51_d00'
+Usage: 
+    $ python 08_smoothing.py <data_dir> <subject_id>
+"""
 import os, sys
 import nipype.interfaces.fsl as fsl
 
-# data dir's 
-data_dir  = '/nobackup/ilz2/bayrak/subjects'
-
-# subject id
-subject_id = sys.argv[1]
+data_dir   = sys.argv[1]
+subject_id = sys.argv[2]
 
 # define working dir
 work_dir = os.path.join(data_dir, subject_id, 
 			'preprocessed/func') 
-if not os.path.exists(work_dir):
-	os.makedirs(work_dir)
-# go into working dir
 os.chdir(work_dir)
 
 rest_mni = os.path.join(work_dir,
