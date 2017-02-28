@@ -16,7 +16,7 @@ def fisher_z2r(Z):
     return ne.evaluate('(X - 1) / (X + 1)')
 
 # get averaged (upper triangular) 1D correlation (Fisher r2z transformed)
-ave_filena = '/nobackup/ilz2/bayrak/subjects_group/corrFisherR2Z_upper.h5'
+ave_filena = '/data/pt_mar006/subjects_group/corrFisherR2Z_upper.h5'
 ave_array  = np.array(h5py.File(ave_filena, 'r')['data'])
 
 ###### Step #5: Fisher's z2r transform ###############################
@@ -51,7 +51,7 @@ print "Maximum value is %f" % corr.max()
 print "calculating affinity matrix..."
 aff = 1 - pairwise_distances(corr, metric = 'cosine')
 
-os.chdir('/nobackup/ilz2/bayrak/subjects_group/')
+os.chdir('/data/pt_mar006/subjects_group/')
 h = h5py.File('affinity_matrix.h5','w')
 h.create_dataset("data", data=aff)
 h.close()
@@ -68,7 +68,7 @@ np.save('embedding_dense_res.npy', res)
 
 ##### Step #9: projecting components back to MNI space as nifti #######
 #print "saving components as nifti..."
-#mask_3D_nifti = os.path.join('/nobackup/ilz2/bayrak/subjects_group/',
+#mask_3D_nifti = os.path.join('/data/pt_mar006/subjects_group/',
 #				'mni3_rest_gm_mask.nii.gz')
 
 # get indices of voxels, which are equal to 1 in mask
@@ -79,7 +79,7 @@ np.save('embedding_dense_res.npy', res)
 
 #print "%s voxels are in GM..." % len(voxel_x)
 
-#out_dir = '/nobackup/ilz2/bayrak/subjects_group/'
+#out_dir = '/data/pt_mar006/subjects_group/'
 #mni_3mm    = os.path.join(out_dir, 'MNI152_T1_3mm_brain.nii.gz')
 #mni_affine = nb.load(mni_3mm).get_affine()
 #data_temp  = np.zeros(nb.load(mni_3mm).get_data().shape)

@@ -1,16 +1,19 @@
 """
-get GM mask at group level 
+get GM probability at group level 
 get rest mask at group level
+get GM + rest mask at group level
+inputs: data_dir, work_dir, fname (list of healthy subjects)
+Usage: $ python 10_greyMatterGroup.py 
 """
 import os, sys
 from nipype.interfaces.fsl import MultiImageMaths
 from nipype.interfaces.fsl.maths import MathsCommand
 
 # data dir's 
-data_dir  = '/nobackup/ilz2/bayrak/subjects'
+data_dir  = '/data/pt_mar006/subjects'
 
 # define working dir 
-work_dir = os.path.join('/nobackup/ilz2/bayrak/subjects_group') 
+work_dir = os.path.join('/data/pt_mar006/subjects_group') 
 
 if not os.path.exists(work_dir):
 	os.makedirs(work_dir)
@@ -18,7 +21,7 @@ if not os.path.exists(work_dir):
 os.chdir(work_dir)
 
 # write subject-id's into a list
-fname = '/nobackup/ilz2/bayrak/documents/cool_hc.txt'
+fname = '/data/pt_mar006/documents/cool_hc_preprocessing_2017_02_27.txt'
 with open(fname) as f:
     content = f.readlines()
 sbj_list = [x.strip('\n') for x in content]

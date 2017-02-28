@@ -2,15 +2,15 @@ import os, sys
 # abcd
 from nilearn import masking
 import numpy as np
-#import matplotlib as mpl
-#mpl.use('Agg')
+import matplotlib as mpl
+mpl.use('Agg')
 import matplotlib.pyplot as plt
 import nibabel as nb
 from nipype.interfaces.fsl import MultiImageMaths
 import h5py
 import pickle
 
-#subject_id = 'sd27_d00'
+#subject_id = 'sd27'
 #comp_file  = '/data/pt_mar006/subjects_group/mni3_component_1.nii.gz'
 
 subject_id = sys.argv[1]
@@ -19,17 +19,17 @@ comp_file  = sys.argv[2]
 data_dir   = '/data/pt_mar006/stroke_intrasubject/'
 
 new_name = os.path.splitext(os.path.splitext(os.path.basename(comp_file))[0])[0]
-os.chdir(os.path.join(data_dir, subject_id[0:4]))
+os.chdir(os.path.join(data_dir, subject_id))
 
 les_file = os.path.join(data_dir, subject_id, 'lesion/lesion_mask_mni.nii.gz')
 
-lesOnGMmask = os.path.join(data_dir, subject_id[0:4], 'subject_mask_03.nii.gz')
+lesOnGMmask = os.path.join(data_dir, subject_id, 'subject_mask_03.nii.gz')
 
-ken_file = os.path.join(data_dir, subject_id[0:4], 'Kendall_W.nii.gz')
+ken_file = os.path.join(data_dir, subject_id, 'Kendall_W.nii.gz')
 
-ccc_file = os.path.join(data_dir, subject_id[0:4], 'ConCor.nii.gz')
+ccc_file = os.path.join(data_dir, subject_id, 'ConCor.nii.gz')
 
-sbj_mask = os.path.join(data_dir, subject_id[0:4], 'subject_mask_final.nii.gz')
+sbj_mask = os.path.join(data_dir, subject_id, 'subject_mask_final.nii.gz')
 
 gm_mask  = '/data/pt_mar006/subjects_group/mni3_rest_gm_mask.nii.gz'
 
@@ -146,7 +146,7 @@ ax2.set_ylabel('CCC', color='g', fontsize=40)
 for tl in ax2.get_yticklabels():
     tl.set_color('g')
 
-ax1.set_title(subject_id[0:4], fontsize=40)
+ax1.set_title(subject_id, fontsize=40)
 ax1.set_ylabel('number of voxels', fontsize=40)
 ax1.set_xlabel('component spectrum', fontsize=40)
 for tl in ax1.get_yticklabels():
@@ -154,7 +154,9 @@ for tl in ax1.get_yticklabels():
 
 plt.legend(frameon=False)
 #plt.savefig("/data/pt_mar006/figures/fig_%s_%s.png" % 
-#            (new_name, subject_id[0:4]))
+#            (new_name, subject_id))
 plt.show()
 
-
+plt.scatter(c2, c1, c=A, cmap='jet')
+plt.colorbar()
+plt.savefig('/data/pt_mar006/mmm.eps')

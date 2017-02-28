@@ -69,20 +69,20 @@ def average_upper_matrix(fname, data_dir, out_file):
 	return SUM
 
 # data dir's 
-data_dir  = '/nobackup/ilz2/bayrak/subjects'
+data_dir  = '/data/pt_mar006/subjects'
 
 # text file having subject_id's
-fname = '/nobackup/ilz2/bayrak/documents/cool_hc.txt'
+fname = '/data/pt_mar006/documents/cool_hc.txt'
 
 # mask file
-image_mask = os.path.join('/nobackup/ilz2/bayrak/subjects_group',
+image_mask = os.path.join('/data/pt_mar006/subjects_group',
                           'mni3_rest_gm_mask.nii.gz')
 
 # check if any of subjects has voxels, which has no signal
 mask_check_all_subjects(fname, data_dir, image_mask)
 
 # get average upper triangular of individual (fisher_r2z) correlations
-out_file = '/nobackup/ilz2/bayrak/subjects_group/corrFisherR2Z_upper.h5'
+out_file = '/data/pt_mar006/subjects_group/corrFisherR2Z_upper.h5'
 ave_corr_fish_upper = average_upper_matrix(fname, data_dir, out_file)
 
 # subject_id
