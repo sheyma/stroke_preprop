@@ -2,41 +2,10 @@ import os, sys, glob
 from nilearn import masking
 import numpy as np
 import h5py
-from scipy.stats import f
+from scipy.stats import f,rankdata
 import math
 
 ############ Kendall's W #####################################################
-def tiedrank(X):
-    # X is 1D numpy-array
-    n = X.shape[0]
-
-    # get sorted index-array
-    isort = X.argsort()
-
-    # some tricks for speed: getting the inverse permutaton of isort and
-    # increment by 1.0. This is already almost a good ranking, except we still
-    # have to average over duplicates
-    Rx = np.empty(n, dtype=np.float)
-    Rx[isort] = np.arange(1, n+1)
-
-    # all the code below is only needed to handle duplicate values like
-    # Matlab's tiedrank() does ...
-
-    Z = X[isort]
-    vals, idx_start, count = np.unique(Z, return_counts=True,
-                                       return_index=True)
-    w = np.where(count > 1)
-
-    idx_start = idx_start[w]
-    count = count[w]
-
-    for i in xrange(len(count)):
-        ii = idx_start[i]
-        cc = count[i]
-        Rx[isort[ii:ii+cc]] = 0.5 + float(ii) + float(cc)/2.0
-
-    return Rx
-
 def IPN_kendallW(X):
     """
     Kendall's W
@@ -48,7 +17,7 @@ def IPN_kendallW(X):
     # if tiedrank ...
     R = np.zeros_like(X)
     for i in range(0, np.shape(X)[1]):   
-        R[:,i] = tiedrank(X[:,i])
+        R[:,i] = rankdata(X[:,i])
     R_new = np.sort(np.round(R), axis=0)
     A = np.matlib.repmat(np.array(range(1,n+1)), k, 1).T
     T = np.sum(np.array((A-R_new), dtype=bool), axis=0) +1    
