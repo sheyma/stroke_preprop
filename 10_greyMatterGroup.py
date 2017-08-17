@@ -21,7 +21,7 @@ if not os.path.exists(work_dir):
 os.chdir(work_dir)
 
 # write subject-id's into a list
-fname = '/data/pt_mar006/documents/cool_hc_preprocessing_2017_02_27.txt'
+fname = '/data/pt_mar006/documents/all_hc_after_qc.txt'
 with open(fname) as f:
     content = f.readlines()
 sbj_list = [x.strip('\n') for x in content]
