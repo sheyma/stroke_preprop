@@ -6,7 +6,7 @@ usage:
     subject_id = sd51_d00
     data_dir   = /data/pt_mar006/subjects/
     
-    $ python 01_dicomToNifti.py <subject_id> <data_dir>
+    $ python 01_dicomToNifti.py <data_dir> <subject_id>
 """
 import os, sys, glob
 from subprocess import call
@@ -14,11 +14,13 @@ from dcmstack.extract import default_extractor
 from dicom import read_file
 from nipype.utils.filemanip import filename_to_list
 
-subject_id = sys.argv[1]
-data_dir   = sys.argv[2]
+
+data_dir   = sys.argv[1]
+subject_id = sys.argv[2]
+
 
 scan_path = os.path.join(data_dir, subject_id, 'dicom')
-
+print scan_path
 scans = next(os.walk(scan_path))[1]
 print ''
 print scans
