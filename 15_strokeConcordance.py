@@ -3,7 +3,7 @@
 
 mni_temp   = '/data/pt_mar006/subjects_group/MNI152_T1_3mm_brain.nii.gz'
 data_dir   = '/data/pt_mar006/subjects'
-out_dir    = '/data/pt_mar006/stroke_intrasubject'
+out_dir    = '/data/pt_mar006/subjects_masks'
 subject_id = 'sd01'
 Usage:
     $ python 15_strokeConcordance.py <mni_temp> <data_dir> <out_dir> <subject_id>
@@ -30,7 +30,7 @@ subject_id = sys.argv[4]
 work_dir   = os.path.join(out_dir, subject_id)
 os.chdir(work_dir)
 
-image_mask = os.path.abspath('subject_mask_final.nii.gz')
+image_mask = os.path.abspath('gm_mask_no_lesion.nii.gz')
 print "get mask...", image_mask
 
 def mask_check(rest, mask):
