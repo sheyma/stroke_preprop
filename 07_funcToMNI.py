@@ -53,7 +53,6 @@ if len(sys.argv) > 4:
                                             + dayXX[1:] + '_itk.mat')]
     at.inputs.interpolation = 'NearestNeighbor'
     at.inputs.invert_transform_flags = [False, False, False, False]
-    print at.cmdline
     at.run()
     
 else:
@@ -64,11 +63,12 @@ else:
     bbre_dir = os.path.join(data_dir, subject_id,
                             'preprocessed/func/coregister/transforms2anat')
  
-    at.inputs.transforms       = [os.path.join(ants_dir, 						   				           'transform1Warp.nii.gz'),
+    at.inputs.transforms       = [os.path.join(ants_dir,
+                                               'transform1Warp.nii.gz'),
                                    os.path.join(ants_dir,
                                                'transform0GenericAffine.mat'),
-                                   os.path.join(bbre_dir, 						   	    'rest2anat_itk.mat')]
+                                   os.path.join(bbre_dir,
+                                                'rest2anat_itk.mat')]
     at.inputs.interpolation    = 'NearestNeighbor'
     at.inputs.invert_transform_flags = [False, False, False]
-    print at.cmdline
     at.run()
