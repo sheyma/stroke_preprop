@@ -7,7 +7,7 @@ free
 ulimit -a
 echo "END host info"
 
-CBSTOOLS FSL --version 5.0 FREESURFER --version 6.0.0 AFNI C3D DCMSTACK XLRD  SEABORN NUMPY SCIPY ANTSENV --version 2.1.0-rc3 "$@"
+CBSTOOLS FSL --version 5.0 FREESURFER --version 6.0.0 AFNI C3D DCMSTACK XLRD NUMPY SCIPY ANTSENV --version 2.1.0-rc3 "$@"
 
 # cbstools 3.0
 # fsl 5.0
@@ -20,6 +20,5 @@ CBSTOOLS FSL --version 5.0 FREESURFER --version 6.0.0 AFNI C3D DCMSTACK XLRD  SE
 # six 1.9.0
 # pyparsing 2.0.3
 # mathplotlib 1.4.2
-# seaborn 0.5.1
 # numpy 1.9.1
 # scipy 0.15.1
