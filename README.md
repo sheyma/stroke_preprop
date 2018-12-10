@@ -14,22 +14,22 @@ https://github.com/satra/mapalign/tree/master/mapalign
 
 # neuroimaging software
 
-fsl 5.0
-freesurfer 6.0.0
-afni 17.2.17 
-dcmstack 0.7.dev
-ants 2.2.0
+fsl 5.0  
+freesurfer 6.0.0  
+afni 17.2.17  
+dcmstack 0.7.dev  
+ants 2.2.0  
 
 # python (2.7.15) packages
 
-numpy 1.15.4
-nibabel 2.3.1              
-nilearn 0.4.2             
-nipype 1.1.6 
-matplotlib 2.2.3
-seaborn 0.7.1
-numexpr 2.6.4
-pandas 0.23.4
-scikit-learn 0.20.1
-scipy 1.1.0
+numpy 1.15.4  
+nibabel 2.3.1  
+nilearn 0.4.2  
+nipype 1.1.6  
+matplotlib 2.2.3  
+seaborn 0.7.1  
+numexpr 2.6.4  
+pandas 0.23.4  
+scikit-learn 0.20.1  
+scipy 1.1.0  
 
