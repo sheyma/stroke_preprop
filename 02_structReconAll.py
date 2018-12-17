@@ -1,4 +1,6 @@
 """
+running freesurfer reconall to get tissue segmentations from T1
+
 subject_id = sd51_d01 
 data_dir   = /data/pt_mar006/subjects
 free_dir   = /data/pt_mar006/freesurfer
