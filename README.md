@@ -49,5 +49,9 @@ https://github.com/satra/mapalign/tree/master/mapalign
 
 - 15_strokeConcordance.py --> for each stroke patient, a concordance map was obtained across three functional connectivity matrices, which correspond to the fMRI scan days. 
 
+# analysis_results
 
+- ipython noteboooks demonstrating results in accordance with the following manuscript:
+
+https://www.biorxiv.org/content/early/2018/11/30/481689
 
