@@ -1,9 +1,10 @@
+*
 *~
 .nfs*
 *tmp*
 *sh
 *pyc
-
+!.gitignore
 dicomToNifti
 structReconAll
 funcProcess
