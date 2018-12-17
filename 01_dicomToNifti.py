@@ -1,6 +1,7 @@
 """
 convert dicoms to nifti for stroke patients data,
-export slice time sequence for resting scans as *txt file
+export slice time sequence for resting scans as *txt file,
+resting-state fmri, flair, dwi and T1 dicoms converted into nifti
 
 usage:
     subject_id = sd51_d00
@@ -14,10 +15,8 @@ from dcmstack.extract import default_extractor
 from dicom import read_file
 from nipype.utils.filemanip import filename_to_list
 
-
 data_dir   = sys.argv[1]
 subject_id = sys.argv[2]
-
 
 scan_path = os.path.join(data_dir, subject_id, 'dicom')
 print scan_path
@@ -38,7 +37,6 @@ def get_info(dicom_files):
 		                       force=True))
 	# returning STA in seconds...
 	return meta['CsaImage.MosaicRefAcqTimes']  
-
 
 for scan in scans:
 
