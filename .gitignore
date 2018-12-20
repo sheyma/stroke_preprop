@@ -24,3 +24,4 @@ funcDenoise
 funcSmooth
 strokeConc
 .ipynb_checkpoints/
+analysis_results/00_data_demographics.ipynb
