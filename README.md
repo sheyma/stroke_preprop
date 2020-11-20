@@ -53,5 +53,7 @@ https://github.com/satra/mapalign/tree/master/mapalign
 
 - ipython noteboooks demonstrating results in accordance with the following manuscript:
 
-https://www.biorxiv.org/content/early/2018/11/30/481689
+https://www.sciencedirect.com/science/article/pii/S2213158219302979
+
+
 
